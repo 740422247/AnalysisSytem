@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-06-02 16:00:34
  * @LastEditors: joykit
- * @LastEditTime: 2020-06-03 17:02:48
+ * @LastEditTime: 2020-07-01 11:05:58
  */
 import "echarts/lib/chart/bar";
 export function op(option, echarts, t) {
@@ -27,7 +27,7 @@ export function op(option, echarts, t) {
         const sy = option.symbol;
         let str = "";
         for (let i = 0; i < sy.length; i++) {
-          str += sy[i].replace("{value}", Math.abs(e[i].value)) + "<br/>";
+          // str += sy[i].replace("{value}", Math.abs(e[i].value)) + "<br/>";
         }
         return str;
       },

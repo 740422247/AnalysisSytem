@@ -4,11 +4,17 @@
  * @Author: joykit
  * @Date: 2020-05-29 10:24:32
  * @LastEditors: joykit
- * @LastEditTime: 2020-06-03 17:03:50
+ * @LastEditTime: 2020-07-01 14:22:54
 -->
 <!-- jkLineChart -->
 <template>
-  <jkCard :border="config.border" :grid="config.grid" :text="config.text" :path="config.path">
+  <jkCard
+    :border="config.border"
+    :grid="config.grid"
+    :text="config.text"
+    :path="config.path"
+  >
+    <button @click="refresh()">刷新</button>
     <div id="lb" class="l-b animated fadeInLeft" ref="lb"></div>
   </jkCard>
 </template>
@@ -65,7 +71,7 @@ export default {
     async getOption(op) {
       this.ec && this.ec.clear();
       const res = await theme(this.pTheme.name);
-      const _op = op(this.config.data, this.echarts, res);
+      const _op = (this._op = op(this.config.data, this.echarts, res));
       this.init(_op);
     },
     init(_op) {
@@ -74,6 +80,12 @@ export default {
         this.ec = this.echarts.init(lb);
         this.ec.setOption(_op);
       });
+    },
+    refresh() {
+      if (!this.ec) return;
+      this.ec.clear();
+      this.ec.setOption(this._op, true);
+      console.log("刷新完成");
     }
   },
   //监听属性 类似于data概念
