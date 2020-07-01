@@ -61,8 +61,12 @@ export default {
   computed: {},
   //监控data中的数据变化
   watch: {
-    config() {
-      console.log("---watch--", this.config);
+    config:{
+      deep:true,
+      immediate:true,
+      handler(res){
+        console.log(res)
+      }
     },
     // type(){
     //   console.log('---type---')
@@ -74,7 +78,9 @@ export default {
   updated() {}, //生命周期 - 更新之后
   beforeDestroy() {}, //生命周期 - 销毁之前
   destroyed() {}, //生命周期 - 销毁完成
-  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+  activated() {
+    console.log('----------index  single------------')
+  }, //如果页面有keep-alive缓存功能，这个函数会触发
   beforeRouteEnter(to, from, next) {
     next(vm => {});
   },

@@ -9,10 +9,10 @@
 <!-- jkLineChart -->
 <template>
   <jkCard
-    :border="config.border"
-    :grid="config.grid"
-    :text="config.text"
-    :path="config.path"
+    :border="oConfig.border"
+    :grid="oConfig.grid"
+    :text="oConfig.text"
+    :path="oConfig.path"
   >
     <button @click="refresh()">刷新</button>
     <div id="lb" class="l-b animated fadeInLeft" ref="lb"></div>
@@ -47,31 +47,37 @@ export default {
   },
   data() {
     //这里存放数据
-    return {};
+    return {
+      oConfig:null
+    };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   async created() {
-    // 组件默认数据
-    // echart全部配置
-    if (this.config.choice) {
-      this.init(this.config.choice);
-      return;
-    }
-    if (!this.config.data) {
-      const data = await import(`@entity/jkGraph/${this.type}.js`);
-      this.config.data = data.qxList;
-    }
-    const option = await import(`./option/${this.type}.js`);
-    this.getOption(option.op);
+    this.getData()
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
   //方法集合
   methods: {
+   async getData(){
+
+        // 组件默认数据
+      // echart全部配置
+      // if (this.oConfig.option) {
+      //   this.init(this.oConfig.choice);
+      //   return;
+      // }
+      if (!this.oConfig.data) {
+        const data = await import(`@entity/jkGraph/${this.type}.js`);
+        this.oConfig.data = data.qxList;
+      }
+      const option = await import(`./option/${this.type}.js`);
+      this.getOption(option.op);
+    },
     async getOption(op) {
       this.ec && this.ec.clear();
       const res = await theme(this.pTheme.name);
-      const _op = (this._op = op(this.config.data, this.echarts, res));
+      const _op = (this._op = op(this.oConfig.data, this.echarts, res));
       this.init(_op);
     },
     init(_op) {
@@ -97,7 +103,15 @@ export default {
       handler(v) {
         this.getOption();
       }
-    }
+    },
+     config:{
+      deep:true,
+      immediate:true,
+      handler(res){
+        this.oConfig = res
+        this.getData()
+      }
+    },
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前

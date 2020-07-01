@@ -9,7 +9,7 @@
 <!-- index -->
 <template>
   <div class="jk-graph">
-    <jkChart :type="type" :config="config" />
+    <jkChart :type="type" :config="oConfig" />
   </div>
 </template>
 
@@ -40,7 +40,9 @@ export default {
   },
   data() {
     //这里存放数据
-    return {};
+    return {
+      oConfig:null
+    };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
@@ -53,7 +55,15 @@ export default {
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
-  watch: {},
+  watch: {
+    config:{
+      deep:true,
+      immediate:true,
+      handler(res){
+        this.oConfig = res
+      }
+    },
+  },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前

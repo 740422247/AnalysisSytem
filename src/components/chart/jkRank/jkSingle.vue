@@ -8,12 +8,7 @@
 -->
 <!-- jkSingle -->
 <template>
-  <jkCard
-    :border="config.border"
-    :grid="config.grid"
-    :text="config.text"
-    :path="config.path"
-  >
+  <jkCard :border="config.border" :grid="config.grid" :text="config.text" :path="config.path">
     <vue-seamless-scroll :data="_adapter('label')">
       <router-link
         :to="{
@@ -33,17 +28,9 @@
             :style="_cStyle(key)"
             :width="(_adapter('value', key) / _limit('all', key)) * 100 + '%'"
           />
-          <jkContent
-            class="flex-shrink flex align content-right"
-            :style="_rStyle(key)"
-          >
-            <jkNumber
-              class="num"
-              :number="_formatNumber(_adapter('value', key))"
-            />
-            <jkContent>
-              {{ _limit("symbol", key) }}
-            </jkContent>
+          <jkContent class="flex-shrink flex align content-right" :style="_rStyle(key)">
+            <jkNumber class="num" :number="_formatNumber(_adapter('value', key))" />
+            <jkContent>{{ _limit("symbol", key) }}</jkContent>
           </jkContent>
         </jkContent>
       </router-link>
@@ -88,12 +75,14 @@ export default {
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
     // 组件默认数据
-    // console.log('jksingle:', this.config)
+    console.log('jksingle:', this.config)
     !this.config.data && (this.config.data = qxList);
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    this.$nextTick(() => {});
+    this.$nextTick(() => {
+      console.log('-----------mounted single-------')
+    });
   },
   //方法集合
   methods: {
@@ -137,14 +126,20 @@ export default {
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
-  watch: {},
+  watch: {
+    config(){
+      console.log('jkSingle:-----------------------')
+    }
+  },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
   updated() {}, //生命周期 - 更新之后
   beforeDestroy() {}, //生命周期 - 销毁之前
   destroyed() {}, //生命周期 - 销毁完成
-  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+  activated() {
+    console.log('---------single activated-----------')
+  }, //如果页面有keep-alive缓存功能，这个函数会触发
   beforeRouteEnter(to, from, next) {
     next(vm => {});
   },
