@@ -185,7 +185,7 @@ export default {
       });
       this.state.apiArgument = setData;
       this.state.subTitle = setSubTitle;
-      this.toolEntity = drag.getToolEntity("ddd", this.state, 'selectMultiple');
+      this.toolEntity = drag.getToolEntity("ddd", this.state, "selectMultiple");
     },
 
     componentSet(model, index, parentIndex) {
@@ -229,30 +229,39 @@ export default {
     EditShowData(model, pid, cid) {
       // 显示数据showData类型判断并转换
       const arr =
-        typeof model.showData === "string" ? [...model.showData] : model.showData;
+        typeof model.showData === "string"
+          ? [...model.showData]
+          : model.showData;
       // value设置
       const v = arr.map(item => [...this.districtByYear.map(d => d[item])]);
       // label设置
       const l = arr.map(item => [
         ...this.districtByYear.map(d => d[model.showTitle])
-      ]);
+      ])[0];
+      // symbol 设置
+      this.els[pid - 1].els[cid - 1].data.symbol = arr
+        .map(item => this.state.oldArgument.find(d => d.value === item))
+        .map(item => item.label.split("#")[1]);
+      this.els[pid - 1].els[cid - 1].data.label = l;
 
       if (arr.length === 1) {
         this.els[pid - 1].els[cid - 1].data.value = v[0];
-        this.els[pid - 1].els[cid - 1].data.label = l[0];
-        // symbol 设置
-        this.els[pid - 1].els[cid - 1].data.symbol = arr
-          .map(item => this.state.oldArgument.find(d => d.value === item))
-          .map(item => item.label.split("#")[1]);
+        // this.els[pid - 1].els[cid - 1].data.label = l[0];
+
         // all 设置
         this.els[pid - 1].els[cid - 1].data.all[0] = v[0].reduce(
           (prev, cur) => prev + cur,
           0
         );
+      } else {
+        this.els[pid - 1].els[cid - 1].data.value = v;
+        this.els[pid - 1].els[cid - 1].data.all = v.map(item =>
+          item.reduce((prev, cur) => prev + cur, 0)
+        );
       }
 
       this.els = [...this.els];
-      console.log("els:", JSON.stringify(this.els[0].els[0].data.value));
+      console.log("els:", JSON.stringify(this.els[0].els[0].data));
     },
     // 修改宽度
     changeWidth(w, pid, cid) {
