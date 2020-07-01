@@ -1,0 +1,16 @@
+{
+    "Code": 1,
+    "Msg": "操作成功",
+    "ErrCode": null,
+    "ErrMsg": null,
+    "Data": [{
+        "ID": "all",
+        "NAME": "所有年度"
+    }, {
+        "ID": "2019",
+        "NAME": "2019年"
+    }, {
+        "ID": "2020",
+        "NAME": "2020年"
+    }]
+}

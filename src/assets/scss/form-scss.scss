@@ -1,0 +1,47 @@
+.child-dialog .demo-form-inline .el-form-item {
+    width: 100%;
+    display: block;
+  }
+  .child-dialog .el-date-editor.el-input,
+  .child-dialog .el-date-editor.el-input__inner {
+    width: 100%;
+  }
+  .child-dialog .el-dialog__wrapper {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .is-2 {
+    width: 50% !important;
+  }
+  .is-3 {
+    width: 33% !important;
+  //  margin-right: 20px !important;
+  }
+  .is-3-2 {
+    width: 66% !important;
+  }
+  .is-full {
+    width: 100% !important;
+  }
+  /* el-form 部分 */
+  form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  // .demo-form-inline .el-form-item label {
+  //   flex: 0 0 120px;
+  // }
+  .demo-form-inline .el-form-item .el-form-item__content {
+    flex: 1;
+    // margin: 0 !important;
+  }
+  .demo-form-inline .el-form-item .el-form-item__content .el-select,
+  .demo-form-inline .el-date-editor.el-input,
+  .demo-form-inline .el-date-editor.el-input__inner {
+    width: 100%;
+  }
+  .demo-form-inline .el-form-item .el-radio-group {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }

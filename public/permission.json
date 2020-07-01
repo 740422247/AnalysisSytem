@@ -1,0 +1,54 @@
+{
+    "code": 0,
+    "message": "获取权限成功1",
+    "data": [{
+            "name": "权限管理",
+            "isEnabled": true,
+            "children": [{
+                    "name": "权限管理-用户管理",
+                    "isEnabled": true
+                },
+                {
+                    "name": "权限管理-菜单管理",
+                    "isEnabled": true,
+                    "children": [{
+                            "name": "生产列表",
+                            "isEnabled": true
+                        },
+                        {
+                            "name": "审核管理",
+                            "isEnabled": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "界面编辑",
+            "isEnabled": true,
+            "children": [
+                {
+                "name": "界面编辑-页面编辑",
+                "isEnabled": true
+                },
+                {
+                "name": "界面编辑-接口设置",
+                "isEnabled": true
+                },
+                {
+                "name": "界面编辑-页面预览",
+                "isEnabled": true
+                }
+        ]
+        },
+        {
+            "name": "测试权限控制4",
+            "isEnabled": true
+        },
+        {
+            "name": "测试权限控制2",
+            "isEnabled": true
+          
+        }
+    ]
+}

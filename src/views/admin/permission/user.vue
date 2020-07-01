@@ -1,0 +1,509 @@
+<!--  -->
+<template>
+  <div class="user-center">
+    <Card class="operations-card">
+      <Actions :action="buttonList" @actions="actionMethods" align="left"></Actions>
+      <Filters
+        :filter-entity="filterEntity"
+        @searchFilter="searchFilter"
+        :border="true"
+        :showSearch="true"
+        :filterModel="filterModel"
+        @change="change"
+      ></Filters>
+    </Card>
+    <div class="user-main">
+      <Card class="user-list">
+        <TableView
+          :tableHeader="tabHeards"
+          :listTableData="tabListData"
+          @rowClick="rowClick"
+          @listActions="listActions"
+          title="用户列表"
+        ></TableView>
+      </Card>
+      <Card class="user-permissions">
+        <TreeView
+          :tree="treeEntity"
+          :defaultProps="defaultProps"
+          :listData.sync="rowData"
+          title="功能角色"
+          @checkedNodes="getCheckedNodes"
+          :checkedData="setCheckedData"
+        ></TreeView>
+      </Card>
+    </div>
+    <FormDialog ref="showDialog" @ok="dialogOk" :dialogData="dialogData" :model="rowData"></FormDialog>
+  </div>
+</template>
+
+<script>
+//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
+//例如：import 《组件名称》 from '《组件路径》';
+import "element-ui/lib/theme-chalk/index.css";
+import { Card } from "element-ui";
+const TreeView = () => import("@components/Admin/treeEntity.vue");
+const TableView = () => import("@components/Admin/tableListEntity.vue");
+const Actions = () => import("@components/Admin/actions.vue");
+const Filters = () => import("@components/Admin/filterEntity.vue");
+const FormDialog = () => import("@components/Admin/form-dialog.vue");
+export default {
+  //import引入的组件需要注入到对象中才能使用
+  components: {
+    TreeView,
+    TableView,
+    Card,
+    Filters,
+    FormDialog,
+    Actions
+  },
+  data() {
+    //这里存放数据
+    return {
+      buttonList: [],
+      filterEntity: [],
+      filterModel: {},
+      treeEntity: [],
+      tabHeards: {},
+      tabListData: [],
+      dialogData: {},
+      setCheckedData: [
+        {
+          id: 1,
+          parentId: 0,
+          name: "业务处室长"
+        },
+        {
+          id: "1_1",
+          parentId: 0,
+          name: "业务处室"
+        }
+      ], // 获取勾后端返回的值
+      defaultProps: {
+        label: "name"
+      },
+      rowData: {}
+    };
+  },
+  //监听属性 类似于data概念
+  computed: {},
+  //监控data中的数据变化
+  watch: {},
+  //方法集合
+  methods: {
+    // 行点击
+    rowClick(row) {
+      this.rowData = row;
+      this.setCheckedData = [
+        {
+          id: "2_2",
+          parentId: 0,
+          name: "评审中心监管科"
+        },
+        {
+          id: 3,
+          parentId: 0,
+          name: "评审中心项目联系人"
+        }
+      ];
+    },
+    // 树勾选
+    getCheckedNodes(treeData) {
+      // console.log(treeData);
+    },
+    actionMethods(name, action) {
+      switch (name) {
+        case "addUser":
+          this.addUser();
+          break;
+        case "userList":
+          this.sendPay();
+          break;
+        case "addRole":
+          this.addRole();
+          break;
+      }
+    },
+
+    listActions(rowData, name) {
+      switch (name) {
+        case "detail":
+          this.detail(rowData);
+          break;
+        case "edit":
+          this.edit(rowData);
+          break;
+      }
+    },
+
+    change(model) {
+      console.log(model);
+    },
+
+    addUser() {
+      this.rowData = {};
+      this.dialogData = this.setDialogData();
+      this.$refs.showDialog.showDialog();
+    },
+
+    detail(data) {
+      alert(`我点了第${data.id}行的查看`);
+    },
+
+    edit(data) {
+      this.dialogData = this.setDialogData();
+      this.rowData = data;
+      this.$refs.showDialog.showDialog();
+    },
+
+    addRole(data) {
+      this.rowData = {};
+      this.$refs.showDialog.showDialog();
+      this.dialogData = {
+        ...this.dialogData,
+        title: "新建角色",
+        entity: [
+          {
+            label: "编码",
+            key: "code",
+            clasName: "is-full",
+            rules: [
+              { required: true, message: "编码不能为空", trigger: "blur" }
+            ]
+          },
+          {
+            label: "角色名称",
+            key: "userName",
+            rules: [{ required: true, message: "角色名称不能为空" }]
+          }
+        ]
+      };
+    },
+    dialogOk(model) {
+      console.log(model);
+    },
+    searchFilter(filterModel) {
+      console.log(filterModel);
+    },
+    setViewActions() {
+      return [
+        {
+          name: "addUser",
+          label: "新建用户",
+          type: "primary",
+          icon: "el-icon-circle-plus-outline",
+          disabled: false,
+          hidden: false
+        },
+        {
+          name: "refresh",
+          label: "刷新",
+          icon: "el-icon-refresh",
+          disabled: false
+        },
+        {
+          name: "userList",
+          label: "用户列表",
+          icon: "el-icon-search",
+          disabled: false
+        },
+        {
+          name: "clearLocking",
+          label: "解除锁定",
+          icon: "el-icon-turn-off",
+          disabled: true,
+          hidden: false
+        },
+        {
+          name: "addRole",
+          label: "添加角色",
+          icon: "el-icon-circle-plus-outline",
+          disabled: false
+        }
+      ];
+    },
+    setFilterEntity() {
+      return [
+        {
+          label: "状态",
+          key: "state",
+          type: "select",
+          labelWidth: "120",
+          options: [
+            { label: "全部", value: "" },
+            { label: "已启用", value: "1" },
+            { label: "未启用", value: "0" }
+          ]
+        },
+        {
+          label: "用户类型",
+          key: "userType",
+          type: "select",
+          className: "is-3",
+          options: [
+            { label: "全部", value: "" },
+            { label: "管理员", value: "admin" },
+            { label: "普通用户", value: "user" }
+          ]
+        },
+        {
+          label: "按输入字符查询",
+          key: "query",
+          type: "string",
+          className: "is-3",
+          placeholder: "用户名或者电话号码"
+        }
+      ];
+    },
+    setTreeEntity() {
+      return [
+        {
+          id: 1,
+          parentId: 0,
+          name: "业务处室长"
+        },
+        {
+          id: "1_1",
+          parentId: 0,
+          name: "业务处室"
+        },
+        {
+          id: 2,
+          parentId: 0,
+          name: "评审中心监管科科长"
+        },
+        {
+          id: "2_2",
+          parentId: 0,
+          name: "评审中心监管科"
+        },
+        {
+          id: 3,
+          parentId: 0,
+          name: "评审中心项目联系人"
+        },
+        {
+          id: "3_3",
+          parentId: 0,
+          name: "评审中心项目"
+        },
+        {
+          id: 4,
+          parentId: 0,
+          name: "专家"
+        }
+      ];
+    },
+    setTabHeards() {
+      return {
+        index: true,
+        selected: true,
+        border: false,
+        fixed: true,
+        showSummary: false,
+        headerAlign: "center",
+        operations: {
+          label: "操作",
+          actions: [
+            { label: "查看", name: "detail", type: "text", size: "small" },
+            { label: "编辑", name: "edit", type: "text", size: "small" }
+          ]
+        },
+        hasSwitchs: [
+          {
+            label: "启用状态",
+            key: "startState",
+            activeColor: "#13ce66",
+            inactiveColor: "#ff4949"
+          },
+          {
+            label: "锁定状态",
+            key: "stopState"
+          }
+        ],
+        heards: [
+          { label: "用户姓名", key: "name", width: 120, type: "string" },
+          { label: "联系方式", key: "address", type: "string" },
+          { label: "用户类型", key: "order", type: "string" }
+        ]
+      };
+    },
+    setTabListData() {
+      return [
+        {
+          id: 1,
+          name: "王小虎",
+          address: "13382517003",
+          order: "管理员",
+          startState: true,
+          stopState: false
+        },
+        {
+          id: 2,
+          name: "且阿三",
+          address: "13382517003",
+          order: "用户",
+          startState: true,
+          stopState: false
+        },
+        {
+          id: 3,
+          name: "😀🥚🐓",
+          address: "13382517003",
+          order: "管理员",
+          startState: true,
+          stopState: false
+        },
+        {
+          id: 4,
+          name: "😊女孩",
+          address: "13382517003",
+          order: "管理员",
+          startState: true,
+          stopState: false
+        },
+        {
+          id: 5,
+          name: "🐀",
+          address: "13382517003",
+          order: "老鼠",
+          startState: false,
+          stopState: false
+        },
+        {
+          id: 6,
+          name: "😭伤心",
+          address: "13382517003",
+          order: "管理员",
+          startState: false,
+          stopState: true
+        },
+        {
+          id: 7,
+          name: "🐆",
+          address: "13382517003",
+          order: "豹子",
+          startState: false,
+          stopState: false
+        },
+        {
+          id: 8,
+          name: "🐍👩",
+          address: "13382517003",
+          order: "蛇女",
+          startState: true,
+          stopState: false
+        }
+      ];
+    },
+    setDialogData() {
+      return {
+        title: "新建用户",
+        width: "600px",
+        entity: [
+          {
+            label: "编码",
+            key: "code",
+            clasName: "is-full",
+            rules: [
+              { required: true, message: "编码不能为空", trigger: "blur" }
+            ]
+          },
+          {
+            label: "用户名",
+            key: "userName",
+            rules: [
+              { required: true, message: "用户名不能为空", trigger: "blur" }
+            ]
+          },
+          {
+            label: "登录密码",
+            key: "loginPassword"
+          },
+          {
+            label: "显示名",
+            key: "name",
+            rules: [
+              { required: true, message: "显示名不能为空", trigger: "blur" }
+            ]
+          },
+          {
+            label: "联系方式",
+            key: "address",
+            required: true,
+            type: "number",
+            rules: [
+              {
+                required: true,
+                message: "联系方式不能为空",
+                trigger: "change"
+              },
+              {
+                validator: (rule, value, callback) => {
+                  if (!value) {
+                    return callback(new Error("联系方式不能为空"));
+                  } else if (!/^1[345789]\d{9}$/.test(value)) {
+                    return callback(
+                      new Error("电话号码不合法，请核实后重新输入")
+                    );
+                  } else {
+                    callback();
+                  }
+                },
+                trigger: "blur"
+              }
+            ]
+          },
+          {
+            label: "电话",
+            key: "value"
+          },
+          {
+            label: "邮箱",
+            key: "email"
+          }
+        ]
+      };
+    }
+  },
+  //生命周期 - 创建完成（可以访问当前this实例）
+  created() {
+    this.buttonList = this.setViewActions();
+    this.filterEntity = this.setFilterEntity();
+    this.treeEntity = this.setTreeEntity();
+    this.tabHeards = this.setTabHeards();
+    this.tabListData = this.setTabListData();
+    this.dialogData = this.setDialogData();
+    // this.treeEntity = listToTree("id", "parentId",  this.setTreeEntity());
+  },
+  //生命周期 - 挂载完成（可以访问DOM元素）
+  mounted() {},
+  beforeCreate() {}, //生命周期 - 创建之前
+  beforeMount() {}, //生命周期 - 挂载之前
+  beforeUpdate() {}, //生命周期 - 更新之前
+  updated() {}, //生命周期 - 更新之后
+  beforeDestroy() {}, //生命周期 - 销毁之前
+  destroyed() {}, //生命周期 - 销毁完成
+  activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
+};
+</script>
+<style lang='scss' scoped>
+//@import url(); 引入公共css类
+.user-main {
+  display: flex;
+}
+
+.operations-card {
+  margin: 16px;
+}
+
+.user-list {
+  flex: 80 1 600px;
+  margin: 16px;
+}
+
+.user-permissions {
+  flex: 20 0 400px;
+  margin: 16px;
+}
+</style>

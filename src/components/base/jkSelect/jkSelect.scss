@@ -1,0 +1,229 @@
+.jkSelect {
+  .treeSelect {
+    position: relative;
+    display: flex;
+    align-items: center;
+    .label {
+      margin-right: 10px;
+    }
+    .vue-treeselect {
+      width: 242px;
+      height: 36px;
+
+      /deep/ .vue-treeselect__menu {
+        @include t(background-color, treeSelectMenuBk);
+        border: none;
+        @extend .bar;
+      }
+      /deep/ .vue-treeselect__x-container,
+      /deep/ .vue-treeselect__control-arrow {
+        @include t(color, k16);
+      }
+      /deep/ .vue-treeselect__option--highlight {
+        @include t(background-color, treeSelectHighLight);
+      }
+
+      /deep/ .vue-treeselect__option--selected {
+        font-weight: normal;
+        @include t(background-color, treeSelectHighLight);
+      }
+
+      /deep/ .vue-treeselect__label {
+        padding-top: 7px;
+        padding-bottom: 7px;
+      }
+
+      /deep/ .vue-treeselect__control {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        height: 36px;
+        line-height: 36px;
+        @include t(background-color, treeSelectInputBk);
+        .vue-treeselect__input-container {
+          height: auto;
+        }
+
+        .vue-treeselect__input {
+          height: auto;
+          @include t(color, white);
+        }
+
+        .vue-treeselect__placeholder,
+        .vue-treeselect__single-value {
+          @include t(color, k7);
+          top: 0;
+        }
+
+        .vue-treeselect__single-value {
+          @include t(color, white);
+        }
+      }
+    }
+  }
+  .yearSelect {
+    position: relative;
+    z-index: 98;
+    user-select: none;
+    button {
+      font-size: 16px;
+      font-family: Microsoft YaHei;
+      font-weight: 400;
+      @include t(color, k7);
+      appearance: none;
+      outline: none;
+      background-color: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      cursor: pointer;
+      span {
+        width: 70px;
+        display: inline-block;
+      }
+      img {
+        margin-left: 5px;
+        transform: rotate(0);
+        transition: all 0.75s ease-in-out;
+      }
+
+      &.active img {
+        transform: rotate(180deg);
+      }
+    }
+
+    .xiala {
+      position: absolute;
+      width: 107px;
+      max-height: 200px;
+      transform-origin: top;
+      @extend .bar;
+      transform: translateY(-10px);
+    }
+
+    .sanjiao {
+      position: absolute;
+      left: 42%;
+      top: -8px;
+    }
+
+    ul {
+      @include t(background-color, k19);
+      @include t(box-shadow, k20);
+      border-radius: 2px;
+      text-align: center;
+
+      li {
+        transition: all 0.75s ease-in-out;
+        padding: 10px 0;
+        cursor: pointer;
+      }
+
+      li:hover {
+        @include t(background-color, backBackground);
+      }
+    }
+  }
+  .simpleSelect {
+    .seek {
+      display: flex;
+      align-items: center;
+    }
+
+    .ss {
+      display: flex;
+      justify-content: flex-start;
+      position: relative;
+      z-index: 22;
+
+      .input {
+        @include t(border, backBorder);
+        border-radius: 3px;
+
+        width: 200px;
+        font-size: 14px;
+        padding-right: 10px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        margin-right: 20px;
+
+        input {
+          background: transparent;
+          outline: none;
+          cursor: pointer;
+          text-align: center;
+          user-select: none;
+          @include t(color, white);
+        }
+
+        img {
+          margin-left: 5px;
+          transform: rotate(0);
+          transition: all 0.75s ease-in-out;
+        }
+
+        &.active img {
+          transform: rotate(180deg);
+        }
+      }
+
+      .sploosh {
+        animation: sploosh 2s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      ul {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 0;
+        top: 35px;
+        @extend .bar;
+        @include t(background, k21);
+        @include t(box-shadow, k20);
+        border-radius: 2px;
+
+        li {
+          text-align: center;
+          padding: 8px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: all 0.25s ease;
+
+          &:hover {
+            @include t(background-color, backBackground);
+          }
+        }
+      }
+    }
+  }
+
+  .fade-enter-active {
+    animation: scale 0.15s ease-in-out;
+  }
+
+  .fade-leave-active {
+    animation: scale 0.15s ease-in-out reverse;
+  }
+
+  @keyframes scale {
+    0% {
+      transform: translateY(-10px) scaleY(0);
+    }
+    100% {
+      transform: translateY(-10px) scaleY(1);
+    }
+  }
+
+  @keyframes sploosh {
+    0% {
+      box-shadow: 0 0 0 0px rgba(38, 191, 197, 0.5);
+      background: rgba(38, 191, 197, 0.5);
+    }
+
+    100% {
+      box-shadow: 0 0 0 20px rgba(38, 191, 197, 0);
+      background: rgba(38, 191, 197, 0);
+    }
+  }
+}

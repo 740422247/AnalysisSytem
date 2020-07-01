@@ -1,0 +1,54 @@
+/*
+ * @Descripttion:
+ * @version: 1.0.0
+ * @Author: joykit
+ * @Date: 2020-05-13 10:09:59
+ * @LastEditors: joykit
+ * @LastEditTime: 2020-05-25 16:54:06
+*/
+
+@mixin t($css, $n) {
+  [data-theme="theme1"] & {
+    @import "./variable/theme1.scss";
+    #{$css}: #{map-get($ys, $n)};
+  }
+  [data-theme="theme2"] & {
+    @import "./variable/theme2.scss";
+    #{$css}: #{map-get($ys, $n)};
+  }
+}
+
+.bk {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+.bar {
+  overflow: auto;
+}
+.bar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  @include t(background-color, k17);
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+.bar::-webkit-scrollbar-track {
+  border-radius: 10px;
+  @include t(background-color, k17);
+  @include t(-webkit-box-shadow, boxShadow);
+}
+
+/*定义滑块 内阴影+圆角*/
+.bar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  @include t(-webkit-box-shadow, boxShadow);
+  @include t(background-color, k18);
+}
+
+:export {
+  theme1: 炫酷幽蓝;
+  theme2: 赤红红狐;
+}
