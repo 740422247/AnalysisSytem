@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     init() {
-      this.$store.dispatch("getPage");
+      this.$store.dispatch("getPageDetail");
       this.parentWidth = this.getParentWidth();
     },
     getParentWidth() {

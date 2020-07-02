@@ -127,6 +127,6 @@ function getContainerEntity() {
       type: "text",
       labelWidth: 60,
       className: "is-full",
-    }
+    },
   ]
 }

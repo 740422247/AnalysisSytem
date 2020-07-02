@@ -7,7 +7,7 @@
     </div>
     <div class="drag-container">
       <drag-menu :menu="menu" @onAdd="addContainer" @startClone="startClone"></drag-menu>
-      <div class="drag-content">
+      <div class="drag-content bar">
         <drag-content
           :parentWidth="parentWidth"
           :els="els"
@@ -19,7 +19,7 @@
         ></drag-content>
       </div>
 
-      <drag-tools @change="changeForm" :entity="toolEntity" :model="toolModel"></drag-tools>
+      <drag-tools class="bar" @change="changeForm" :entity="toolEntity" :model="toolModel"></drag-tools>
     </div>
   </div>
 </template>
@@ -61,9 +61,7 @@ export default {
     }
   }),
   watch: {
-    els() {
-
-    }
+    els() {}
   },
   mounted() {
     this.init();
@@ -111,6 +109,7 @@ export default {
     },
     // 预览
     preview() {
+      console.log("preview:", JSON.stringify({ pageData: this.els }));
       this.$store.dispatch("savePreview", { pageData: this.els });
       // window.open ('http://localhost:9006/preview')
       this.$router.push({ name: "Preview" });
@@ -223,8 +222,17 @@ export default {
       model.cWidth && this.changeWidth(model.cWidth, pid, cid);
       this.changeHeight(model, pid, cid);
       this.changeMargin(model, pid, cid);
-      model.showTitle && model.showData && this.EditShowData(model, pid, cid);
+      if (model.showTitle && model.showData) {
+        this.EditShowData(model, pid, cid);
+        this.editPageForm(model, pid, cid);
+      }
     },
+
+    // 存储form表单信息
+    editPageForm(model, pid, cid) {
+      this.els[0].els[0].pageForms = { ...model };
+    },
+
     // 修改显示数据
     EditShowData(model, pid, cid) {
       // 显示数据showData类型判断并转换
@@ -246,7 +254,6 @@ export default {
 
       if (arr.length === 1) {
         this.els[pid - 1].els[cid - 1].data.value = v[0];
-        // this.els[pid - 1].els[cid - 1].data.label = l[0];
 
         // all 设置
         this.els[pid - 1].els[cid - 1].data.all[0] = v[0].reduce(
@@ -268,7 +275,6 @@ export default {
       }
 
       this.els = [...this.els];
-      console.log("els:", this.els[0].els[0].data);
     },
     // 修改宽度
     changeWidth(w, pid, cid) {
@@ -309,7 +315,8 @@ export default {
 <style lang="scss">
 .drag-page {
   width: 100%;
-  min-height: 100vh;
+  height: calc(100vh - 60px);
+  overflow: hidden;
   padding: 0 15px;
   @include t(background, "k0");
   @include t(color, "k1");
@@ -330,6 +337,7 @@ export default {
   .drag-container {
     display: flex;
     width: 100%;
+    height: 100%;
   }
 }
 </style>

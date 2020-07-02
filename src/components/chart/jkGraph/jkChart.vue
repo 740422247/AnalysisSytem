@@ -14,7 +14,7 @@
     :text="oConfig.text"
     :path="oConfig.path"
   >
-    <button @click="refresh()">刷新</button>
+    <!-- <button @click="refresh()">刷新</button> -->
     <div id="lb" class="l-b animated fadeInLeft" ref="lb"></div>
   </jkCard>
 </template>
