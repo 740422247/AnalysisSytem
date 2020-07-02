@@ -109,7 +109,7 @@ export default {
     },
     // 预览
     preview() {
-      console.log("preview:", JSON.stringify({ pageData: this.els }));
+      // console.log("preview:", JSON.stringify({ pageData: this.els }));
       this.$store.dispatch("savePreview", { pageData: this.els });
       // window.open ('http://localhost:9006/preview')
       this.$router.push({ name: "Preview" });
@@ -222,7 +222,7 @@ export default {
       model.cWidth && this.changeWidth(model.cWidth, pid, cid);
       this.changeHeight(model, pid, cid);
       this.changeMargin(model, pid, cid);
-      if (model.showTitle && model.showData) {
+      if (model.showTitle && model.showData && model.title) {
         this.EditShowData(model, pid, cid);
         this.editPageForm(model, pid, cid);
       }
