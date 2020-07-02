@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-05-29 10:14:21
  * @LastEditors: joykit
- * @LastEditTime: 2020-06-02 14:41:51
+ * @LastEditTime: 2020-07-01 15:12:53
 -->
 <!-- index -->
 <template>
@@ -41,7 +41,7 @@ export default {
   data() {
     //这里存放数据
     return {
-      oConfig:null
+      oConfig: null
     };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -56,13 +56,13 @@ export default {
   computed: {},
   //监控data中的数据变化
   watch: {
-    config:{
-      deep:true,
-      immediate:true,
-      handler(res){
-        this.oConfig = res
+    config: {
+      deep: true,
+      immediate: true,
+      handler(res) {
+        this.oConfig = res;
       }
-    },
+    }
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前

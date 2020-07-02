@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 预览
+ * @version: 1.0.0
+ * @Author: joykit
+ * @Date: 2020-07-01 09:43:05
+ * @LastEditors: joykit
+ * @LastEditTime: 2020-07-02 10:48:00
+-->
 <template>
   <div class="preview-page">
     <div class="right-align">
@@ -12,17 +20,9 @@
 import Action from "./../../components/Admin/actions";
 import PageContent from "./PageContent";
 import { mapGetters } from "vuex";
+
 export default {
   name: "Preview",
-  components: {
-    PageContent,
-    Action
-  },
-  computed: {
-    ...mapGetters({
-      pageData: "pageDetail"
-    })
-  },
   data: () => ({
     parentWidth: 0,
     actions: [
@@ -35,7 +35,27 @@ export default {
   mounted() {
     this.init();
   },
+  components: {
+    PageContent,
+    Action
+  },
+  computed: {
+    ...mapGetters({
+      pageData: "pageDetail"
+    })
+  },
+  watch: {
+    pageData: {
+      deep: true,
+      immediate: true,
+      handler(res) {
+        console.log(res);
+      }
+    }
+  },
+
   methods: {
+    change() {},
     init() {
       this.$store.dispatch("getPage");
       this.parentWidth = this.getParentWidth();
@@ -67,6 +87,7 @@ export default {
   @include t(background, "k0");
   @include t(color, "k1");
   width: 100%;
+  min-height: calc(100vh - 70px);
   display: flex;
   flex-wrap: wrap;
   margin: 10px 10px 0 0;

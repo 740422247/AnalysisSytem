@@ -1,5 +1,5 @@
 <template>
-  <div class="con" :class="{bgl:!rv}">
+  <div class="con" :class="{ bgl: !rv }">
     <div class="fk-wrap">
       <span class="fangkuai" v-for="i in 100" :key="i"></span>
     </div>
@@ -24,24 +24,25 @@
             @open="handleOpen"
             :collapse="isCollapse"
           >
-            <template v-if="sidebarMenu.length>0">
+            <template v-if="sidebarMenu.length > 0">
               <el-submenu
-                :index="toString(index+1)"
-                v-for="(item,index) in sidebarMenu"
+                :index="toString(index + 1)"
+                v-for="(item, index) in sidebarMenu"
                 :key="item.name"
               >
                 <template slot="title">
                   <i :class="item.meta.icon"></i>
-                  <span slot="title">{{item.meta.name}}</span>
+                  <span slot="title">{{ item.meta.name }}</span>
                 </template>
                 <el-menu-item-group>
                   <!-- <span slot="title">权限管理</span> -->
                   <el-menu-item
-                    @click="goRouter(itt.name,'')"
-                    :index="newindex(index+1,idx+1)"
-                    v-for="(itt,idx) in item.children"
+                    @click="goRouter(itt.name, '')"
+                    :index="newindex(index + 1, idx + 1)"
+                    v-for="(itt, idx) in item.children"
                     :key="itt.name"
-                  >{{itt.meta.name}}</el-menu-item>
+                    >{{ itt.meta.name }}</el-menu-item
+                  >
                   <!-- <el-menu-item index="1-2">界面2</el-menu-item> -->
                 </el-menu-item-group>
               </el-submenu>
@@ -52,7 +53,10 @@
 
       <el-container>
         <el-header class="app-header" v-show="rv">
-          <div style="width: 60px; cursor: pointer;" @click.prevent="toggleSideBar">
+          <div
+            style="width: 60px; cursor: pointer;"
+            @click.prevent="toggleSideBar"
+          >
             <i v-show="!isCollapse" class="el-icon-d-arrow-left"></i>
             <i v-show="isCollapse" class="el-icon-d-arrow-right"></i>
           </div>
@@ -89,7 +93,9 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>我的消息</el-dropdown-item>
                 <el-dropdown-item>设置</el-dropdown-item>
-                <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+                <el-dropdown-item divided @click.native="logout"
+                  >退出登录</el-dropdown-item
+                >
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -180,20 +186,14 @@ export default {
     logout: function() {
       this.$confirm("确认退出?", "提示", {})
         .then(() => {
-         window.localStorage.clear()
+          window.localStorage.clear();
           this.$router.push("/login");
         })
         .catch(() => {});
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
+    handleOpen(key, keyPath) {},
+    handleClose(key, keyPath) {},
+    handleSelect(key, keyPath) {}
   }
 };
 </script>

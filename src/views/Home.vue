@@ -3,8 +3,8 @@
  * @version:
  * @Author: joykit
  * @Date: 2020-02-11 14:46:59
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-22 15:01:21
+ * @LastEditors: joykit
+ * @LastEditTime: 2020-07-01 15:12:00
  -->
 <template>
   <div class="home">
@@ -237,6 +237,7 @@ export default {
 
 <style lang="scss" scoped>
 .home {
+  width: 100%;
   margin-top: 20px;
   height: 90vh;
   overflow: hidden;

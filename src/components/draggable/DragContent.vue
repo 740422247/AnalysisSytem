@@ -9,15 +9,30 @@
   >
     <div
       class="container-item"
-      v-for="(el,index) in els"
+      v-for="(el, index) in els"
       :key="el + index"
       :class="el.className"
-      :style="{...el.style,height:el.style.ratio ? ( (el.className.find(item => item.indexOf('jk-col-') >=0).replace('jk-col-','')/24)*el.style.ratio * parentWidth + 'px') : ''}"
+      :style="{
+        ...el.style,
+        height: el.style.ratio
+          ? (el.className
+              .find(item => item.indexOf('jk-col-') >= 0)
+              .replace('jk-col-', '') /
+              24) *
+              el.style.ratio *
+              parentWidth +
+            'px'
+          : ''
+      }"
     >
       <div class="drag-header">
-        <i class="el-icon-rank handle" title="移动容器组件" v-if="el.type === 'container'"></i>
-        <i class="el-icon-delete" title="删除" @click="del(el,index)"></i>
-        <i class="el-icon-setting" title="设置" @click="setting(el,index)"></i>
+        <i
+          class="el-icon-rank handle"
+          title="移动容器组件"
+          v-if="el.type === 'container'"
+        ></i>
+        <i class="el-icon-delete" title="删除" @click="del(el, index)"></i>
+        <i class="el-icon-setting" title="设置" @click="setting(el, index)"></i>
       </div>
 
       <template v-if="el.type !== 'container'">
@@ -68,9 +83,9 @@ export default {
   data: () => ({
     // config:{}
   }),
-  watch:{
-    els(){
-      console.log('drag content:', this.els)
+  watch: {
+    els() {
+      console.log("drag content:", this.els);
     }
   },
   mounted() {},

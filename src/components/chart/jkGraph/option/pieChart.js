@@ -9,7 +9,6 @@
 // import woman from "assets/image/AgeAnalysis/woman.png";
 import "echarts/lib/chart/pie";
 export function op(option) {
-  console.log(option);
   const all = option.all[0];
   const value = option.value[0];
   const percent = (value / all).toFixed(2);

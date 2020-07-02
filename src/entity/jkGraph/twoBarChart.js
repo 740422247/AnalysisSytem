@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-05-29 10:27:18
  * @LastEditors: joykit
- * @LastEditTime: 2020-06-03 16:32:36
+ * @LastEditTime: 2020-07-01 15:31:18
  */
 export const qxList = {
   symbol: [`男:{value}人`, `女:{value}人`],
