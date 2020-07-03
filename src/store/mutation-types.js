@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-05-11 16:02:32
  * @LastEditors: joykit
- * @LastEditTime: 2020-06-01 15:58:28
+ * @LastEditTime: 2020-07-02 16:17:13
  */
 /* eslint-disable*/
 
@@ -12,8 +12,8 @@
 export const menu = "menu";
 //////////////////////////////////////////////////////////////dragPage/////////////////////////////////////////////////
 export const previewData = "previewData";
-export const getModules = "getModules"
-export const getPage = "getPage"
+export const getModules = "getModules";
+export const getPageDetail = "getPageDetail";
 
-export const GetDistrictByYear = 'GetDistrictByYear'
+export const GetDistrictByYear = "GetDistrictByYear";
 //////////////////////////////////////////////////////////////dragPage/////////////////////////////////////////////////

@@ -69,12 +69,12 @@ export default {
         LoginPwd: "admin"
       },
       isChecked: true,
-      loginBk: require("../../static/image/loginBk.jpg"),
-      guang11: require("../../static/image/guang11.png"),
-      yh: require("../../static/image/yh.png"),
-      mm: require("../../static/image/mm.png"),
-      jz: require("../../static/image/jz.png"),
-      jz2: require("../../static/image/jz2.png")
+      loginBk: require("@static/image/loginBk.jpg"),
+      guang11: require("@static/image/guang11.png"),
+      yh: require("@static/image/yh.png"),
+      mm: require("@static/image/mm.png"),
+      jz: require("@static/image/jz.png"),
+      jz2: require("@static/image/jz2.png")
     };
   },
   mounted() {

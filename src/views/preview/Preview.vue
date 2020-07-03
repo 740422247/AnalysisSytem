@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-07-01 09:43:05
  * @LastEditors: joykit
- * @LastEditTime: 2020-07-02 10:48:00
+ * @LastEditTime: 2020-07-02 15:22:49
 -->
 <template>
   <div class="preview-page">
@@ -20,9 +20,10 @@
 import Action from "./../../components/Admin/actions";
 import PageContent from "./PageContent";
 import { mapGetters } from "vuex";
-
+import { mixin } from "./min/min";
 export default {
   name: "Preview",
+  mixins: [mixin],
   data: () => ({
     parentWidth: 0,
     actions: [
@@ -35,29 +36,10 @@ export default {
   mounted() {
     this.init();
   },
-  components: {
-    PageContent,
-    Action
-  },
-  computed: {
-    ...mapGetters({
-      pageData: "pageDetail"
-    })
-  },
-  watch: {
-    pageData: {
-      deep: true,
-      immediate: true,
-      handler(res) {
-        console.log(res);
-      }
-    }
-  },
-
   methods: {
     change() {},
     init() {
-      this.$store.dispatch("getPage");
+      this.$store.dispatch("getPageDetail");
       this.parentWidth = this.getParentWidth();
     },
     getParentWidth() {
@@ -76,6 +58,24 @@ export default {
     goBack() {
       this.$router.go(-1);
     }
+  },
+  computed: {
+    ...mapGetters({
+      pageData: "pageDetail"
+    })
+  },
+  watch: {
+    pageData: {
+      deep: true,
+      immediate: true,
+      handler(res) {
+        this.render(res);
+      }
+    }
+  },
+  components: {
+    PageContent,
+    Action
   }
 };
 </script>

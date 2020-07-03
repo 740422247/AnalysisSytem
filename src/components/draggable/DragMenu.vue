@@ -1,5 +1,5 @@
 <template>
-  <div class="drag-menu">
+  <div class="drag-menu bar">
     <div class="drag-menu-item" @click="addContainer">添加容器组件</div>
     <draggable
       class="dragArea list-group"
@@ -50,10 +50,9 @@ export default {
 </script>
 <style lang="scss">
 .drag-menu {
-  flex: 0 0 200px;
+  flex: 0 0 300px;
   border: 1px solid #dedede;
   border-radius: 5px;
-
   .drag-menu-item {
     height: 36px;
     line-height: 36px;
