@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-05-25 10:50:04
  * @LastEditors: joykit
- * @LastEditTime: 2020-05-28 15:05:15
+ * @LastEditTime: 2020-07-01 15:14:33
 -->
 <!-- index -->
 <template>
@@ -46,9 +46,7 @@ export default {
     return {};
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-      console.log("---created--", this.config);
-  },
+  created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.$nextTick(() => {
@@ -61,13 +59,11 @@ export default {
   computed: {},
   //监控data中的数据变化
   watch: {
-    config:{
-      deep:true,
-      immediate:true,
-      handler(res){
-        console.log(res)
-      }
-    },
+    config: {
+      deep: true,
+      immediate: true,
+      handler(res) {}
+    }
     // type(){
     //   console.log('---type---')
     // }
@@ -78,9 +74,7 @@ export default {
   updated() {}, //生命周期 - 更新之后
   beforeDestroy() {}, //生命周期 - 销毁之前
   destroyed() {}, //生命周期 - 销毁完成
-  activated() {
-    console.log('----------index  single------------')
-  }, //如果页面有keep-alive缓存功能，这个函数会触发
+  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   beforeRouteEnter(to, from, next) {
     next(vm => {});
   },

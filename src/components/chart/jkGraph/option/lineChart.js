@@ -1,7 +1,6 @@
 //发放人次
 import "echarts/lib/chart/line";
 export function op(option, echarts, t) {
-  console.log(option)
   const color = t;
   const flat = option.value.flat();
   const showX = option.choice.showX;

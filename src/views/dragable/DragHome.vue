@@ -1,5 +1,5 @@
 <template>
-  <div class="drag-page" :class="{preview:isPreview}">
+  <div class="drag-page" :class="{ preview: isPreview }">
     <div class="drag-page-header">
       <Button @click="clearClass">取消选中</Button>
       <Button @click="preview">预览</Button>
@@ -42,14 +42,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      menu: "modules",
-      districtByYear: "districtByYear"
+      menu: "modules"
+      // districtByYear: "GetDistrictByYear"
     })
   },
   data: () => ({
     parentWidth: 0,
     isPreview: false,
     selectEl: {},
+    currData: [],
     // menu: [...config],
     els: [],
     toolEntity: [],
@@ -119,14 +120,28 @@ export default {
 
     // 获取toolModel
     setToolModel() {
-      this.toolEntity = [...drag.getToolEntity(this.selectEl.type)];
+      this.toolEntity =
+        this.selectEl.type === "container"
+          ? [...drag.getToolEntity(this.selectEl.type)]
+          : [...drag.getToolEntity("ddd", this.state, "selectMultiple")];
+
       this.toolModel = {
         ...this.selectEl.style,
         cWidth: this.selectEl.className.find(
           item => item.indexOf("jk-col-") >= 0
-        )
+        ),
+        ...this.getToolModel()
       };
     },
+    // 获取动态表单
+    getToolModel() {
+      if (this.selectEl.type === "container") {
+        return [];
+      } else {
+        return this.selectEl.pageForms;
+      }
+    },
+
     startClone(index) {
       const data = drag.clone(this.menu[index]);
       this.clearClass();
@@ -167,8 +182,9 @@ export default {
     },
 
     // 获取接口
-    getDataByApi(model) {
-      this.$store.dispatch(model.path);
+    async getDataByApi(model) {
+      const api = await this.$store.dispatch(model.path);
+      this.currData = this.$store.getters[model.path];
     },
     // 修改toolEntity
     editToolEntity(model) {
@@ -192,7 +208,7 @@ export default {
       // 数据调用
       if (this.els[parentIndex].els[index].argument) {
         const model = this.els[parentIndex].els[index].argument;
-        this.getDataByApi(model);
+        this.currData = this.getDataByApi(model);
         this.editToolEntity(model);
       }
       // 数据调用
@@ -220,12 +236,12 @@ export default {
     changeForm(model) {
       const pid = this.selectEl.parentId;
       const cid = this.selectEl.childId;
+      cid && this.editPageForm(model, pid, cid);
       model.cWidth && this.changeWidth(model.cWidth, pid, cid);
       this.changeHeight(model, pid, cid);
       this.changeMargin(model, pid, cid);
       if (model.showTitle && model.showData && model.title) {
         this.EditShowData(model, pid, cid);
-        this.editPageForm(model, pid, cid);
       }
     },
 
@@ -240,16 +256,17 @@ export default {
 
     // 修改显示数据
     EditShowData(model, pid, cid) {
+      this.els[pid - 1].els[cid - 1].text = model.title;
       // 显示数据showData类型判断并转换
       const arr =
         typeof model.showData === "string"
           ? [...model.showData]
           : model.showData;
       // value设置
-      const v = arr.map(item => [...this.districtByYear.map(d => d[item])]);
+      const v = arr.map(item => [...this.currData.map(d => d[item])]);
       // label设置
       const l = arr.map(item => [
-        ...this.districtByYear.map(d => d[model.showTitle])
+        ...this.currData.map(d => d[model.showTitle])
       ])[0];
       // symbol 设置
       this.els[pid - 1].els[cid - 1].data.symbol = arr

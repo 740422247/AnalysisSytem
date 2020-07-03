@@ -58,10 +58,7 @@ export default {
     }
   },
   created() {},
-  mounted() {
-    console.log(this.permissionList);
-    console.log(this.isManagement);
-  },
+  mounted() {},
   methods: {
     chioce(key) {
       this.theme.name = key;

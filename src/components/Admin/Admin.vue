@@ -1,9 +1,9 @@
 <template>
-  <div class="con" :class="{bgl:!rv}">
+  <div class="con" :class="{ bgl: !rv }">
     <div class="fk-wrap">
       <span class="fangkuai" v-for="i in 100" :key="i"></span>
     </div>
-    <div :class="{navCollapsed:isSidebarNavCollapse}">
+    <div :class="{ navCollapsed: isSidebarNavCollapse }">
       <el-menu
         :collapse="isSidebarNavCollapse"
         background-color="#304156"
@@ -54,7 +54,9 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>我的消息</el-dropdown-item>
                 <el-dropdown-item>设置</el-dropdown-item>
-                <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+                <el-dropdown-item divided @click.native="logout"
+                  >退出登录</el-dropdown-item
+                >
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -67,7 +69,6 @@
             thumbColor="#018AE1"
             :autoHide="true"
             trackColor="#fff"
-
           >
             <slot></slot>
           </Ohyeah>
@@ -165,15 +166,9 @@ export default {
         })
         .catch(() => {});
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
+    handleOpen(key, keyPath) {},
+    handleClose(key, keyPath) {},
+    handleSelect(key, keyPath) {}
   }
 };
 </script>

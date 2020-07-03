@@ -1,23 +1,31 @@
 <!--  -->
 <template>
   <div class="table-list">
-    <h3 class="list-title">{{title}}</h3>
+    <h3 class="list-title">{{ title }}</h3>
     <Table
-      :data="listTableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+      :data="
+        listTableData.slice(
+          (currentPage - 1) * pagesize,
+          currentPage * pagesize
+        )
+      "
       stripe
       default-expand-all
       highlight-current-row
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       row-key="id"
       :border="tableHeader.border ? tableHeader.border : false"
-      :show-summary="
-          tableHeader.showSummary ? tableHeader.showSummary : false
-        "
+      :show-summary="tableHeader.showSummary ? tableHeader.showSummary : false"
       @select="selection($event)"
       @row-click="rowClick"
       @sort-change="sortChange"
     >
-      <TableColumn v-if="tableHeader.index" type="index" width="50" label="序号"></TableColumn>
+      <TableColumn
+        v-if="tableHeader.index"
+        type="index"
+        width="50"
+        label="序号"
+      ></TableColumn>
 
       <TableColumn
         v-for="(tables, index) in tableHeader.heards"
@@ -29,8 +37,8 @@
         :align="tables.align ? tables.align : 'center'"
         :flxed="tableHeader.flxed"
         :header-align="
-            tableHeader.headerAlign ? tableHeader.headerAlign : 'center'
-          "
+          tableHeader.headerAlign ? tableHeader.headerAlign : 'center'
+        "
         :formatter="tables.formatter"
       ></TableColumn>
 
@@ -44,16 +52,25 @@
           <template slot-scope="scope">
             <Switchs
               v-model="scope.row[action.key]"
-              :active-color="action.activeColor ? action.activeColor : '#13ce66'"
-              :inactive-color="action.inactiveColor ? action.inactiveColor : '#ff4949'"
+              :active-color="
+                action.activeColor ? action.activeColor : '#13ce66'
+              "
+              :inactive-color="
+                action.inactiveColor ? action.inactiveColor : '#ff4949'
+              "
               @change="changeSwitch(scope.row)"
-            >></Switchs>
+              >></Switchs
+            >
           </template>
         </TableColumn>
       </template>
 
       <template v-if="tableHeader.operations">
-        <TableColumn fixed="right" :label="tableHeader.operations.label" width="100">
+        <TableColumn
+          fixed="right"
+          :label="tableHeader.operations.label"
+          width="100"
+        >
           <template slot-scope="scope">
             <Button
               v-for="actions in tableHeader.operations.actions"
@@ -62,7 +79,8 @@
               :size="actions.size"
               :icon="actions.icon"
               @click="handleClick(scope.row, actions.name)"
-            >{{actions.label}}</Button>
+              >{{ actions.label }}</Button
+            >
           </template>
         </TableColumn>
       </template>
@@ -116,12 +134,8 @@ export default {
     rowClick(row) {
       this.$emit("rowClick", row);
     },
-    sortChange({ column, prop, order }) {
-      console.log(column, prop, order);
-    },
-    changeSwitch(row) {
-      console.log(row);
-    },
+    sortChange({ column, prop, order }) {},
+    changeSwitch(row) {},
     handleSizeChange(val) {
       this.pagesize = val;
     },
@@ -147,7 +161,7 @@ export default {
   activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style lang='scss'>
+<style lang="scss">
 //@import url(); 引入公共css类
 .table-list .el-pagination {
   text-align: right;

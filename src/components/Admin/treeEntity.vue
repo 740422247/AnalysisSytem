@@ -2,11 +2,21 @@
 <template>
   <div class="tree-entity">
     <div class="opertions">
-      <Button type="primary" icon="el-icon-check" circle @click="submitChoice()"></Button>
-      <Button type="primary" icon="el-icon-close" circle @click="clearChoice()"></Button>
+      <Button
+        type="primary"
+        icon="el-icon-check"
+        circle
+        @click="submitChoice()"
+      ></Button>
+      <Button
+        type="primary"
+        icon="el-icon-close"
+        circle
+        @click="clearChoice()"
+      ></Button>
     </div>
     <div class="tree-title">
-      <span>{{title}}</span>
+      <span>{{ title }}</span>
       <span>授权</span>
     </div>
     <Tree
@@ -58,13 +68,10 @@ export default {
     // 节点选中
     getCheckedNodes() {
       const res = this.$refs.tree.getCheckedNodes(true, false);
-      console.log(res);
       this.$emit("checkedNodes", res);
     },
     // 节点点击
-    getNodeClick(data) {
-      // console.log(data);
-    },
+    getNodeClick(data) {},
 
     submitChoice() {
       alert(123);
@@ -88,7 +95,7 @@ export default {
   activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style lang='scss'>
+<style lang="scss">
 //@import url(); 引入公共css类
 .chang-style .el-tree-node__content > label.el-checkbox {
   order: 2;

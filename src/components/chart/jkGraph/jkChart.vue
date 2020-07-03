@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-05-29 10:24:32
  * @LastEditors: joykit
- * @LastEditTime: 2020-07-01 14:22:54
+ * @LastEditTime: 2020-07-03 09:55:20
 -->
 <!-- jkLineChart -->
 <template>
@@ -14,7 +14,6 @@
     :text="oConfig.text"
     :path="oConfig.path"
   >
-    <!-- <button @click="refresh()">刷新</button> -->
     <div id="lb" class="l-b animated fadeInLeft" ref="lb"></div>
   </jkCard>
 </template>
@@ -48,20 +47,19 @@ export default {
   data() {
     //这里存放数据
     return {
-      oConfig:null
+      oConfig: null
     };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   async created() {
-    this.getData()
+    this.getData();
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
   //方法集合
   methods: {
-   async getData(){
-
-        // 组件默认数据
+    async getData() {
+      // 组件默认数据
       // echart全部配置
       // if (this.oConfig.option) {
       //   this.init(this.oConfig.choice);
@@ -85,14 +83,13 @@ export default {
         const lb = this.$refs.lb;
         this.ec = this.echarts.init(lb);
         this.ec.setOption(_op);
-        this.ec.resize()
+        this.ec.resize();
       });
     },
     refresh() {
       if (!this.ec) return;
       this.ec.clear();
       this.ec.setOption(this._op, true);
-      console.log("刷新完成");
     }
   },
   //监听属性 类似于data概念
@@ -105,14 +102,14 @@ export default {
         this.getOption();
       }
     },
-     config:{
-      deep:true,
-      immediate:true,
-      handler(res){
-        this.oConfig = res
-        this.getData()
+    config: {
+      deep: true,
+      immediate: true,
+      handler(res) {
+        this.oConfig = res;
+        this.getData();
       }
-    },
+    }
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
