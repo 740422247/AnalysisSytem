@@ -1,5 +1,6 @@
 import * as types from "../mutation-types";
 import api from "@api/api";
+import { apiOptions } from "../../views/dragable/apiOptions";
 
 const state = {
   previewData: null,
@@ -285,16 +286,30 @@ const actions = {
                 { id: "jkRank:batteryRank", name: "电池排行榜" }
               ],
               isHandle: false,
-              className: ["jk-col-24", "handle"],
+              className: ["handle", "jk-col-24"],
               style: { height: "300px", padding: "undefinedpx" },
               path: "",
               border: true,
               grid: true,
               service: { api: "", params: {}, data: {} },
               data: {
-                symbol: ["个"],
-                all: [137],
-                value: [18, 21, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0],
+                symbol: ["万元"],
+                all: [19757.827679],
+                value: [
+                  3870.373258,
+                  3864.39603,
+                  2931.98497,
+                  2732.3133,
+                  2721.859491,
+                  1545.3274,
+                  670.651,
+                  653.348193,
+                  596.008435,
+                  96.239531,
+                  44.061,
+                  31.265071,
+                  0
+                ],
                 label: [
                   "垣曲县",
                   "盐湖区",
@@ -323,11 +338,19 @@ const actions = {
                   { value: "PROJECTS", label: "项目数#个" }
                 ]
               },
-              pageForms: { value: ["PROJECTS", "PERSON"], label: "NAME" }
+              pageForms: {
+                padding: "10px",
+                cWidth: "jk-col-24",
+                showData: ["MONEY", "PROJECTS", "PERSON"],
+                title: "22",
+                showTitle: "NAME",
+                value: ["MONEY", "PROJECTS", "PERSON"],
+                label: "NAME"
+              }
             }
           ],
-          className: ["jk-col-8"],
-          style: {}
+          className: ["jk-col-12"],
+          style: { padding: "undefinedpx" }
         },
         {
           name: "容器组件1",
@@ -341,7 +364,7 @@ const actions = {
                 { id: "twoBarChart", name: "双向柱状图" },
                 { id: "barChart", name: "柱状图" }
               ],
-              className: ["jk-col-24", "handle", "active"],
+              className: ["handle", "active", "jk-col-24"],
               style: { height: "300px", padding: "undefinedpx" },
               isHandle: false,
               text: "模块2",
@@ -351,9 +374,24 @@ const actions = {
               service: { api: "", params: {}, data: {} },
               option: {},
               data: {
-                symbol: ["个", "人"],
-                all: [137, 110724],
+                symbol: ["万元", "个", "人"],
+                all: [19757.827679, 137, 110724],
                 value: [
+                  [
+                    3870.373258,
+                    3864.39603,
+                    2931.98497,
+                    2732.3133,
+                    2721.859491,
+                    1545.3274,
+                    670.651,
+                    653.348193,
+                    596.008435,
+                    96.239531,
+                    44.061,
+                    31.265071,
+                    0
+                  ],
                   [18, 21, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0],
                   [
                     14077,
@@ -404,8 +442,8 @@ const actions = {
             }
           ],
           isActive: false,
-          className: ["jk-col-8"],
-          style: {}
+          className: ["jk-col-12"],
+          style: { padding: "10px" }
         }
       ]
     };
@@ -435,6 +473,11 @@ function getArgument(data) {
     keys.push(key);
   }
   return keys;
+}
+
+function getParams(api, params) {
+  const item = apiOptions.find(item => item.value === api);
+  console.log("getParams:", api);
 }
 
 export default {
