@@ -2,10 +2,21 @@
   <div class="component-container">
     <div
       class="container-item"
-      v-for="(el,index) in els"
+      v-for="(el, index) in els"
       :key="el + index"
       :class="el.className"
-      :style="{...el.style,height:el.style.ratio ? ( (el.className.find(item => item.indexOf('jk-col-') >=0).replace('jk-col-','')/24)*el.style.ratio * parentWidth + 'px') : ''}"
+      :style="{
+        ...el.style,
+        height: el.style.ratio
+          ? (el.className
+              .find(item => item.indexOf('jk-col-') >= 0)
+              .replace('jk-col-', '') /
+              24) *
+              el.style.ratio *
+              parentWidth +
+            'px'
+          : ''
+      }"
     >
       <template v-if="el.type !== 'container'">
         <component
@@ -13,9 +24,7 @@
           :is="el.type.split(':')[0]"
           :type="el.type.split(':')[1]"
           :class="el.className"
-          :config="{
-            text:'人数'
-          }"
+          :config="el"
         ></component>
       </template>
 
@@ -41,7 +50,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss">
 // .drag-content {

@@ -270,7 +270,7 @@ const actions = {
     ];
     commit(types.getModules, result);
   },
-  [types.getPageDetail]: function({ commit }, params) {
+  [types.getPageDetail]: async function({ commit }, params) {
     const result = {
       pageData: [
         {
@@ -441,6 +441,7 @@ const actions = {
       ]
     };
     commit(types.getPageDetail, result.pageData);
+    return true;
   }
 };
 
@@ -457,8 +458,36 @@ const mutations = {
   },
   [types.getPageDetail](state, data) {
     state.pageDetail = data;
+  },
+  [types.SET_UI_DATA](state, data) {
+    if (!data.item.pageForms) return;
+    const val = data.item.pageForms.value;
+    const lbl = [data.item.pageForms.label];
+    const value = fData(data.res, val);
+    const label = fData(data.res, lbl);
+    data.item.text = "joykit";
+    data.item.data.label = label[0];
+    if (data.type === "jkRank:singleRank") {
+      data.item.data.value = value[0];
+      return;
+    }
+    data.item.data.value = value;
   }
 };
+
+// 过滤数据2
+function fData(res, item) {
+  const arr = [];
+  item.map((v, i) => {
+    // 新建value数组
+    if (!arr[i]) arr[i] = [];
+    // 存入相关数据
+    res.map((itm, inx) => {
+      arr[i].push(itm[v]);
+    });
+  });
+  return arr;
+}
 
 function getArgument(data) {
   var keys = [];
