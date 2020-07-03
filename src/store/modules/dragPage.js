@@ -279,6 +279,106 @@ const actions = {
           id: 10,
           els: [
             {
+              type: "jkGraph:lineChart",
+              choice: [
+                { id: "lineChart", name: "折线图" },
+                { id: "twoBarChart", name: "双向柱状图" },
+                { id: "barChart", name: "柱状图" }
+              ],
+              className: ["handle", "jk-col-24"],
+              style: { height: "300px", padding: "undefinedpx" },
+              isHandle: false,
+              text: "模块2",
+              path: "",
+              border: true,
+              grid: true,
+              service: { api: "", params: {}, data: {} },
+              option: {},
+              data: {
+                symbol: ["人", "个", "万元"],
+                all: [140361, 137, 21660.619639000004],
+                value: [
+                  [
+                    69909,
+                    14077,
+                    8376,
+                    14588,
+                    6010,
+                    7062,
+                    4898,
+                    10556,
+                    3198,
+                    1003,
+                    334,
+                    350,
+                    0
+                  ],
+                  [21, 18, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0],
+                  [
+                    5767.18799,
+                    3870.373258,
+                    2931.98497,
+                    2732.3133,
+                    2721.859491,
+                    1545.3274,
+                    670.651,
+                    653.348193,
+                    596.008435,
+                    96.239531,
+                    44.061,
+                    31.265071,
+                    0
+                  ]
+                ],
+                choice: { showX: true, showY: true },
+                label: [
+                  "盐湖区",
+                  "垣曲县",
+                  "新绛县",
+                  "临猗县",
+                  "永济市",
+                  "闻喜县",
+                  "夏县",
+                  "平陆县",
+                  "绛县",
+                  "河津市",
+                  "稷山县",
+                  "万荣县",
+                  "芮城县"
+                ],
+                path: []
+              },
+              argument: {
+                arguments: ["CODE", "NAME", "PERSON", "PROJECTS", "MONEY"],
+                path: "GetDistrictByYear",
+                moduleName: "模块2",
+                apiArgument: [
+                  { value: "CODE", label: "编码" },
+                  { value: "NAME", label: "区县名称" },
+                  { value: "PERSON", label: "人数#人" },
+                  { value: "PROJECTS", label: "项目数#个" },
+                  { value: "MONEY", label: "金额#万元" }
+                ]
+              },
+              pageForms: {
+                cWidth: "jk-col-24",
+                showData: ["PERSON", "PROJECTS", "MONEY"],
+                title: "2",
+                showTitle: "NAME",
+                value: ["PERSON", "PROJECTS", "MONEY"],
+                label: "NAME"
+              }
+            }
+          ],
+          className: ["jk-col-12"],
+          style: { padding: "undefinedpx" }
+        },
+        {
+          name: "容器组件1",
+          type: "container",
+          id: 11,
+          els: [
+            {
               type: "jkRank:singleRank",
               choice: [
                 { id: "jkRank:singleRank", name: "单行排行榜" },
@@ -286,33 +386,19 @@ const actions = {
                 { id: "jkRank:batteryRank", name: "电池排行榜" }
               ],
               isHandle: false,
-              className: ["handle", "jk-col-24"],
+              className: ["handle", "active", "jk-col-24"],
               style: { height: "300px", padding: "undefinedpx" },
               path: "",
               border: true,
               grid: true,
               service: { api: "", params: {}, data: {} },
               data: {
-                symbol: ["万元"],
-                all: [19757.827679],
-                value: [
-                  3870.373258,
-                  3864.39603,
-                  2931.98497,
-                  2732.3133,
-                  2721.859491,
-                  1545.3274,
-                  670.651,
-                  653.348193,
-                  596.008435,
-                  96.239531,
-                  44.061,
-                  31.265071,
-                  0
-                ],
+                symbol: ["个"],
+                all: [137, 21660.619639000004],
+                value: [21, 18, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0],
                 label: [
-                  "垣曲县",
                   "盐湖区",
+                  "垣曲县",
                   "新绛县",
                   "临猗县",
                   "永济市",
@@ -339,111 +425,18 @@ const actions = {
                 ]
               },
               pageForms: {
-                padding: "10px",
                 cWidth: "jk-col-24",
-                showData: ["MONEY", "PROJECTS", "PERSON"],
+                showData: ["PROJECTS"],
                 title: "22",
                 showTitle: "NAME",
-                value: ["MONEY", "PROJECTS", "PERSON"],
+                value: ["PROJECTS"],
                 label: "NAME"
-              }
-            }
-          ],
-          className: ["jk-col-12"],
-          style: { padding: "undefinedpx" }
-        },
-        {
-          name: "容器组件1",
-          type: "container",
-          id: 11,
-          els: [
-            {
-              type: "jkGraph:lineChart",
-              choice: [
-                { id: "lineChart", name: "折线图" },
-                { id: "twoBarChart", name: "双向柱状图" },
-                { id: "barChart", name: "柱状图" }
-              ],
-              className: ["handle", "active", "jk-col-24"],
-              style: { height: "300px", padding: "undefinedpx" },
-              isHandle: false,
-              text: "模块2",
-              path: "",
-              border: true,
-              grid: true,
-              service: { api: "", params: {}, data: {} },
-              option: {},
-              data: {
-                symbol: ["万元", "个", "人"],
-                all: [19757.827679, 137, 110724],
-                value: [
-                  [
-                    3870.373258,
-                    3864.39603,
-                    2931.98497,
-                    2732.3133,
-                    2721.859491,
-                    1545.3274,
-                    670.651,
-                    653.348193,
-                    596.008435,
-                    96.239531,
-                    44.061,
-                    31.265071,
-                    0
-                  ],
-                  [18, 21, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0],
-                  [
-                    14077,
-                    40272,
-                    8376,
-                    14588,
-                    6010,
-                    7062,
-                    4898,
-                    10556,
-                    3198,
-                    1003,
-                    334,
-                    350,
-                    0
-                  ]
-                ],
-                choice: { showX: true, showY: true },
-                label: [
-                  "垣曲县",
-                  "盐湖区",
-                  "新绛县",
-                  "临猗县",
-                  "永济市",
-                  "闻喜县",
-                  "夏县",
-                  "平陆县",
-                  "绛县",
-                  "河津市",
-                  "稷山县",
-                  "万荣县",
-                  "芮城县"
-                ],
-                path: []
-              },
-              argument: {
-                arguments: ["CODE", "NAME", "PERSON", "PROJECTS", "MONEY"],
-                path: "GetDistrictByYear",
-                moduleName: "模块2",
-                apiArgument: [
-                  { value: "CODE", label: "编码" },
-                  { value: "NAME", label: "区县名称" },
-                  { value: "PERSON", label: "人数#人" },
-                  { value: "PROJECTS", label: "项目数#个" },
-                  { value: "MONEY", label: "金额#万元" }
-                ]
               }
             }
           ],
           isActive: false,
           className: ["jk-col-12"],
-          style: { padding: "10px" }
+          style: { padding: "undefinedpx" }
         }
       ]
     };
@@ -476,8 +469,9 @@ function getArgument(data) {
 }
 
 function getParams(api, params) {
-  const item = apiOptions.find(item => item.value === api);
-  console.log("getParams:", api);
+  const { argument, ...item } = apiOptions.find(item => item.value === api);
+
+  return { ...item, ...argument, ...params };
 }
 
 export default {
