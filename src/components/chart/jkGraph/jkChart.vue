@@ -85,6 +85,7 @@ export default {
         const lb = this.$refs.lb;
         this.ec = this.echarts.init(lb);
         this.ec.setOption(_op);
+        this.ec.resize()
       });
     },
     refresh() {

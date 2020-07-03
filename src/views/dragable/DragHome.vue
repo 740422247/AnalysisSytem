@@ -105,7 +105,7 @@ export default {
     },
     // 保存
     save() {
-      console.log("result:", JSON.stringify(this.els));
+      console.log("result:", this.els);
     },
     // 预览
     preview() {
@@ -182,6 +182,7 @@ export default {
           setSubTitle.push(item);
         }
       });
+      console.log("editTool:", setData, setSubTitle);
       this.state.apiArgument = setData;
       this.state.subTitle = setSubTitle;
       this.toolEntity = drag.getToolEntity("ddd", this.state, "selectMultiple");
@@ -189,18 +190,20 @@ export default {
 
     componentSet(model, index, parentIndex) {
       this.clearClass();
+      // 数据调用
       if (this.els[parentIndex].els[index].argument) {
         const model = this.els[parentIndex].els[index].argument;
         this.getDataByApi(model);
         this.editToolEntity(model);
       }
-
+      // 数据调用
       this.els[parentIndex].els[index].className.push("active");
       this.selectEl = {
         ...model,
         parentId: parentIndex + 1,
         childId: index + 1
       };
+      console.log("setToolModel:", this.selectEl);
       this.setToolModel();
       this.els = [...this.els];
     },
@@ -230,7 +233,11 @@ export default {
 
     // 存储form表单信息
     editPageForm(model, pid, cid) {
-      this.els[0].els[0].pageForms = { ...model };
+      this.els[0].els[0].pageForms = {
+        ...model,
+        value: model.showData,
+        label: model.showTitle
+      };
     },
 
     // 修改显示数据
@@ -314,6 +321,9 @@ export default {
 </script>
 <style lang="scss">
 .drag-page {
+  .bar{
+    overflow-x: hidden;
+  }
   width: 100%;
   height: calc(100vh - 60px);
   overflow: hidden;
@@ -337,7 +347,7 @@ export default {
   .drag-container {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 60px);
   }
 }
 </style>

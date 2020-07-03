@@ -68,11 +68,11 @@ export default {
   data: () => ({
     // config:{}
   }),
-  watch:{
-    els(){
-      console.log('drag content:', this.els)
-    }
-  },
+  // watch:{
+  //   els(){
+  //     console.log('drag content:', this.els)
+  //   }
+  // },
   mounted() {},
   methods: {
     setting(model, index) {
