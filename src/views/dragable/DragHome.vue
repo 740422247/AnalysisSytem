@@ -105,7 +105,7 @@ export default {
     },
     // 保存
     save() {
-      console.log("result:", this.els);
+      console.log("result:", JSON.stringify(this.els));
     },
     // 预览
     preview() {
@@ -182,7 +182,6 @@ export default {
           setSubTitle.push(item);
         }
       });
-      console.log("editTool:", setData, setSubTitle);
       this.state.apiArgument = setData;
       this.state.subTitle = setSubTitle;
       this.toolEntity = drag.getToolEntity("ddd", this.state, "selectMultiple");
@@ -203,7 +202,6 @@ export default {
         parentId: parentIndex + 1,
         childId: index + 1
       };
-      console.log("setToolModel:", this.selectEl);
       this.setToolModel();
       this.els = [...this.els];
     },
@@ -233,7 +231,7 @@ export default {
 
     // 存储form表单信息
     editPageForm(model, pid, cid) {
-      this.els[0].els[0].pageForms = {
+      this.els[pid - 1].els[cid - 1].pageForms = {
         ...model,
         value: model.showData,
         label: model.showTitle
@@ -321,7 +319,7 @@ export default {
 </script>
 <style lang="scss">
 .drag-page {
-  .bar{
+  .bar {
     overflow-x: hidden;
   }
   width: 100%;

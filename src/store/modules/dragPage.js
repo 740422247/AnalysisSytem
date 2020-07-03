@@ -25,10 +25,7 @@ const actions = {
   [types.GetDistrictByYear]: function ({ commit }, params) {
     // 待修改
     params = getParams(types.GetDistrictByYear, params);
-    // params = params ? params : {
-    //   url: apiOptions.url,
-    //   params: { Year: "2020" }
-    // }
+    console.log('params111:', params)
     api.publicApi(params.url, params.params).then(res => commit(types.GetDistrictByYear, res.Data))
   },
   GetDistrictByYear1: function ({ commit }, params) {
@@ -48,7 +45,7 @@ const actions = {
     commit(types.getModules, result);
   },
   [types.getPageDetail]: function ({ commit }, params) {
-    const result = { "pageData": [{ "name": "容器组件", "type": "container", "id": 10, "els": [{ "type": "jkRank:singleRank", "choice": [{ "id": "jkRank:singleRank", "name": "单行排行榜" }, { "id": "jkRank:multipleRank", "name": "多行排行榜" }, { "id": "jkRank:batteryRank", "name": "电池排行榜" }], "isHandle": false, "className": ["jk-col-24", "handle"], "style": { "height": "300px", "padding": "undefinedpx" }, "path": "", "border": true, "grid": true, "service": { "api": "", "params": {}, "data": {} }, "data": { "symbol": ["个"], "all": [137], "value": [18, 21, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0], "label": ["垣曲县", "盐湖区", "新绛县", "临猗县", "永济市", "闻喜县", "夏县", "平陆县", "绛县", "河津市", "稷山县", "万荣县", "芮城县"], "path": [] }, "argument": { "arguments": ["MONEY", "PERSON", "PROJECTS", "NAME", "CODE"], "path": "GetDistrictByYear", "apiArgument": [{ "value": "NAME", "label": "区县名称" }, { "value": "CODE", "label": "编码" }, { "value": "MONEY", "label": "金额#万元" }, { "value": "PERSON", "label": "人数#人" }, { "value": "PROJECTS", "label": "项目数#个" }] }, "pageForms": { "showData": ["PROJECTS", "PERSON"], "showTitle": "NAME" } }], "className": ["jk-col-8"], "style": {} }, { "name": "容器组件1", "type": "container", "id": 11, "els": [{ "type": "jkGraph:lineChart", "choice": [{ "id": "lineChart", "name": "折线图" }, { "id": "twoBarChart", "name": "双向柱状图" }, { "id": "barChart", "name": "柱状图" }], "className": ["jk-col-24", "handle", "active"], "style": { "height": "300px", "padding": "undefinedpx" }, "isHandle": false, "text": "模块2", "path": "", "border": true, "grid": true, "service": { "api": "", "params": {}, "data": {} }, "option": {}, "data": { "symbol": ["个", "人"], "all": [137, 110724], "value": [[18, 21, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0], [14077, 40272, 8376, 14588, 6010, 7062, 4898, 10556, 3198, 1003, 334, 350, 0]], "choice": { "showX": true, "showY": true }, "label": ["垣曲县", "盐湖区", "新绛县", "临猗县", "永济市", "闻喜县", "夏县", "平陆县", "绛县", "河津市", "稷山县", "万荣县", "芮城县"], "path": [] }, "argument": { "arguments": ["CODE", "NAME", "PERSON", "PROJECTS", "MONEY"], "path": "GetDistrictByYear", "moduleName": "模块2", "apiArgument": [{ "value": "CODE", "label": "编码" }, { "value": "NAME", "label": "区县名称" }, { "value": "PERSON", "label": "人数#人" }, { "value": "PROJECTS", "label": "项目数#个" }, { "value": "MONEY", "label": "金额#万元" }] } }], "isActive": false, "className": ["jk-col-8"], "style": {} }] }
+    const result = { "pageData": [{"name":"容器组件","type":"container","id":10,"els":[{"type":"jkGraph:lineChart","choice":[{"id":"lineChart","name":"折线图"},{"id":"twoBarChart","name":"双向柱状图"},{"id":"barChart","name":"柱状图"}],"className":["handle","jk-col-24"],"style":{"height":"300px","padding":"undefinedpx"},"isHandle":false,"text":"模块2","path":"","border":true,"grid":true,"service":{"api":"","params":{},"data":{}},"option":{},"data":{"symbol":["人","个","万元"],"all":[140361,137,21660.619639000004],"value":[[69909,14077,8376,14588,6010,7062,4898,10556,3198,1003,334,350,0],[21,18,19,19,19,9,3,13,4,2,3,7,0],[5767.18799,3870.373258,2931.98497,2732.3133,2721.859491,1545.3274,670.651,653.348193,596.008435,96.239531,44.061,31.265071,0]],"choice":{"showX":true,"showY":true},"label":["盐湖区","垣曲县","新绛县","临猗县","永济市","闻喜县","夏县","平陆县","绛县","河津市","稷山县","万荣县","芮城县"],"path":[]},"argument":{"arguments":["CODE","NAME","PERSON","PROJECTS","MONEY"],"path":"GetDistrictByYear","moduleName":"模块2","apiArgument":[{"value":"CODE","label":"编码"},{"value":"NAME","label":"区县名称"},{"value":"PERSON","label":"人数#人"},{"value":"PROJECTS","label":"项目数#个"},{"value":"MONEY","label":"金额#万元"}]},"pageForms":{"cWidth":"jk-col-24","showData":["PERSON","PROJECTS","MONEY"],"title":"2","showTitle":"NAME","value":["PERSON","PROJECTS","MONEY"],"label":"NAME"}}],"className":["jk-col-12"],"style":{"padding":"undefinedpx"}},{"name":"容器组件1","type":"container","id":11,"els":[{"type":"jkRank:singleRank","choice":[{"id":"jkRank:singleRank","name":"单行排行榜"},{"id":"jkRank:multipleRank","name":"多行排行榜"},{"id":"jkRank:batteryRank","name":"电池排行榜"}],"isHandle":false,"className":["handle","active","jk-col-24"],"style":{"height":"300px","padding":"undefinedpx"},"path":"","border":true,"grid":true,"service":{"api":"","params":{},"data":{}},"data":{"symbol":["个"],"all":[137,21660.619639000004],"value":[21,18,19,19,19,9,3,13,4,2,3,7,0],"label":["盐湖区","垣曲县","新绛县","临猗县","永济市","闻喜县","夏县","平陆县","绛县","河津市","稷山县","万荣县","芮城县"],"path":[]},"argument":{"arguments":["MONEY","PERSON","PROJECTS","NAME","CODE"],"path":"GetDistrictByYear","apiArgument":[{"value":"NAME","label":"区县名称"},{"value":"CODE","label":"编码"},{"value":"MONEY","label":"金额#万元"},{"value":"PERSON","label":"人数#人"},{"value":"PROJECTS","label":"项目数#个"}]},"pageForms":{"cWidth":"jk-col-24","showData":["PROJECTS"],"title":"22","showTitle":"NAME","value":["PROJECTS"],"label":"NAME"}}],"isActive":false,"className":["jk-col-12"],"style":{"padding":"undefinedpx"}}] }
     commit(types.getPageDetail, result.pageData);
   }
 };
@@ -79,9 +76,10 @@ function getArgument(data) {
   return keys;
 }
 
-function getParams(api,params){
-  const item = apiOptions.find(item => item.value === api);
-  console.log('getParams:', api)
+function getParams(api, params) {
+  const { argument, ...item } = apiOptions.find(item => item.value === api);
+
+  return { ...item, ...argument, ...params }
 }
 
 export default {

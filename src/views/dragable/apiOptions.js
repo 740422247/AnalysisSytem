@@ -2,8 +2,8 @@ export const apiOptions = [
   {
     label: '区县数据',
     value: 'GetDistrictByYear',
-    url:"/Api/MainPage/GetDistrictByYear",
-    arguments:'year'
+    url: "/Api/MainPage/GetDistrictByYear",
+    argument: { year: 2020 }
   },
   {
     label: '区县数据1',
