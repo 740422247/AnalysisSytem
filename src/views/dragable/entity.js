@@ -94,7 +94,7 @@ function getComponetEntity(state, componentType) {
     {
       label: "展示数据",
       key: "showData",
-      type: componentType ? componentType : 'select',
+      type: componentType ? 'select' : 'selectMultiple',
       className: "is-full",
       labelWidth: 80,
       options: state.apiArgument

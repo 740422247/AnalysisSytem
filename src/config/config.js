@@ -22,6 +22,7 @@ export const config = [
    */
   {
     type: "jkRank:singleRank", // singleRank  multipleRank batteryRank
+    isRadio: true,
     // 可用于渲染类型选择框
     choice: typeRank,
     isHandle: false, // 是否具备操作 比如: 联动
@@ -57,6 +58,7 @@ export const config = [
    */
   {
     type: "jkRank:multipleRank", // singleRank  multipleRank batteryRank
+    isRadio: false,
     // 可用于渲染类型选择框
     choice: typeRank,
     isHandle: false, // 是否具备操作 比如: 联动
@@ -207,6 +209,7 @@ export const config = [
   {
     type: "jkGraph:barChart", // lineChart twoBarChart barChart
     // 可用于渲染类型选择框
+    isRadio: true,
     choice: typeGraph,
     className: ["jk-col-24", "handle"], // 类名
     style: { height: "300px" }, // 样式
@@ -262,65 +265,7 @@ export const config = [
      * path: 可选
      */
   },
-  {
-    type: "jkGraph:barChart", // lineChart twoBarChart barChart
-    // 可用于渲染类型选择框
-    choice: typeGraph,
-    className: ["jk-col-24", "handle"], // 类名
-    style: { height: "300px" }, // 样式
-    isHandle: false, // 是否具备操作 比如: 联动
-    text: "", //组件标题
-    path: "", // 顶部跳转按钮
-    border: true, // 显示组件边框
-    grid: true, // 显示背景网格
-    service: {
-      api: "", //api地址
-      params: {}, // api参数
-      data: {
-        // 返回的字段
-      }
-    },
-    option: {},
-    data: {
-      symbol: [`${year}{name}:{value}人`],
-      all: [], // 不需要此属性
-      value: [
-        [1.39603, 1.94, 1.92, 9.54925, 6.605, 4.66, 1.881084, 1, 1, 8, 6, 5.44]
-      ],
-      label: [
-        "1月",
-        "2月",
-        "3月",
-        "4月",
-        "5月",
-        "6月",
-        "7月",
-        "8月",
-        "9月",
-        "10月",
-        "11月",
-        "12月"
-      ],
-      choice: {
-        showX: true, // 显示x轴 echart选项
-        showY: true, // 显示y轴echart选项
-        seriesColor: ["rgba(6, 168, 235, 1)-rgba(12, 99, 215, 0.05)"]
-      },
-      path: [] // 不需要此属性
-    }
-    /**
-     * echart
-     * jkGraph:barChart 饼图
-     * option:外部配置option
-     * symbol有所区别, 需要拼接, 用于鼠标悬停展示的提示信息
-     * choice: 组件额外参数配置 可选
-     * color: 只修改柱状颜色, 可选 用于多条柱状
-     * all: 可选项
-     * value: 必须二维数组 , 必须有正有负
-     * label: 一维数组, 只能有一个x轴
-     * path: 可选
-     */
-  },
+
   // {
   //   type: "jkGraph:pieChart", // lineChart twoBarChart barChart pieChart
   //   // 可用于渲染类型选择框

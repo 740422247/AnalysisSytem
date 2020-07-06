@@ -78,6 +78,7 @@ const actions = {
   // },
   [types.getModules]: function ({ commit }, params) {
     const result = [
+      {"type":"jkGraph:barChart","isRadio":false,"choice":[{"id":"lineChart","name":"折线图"},{"id":"twoBarChart","name":"双向柱状图"},{"id":"barChart","name":"柱状图"}],"className":["jk-col-24","handle"],"style":{"height":"300px"},"isHandle":false,"path":"","border":true,"grid":true,"service":{"api":"","params":{},"data":{}},"option":{},"data":{"symbol":["2020年{name}:{value}人"],"value":[[1.39603,1.94,1.92,9.54925,6.605,4.66,1.881084,1,1,8,6,5.44]],"label":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"choice":{"showX":true,"showY":true},"path":[]},"argument":{"arguments":["PERSON","PROJECTS","MONEY","NAME"],"path":"GetDistrictByYear","apiArgument":[{"value":"NAME","label":"区县名称"},{"value":"MONEY","label":"金额#万元"},{"value":"PROJECTS","label":"项目数#个"},{"value":"PERSON","label":"人数#人"}]}},
       { "type": "jkGraph:lineChart", "choice": [{ "id": "lineChart", "name": "折线图" }, { "id": "twoBarChart", "name": "双向柱状图" }, { "id": "barChart", "name": "柱状图" }], "className": ["jk-col-24", "handle"], "style": { "height": "300px" }, "isHandle": false, "path": "", "border": true, "grid": true, "service": { "api": "", "params": {}, "data": {} }, "option": {}, "data": { "symbol": ["2020年{name}:{value}万元", "2020年{name}:{value}万次"], "all": [], "value": [[3864.39603, 1508.94], [11125, 1108.94]], "choice": { "showX": true, "showY": true }, "label": ["1月", "2月"], "path": [] }, "argument": { "arguments": ["MONTH", "NOWMONEY", "LASTMONEY"], "path": "GetMapAreaByYear", "apiArgument": [{ "value": "MONTH", "label": "月份" }, { "value": "NOWMONEY", "label": "现在金额#万元" }, { "value": "LASTMONEY", "label": "王琪金额#万元" }] } },
       {
         type: "jkGraph:lineChart",
@@ -121,6 +122,7 @@ const actions = {
       },
       {
         type: "jkRank:singleRank",
+        isRadio: true,
         choice: [
           { id: "jkRank:singleRank", name: "单行排行榜" },
           { id: "jkRank:multipleRank", name: "多行排行榜" },
@@ -246,6 +248,7 @@ const actions = {
   [types.getPageDetail]: function ({ commit }, params) {
     const result = { "pageData": [{ "name": "容器组件", "type": "container", "id": 10, "els": [{ "type": "jkGraph:lineChart", "choice": [{ "id": "lineChart", "name": "折线图" }, { "id": "twoBarChart", "name": "双向柱状图" }, { "id": "barChart", "name": "柱状图" }], "className": ["handle", "jk-col-24"], "style": { "height": "300px", "padding": "undefinedpx" }, "isHandle": false, "text": "模块2", "path": "", "border": true, "grid": true, "service": { "api": "", "params": {}, "data": {} }, "option": {}, "data": { "symbol": ["人", "个", "万元"], "all": [140361, 137, 21660.619639000004], "value": [[69909, 14077, 8376, 14588, 6010, 7062, 4898, 10556, 3198, 1003, 334, 350, 0], [21, 18, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0], [5767.18799, 3870.373258, 2931.98497, 2732.3133, 2721.859491, 1545.3274, 670.651, 653.348193, 596.008435, 96.239531, 44.061, 31.265071, 0]], "choice": { "showX": true, "showY": true }, "label": ["盐湖区", "垣曲县", "新绛县", "临猗县", "永济市", "闻喜县", "夏县", "平陆县", "绛县", "河津市", "稷山县", "万荣县", "芮城县"], "path": [] }, "argument": { "arguments": ["CODE", "NAME", "PERSON", "PROJECTS", "MONEY"], "path": "GetDistrictByYear", "moduleName": "模块2", "apiArgument": [{ "value": "CODE", "label": "编码" }, { "value": "NAME", "label": "区县名称" }, { "value": "PERSON", "label": "人数#人" }, { "value": "PROJECTS", "label": "项目数#个" }, { "value": "MONEY", "label": "金额#万元" }] }, "pageForms": { "cWidth": "jk-col-24", "showData": ["PERSON", "PROJECTS", "MONEY"], "title": "2", "showTitle": "NAME", "value": ["PERSON", "PROJECTS", "MONEY"], "label": "NAME" } }], "className": ["jk-col-12"], "style": { "padding": "undefinedpx" } }, { "name": "容器组件1", "type": "container", "id": 11, "els": [{ "type": "jkRank:singleRank", "choice": [{ "id": "jkRank:singleRank", "name": "单行排行榜" }, { "id": "jkRank:multipleRank", "name": "多行排行榜" }, { "id": "jkRank:batteryRank", "name": "电池排行榜" }], "isHandle": false, "className": ["handle", "active", "jk-col-24"], "style": { "height": "300px", "padding": "undefinedpx" }, "path": "", "border": true, "grid": true, "service": { "api": "", "params": {}, "data": {} }, "data": { "symbol": ["个"], "all": [137, 21660.619639000004], "value": [21, 18, 19, 19, 19, 9, 3, 13, 4, 2, 3, 7, 0], "label": ["盐湖区", "垣曲县", "新绛县", "临猗县", "永济市", "闻喜县", "夏县", "平陆县", "绛县", "河津市", "稷山县", "万荣县", "芮城县"], "path": [] }, "argument": { "arguments": ["MONEY", "PERSON", "PROJECTS", "NAME", "CODE"], "path": "GetDistrictByYear", "apiArgument": [{ "value": "NAME", "label": "区县名称" }, { "value": "CODE", "label": "编码" }, { "value": "MONEY", "label": "金额#万元" }, { "value": "PERSON", "label": "人数#人" }, { "value": "PROJECTS", "label": "项目数#个" }] }, "pageForms": { "cWidth": "jk-col-24", "showData": ["PROJECTS"], "title": "22", "showTitle": "NAME", "value": ["PROJECTS"], "label": "NAME" } }], "isActive": false, "className": ["jk-col-12"], "style": { "padding": "undefinedpx" } }] }
     commit(types.getPageDetail, result.pageData);
+    return true;
   }
 };
 
@@ -286,7 +289,35 @@ const mutations = {
     state.apiArgument = getArgument(data[0]);
     state[types.GetPoorCountryByYear] = data.splice(1, data.length - 1);
   },
+  [types.SET_UI_DATA](state, data) {
+    if (!data.item.pageForms) return;
+    const val = data.item.pageForms.value;
+    const lbl = [data.item.pageForms.label];
+    const value = fData(data.res, val);
+    const label = fData(data.res, lbl);
+    data.item.text = "joykit";
+    data.item.data.label = label[0];
+    if (data.type === "jkRank:singleRank") {
+      data.item.data.value = value[0];
+      return;
+    }
+    data.item.data.value = value;
+  }
 };
+
+// 过滤数据2
+function fData(res, item) {
+  const arr = [];
+  item.map((v, i) => {
+    // 新建value数组
+    if (!arr[i]) arr[i] = [];
+    // 存入相关数据
+    res.map((itm, inx) => {
+      arr[i].push(itm[v]);
+    });
+  });
+  return arr;
+}
 
 function getArgument(data) {
   var keys = [];

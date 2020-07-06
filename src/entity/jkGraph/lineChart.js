@@ -8,7 +8,8 @@
  */
 const year = new Date().getFullYear() + "年";
 export const qxList = {
-  symbol: [`${year}{name}:{value}万元`, `${year}{name}:{value}万次`],
+  // symbol: [`${year}{name}:{value}万元`, `${year}{name}:{value}万次`],
+  symbol: [`万元`, `万次`],
   choice: {
     showX: true,
     showY: true

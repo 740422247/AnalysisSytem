@@ -1,6 +1,7 @@
 //发放人次
 import "echarts/lib/chart/line";
 export function op(option, echarts, t) {
+
   const color = t;
   const flat = option.value.flat();
   const showX = option.choice.showX;
@@ -141,7 +142,10 @@ export function op(option, echarts, t) {
       });
     }
   }
+
+
   return {
+    // color: ['red','blue', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
     backgroundColor: "transparent",
     grid: {
       top: "4%",
@@ -152,14 +156,17 @@ export function op(option, echarts, t) {
     },
     tooltip: {
       trigger: "axis",
-      formatter: function(e) {
+      formatter: function (e) {
         const sy = option.symbol;
         let str = "";
-        for (let i = 0; i < sy.length; i++) {
-          str +=
-            sy[i].replace("{name}", e[i].name).replace("{value}", e[i].value) +
-            "<br/>";
-        }
+        // 2020-07-06修改
+        e.forEach((item, i) => str += item.name + ':' + item.data + sy[i] + '<br/>')
+        // for (let i = 0; i < sy.length; i++) {
+        //   str +=
+        //     sy[i].replace("{name}", e[i].name).replace("{value}", e[i].value) +
+        //     "<br/>";
+        // }
+        // 2020-07-06修改
         return str;
       },
       //extraCssText:'width:130px; white-space:pre-wrap',

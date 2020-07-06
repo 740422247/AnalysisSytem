@@ -110,11 +110,14 @@ export function op(option, echarts, t) {
       formatter: function(e) {
         const sy = option.symbol;
         let str = "";
-        for (let i = 0; i < sy.length; i++) {
-          str +=
-            sy[i].replace("{name}", e[i].name).replace("{value}", e[i].value) +
-            "<br/>";
-        }
+        // 2020-07-06修改
+        e.forEach((item, i) => str += item.name + ':' + item.data + sy[i] + '<br/>')
+        // for (let i = 0; i < sy.length; i++) {
+        //   str +=
+        //     sy[i].replace("{name}", e[i].name).replace("{value}", e[i].value) +
+        //     "<br/>";
+        // }
+        // 2020-07-06修改
         return str;
       }
     },

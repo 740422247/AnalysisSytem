@@ -4,16 +4,11 @@
  * @Author: joykit
  * @Date: 2020-05-29 10:24:32
  * @LastEditors: joykit
- * @LastEditTime: 2020-07-03 09:55:20
+ * @LastEditTime: 2020-07-03 15:38:22
 -->
 <!-- jkLineChart -->
 <template>
-  <jkCard
-    :border="oConfig.border"
-    :grid="oConfig.grid"
-    :text="oConfig.text"
-    :path="oConfig.path"
-  >
+  <jkCard :border="oConfig.border" :grid="oConfig.grid" :text="oConfig.text" :path="oConfig.path">
     <div id="lb" class="l-b animated fadeInLeft" ref="lb"></div>
   </jkCard>
 </template>
@@ -75,7 +70,15 @@ export default {
     async getOption(op) {
       this.ec && this.ec.clear();
       const res = await theme(this.pTheme.name);
-      const _op = (this._op = op(this.oConfig.data, this.echarts, res));
+      const _op = (this._op = op(
+        {
+          ...this.oConfig.data,
+          argument: this.oConfig.argument,
+          pageForms: this.oConfig.pageForms
+        },
+        this.echarts,
+        res
+      ));
       this.init(_op);
     },
     init(_op) {

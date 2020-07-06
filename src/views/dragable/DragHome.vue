@@ -106,7 +106,7 @@ export default {
     },
     // 保存
     save() {
-      console.log("result:", JSON.stringify(this.els));
+      console.log("result:", this.els);
     },
     // 预览
     preview() {
@@ -123,7 +123,7 @@ export default {
       this.toolEntity =
         this.selectEl.type === "container"
           ? [...drag.getToolEntity(this.selectEl.type)]
-          : [...drag.getToolEntity("ddd", this.state, "selectMultiple")];
+          : [...drag.getToolEntity("ddd", this.state, this.selectEl.isRadio)];
 
       this.toolModel = {
         ...this.selectEl.style,
@@ -260,7 +260,7 @@ export default {
       // 显示数据showData类型判断并转换
       const arr =
         typeof model.showData === "string"
-          ? [...model.showData]
+          ? [model.showData]
           : model.showData;
       // value设置
       const v = arr.map(item => [...this.currData.map(d => d[item])]);

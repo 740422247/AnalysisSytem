@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-07-01 09:43:05
  * @LastEditors: joykit
- * @LastEditTime: 2020-07-02 15:22:49
+ * @LastEditTime: 2020-07-03 15:38:09
 -->
 <template>
   <div class="preview-page">
@@ -12,7 +12,7 @@
       <action :action="actions" @actions="actionMethod"></action>
     </div>
     <div class="preview-container">
-      <page-content :els="pageData"></page-content>
+      <page-content v-if="newData" :els="newData"></page-content>
     </div>
   </div>
 </template>
@@ -26,6 +26,7 @@ export default {
   mixins: [mixin],
   data: () => ({
     parentWidth: 0,
+    newData: null,
     actions: [
       {
         name: "goBack",
@@ -39,7 +40,8 @@ export default {
   methods: {
     change() {},
     init() {
-      this.$store.dispatch("getPageDetail");
+      // this.$store.dispatch("getPageDetail");
+      this.render(this.pageData);
       this.parentWidth = this.getParentWidth();
     },
     getParentWidth() {
@@ -69,7 +71,7 @@ export default {
       deep: true,
       immediate: true,
       handler(res) {
-        this.render(res);
+        this.newData = res;
       }
     }
   },

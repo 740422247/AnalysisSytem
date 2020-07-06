@@ -10,7 +10,10 @@ import "echarts/lib/chart/bar";
 export function op(option, echarts, t) {
   const color = t;
   const label = JSON.parse(JSON.stringify(option.label));
-  const value = option.value;
+  // 2020-07-06修改
+  // const value = option.value;
+  const value = option.value.map((v, i) => !i ? v : v.map(item => -1 * item));
+  // 2020-07-06修改
   const flat = option.value.flat();
   const sort = flat.sort((a, b) => a - b);
   const showX = option.choice.showX;
@@ -26,9 +29,13 @@ export function op(option, echarts, t) {
       formatter: e => {
         const sy = option.symbol;
         let str = "";
-        for (let i = 0; i < sy.length; i++) {
-          str += sy[i].replace("{value}", Math.abs(e[i].value)) + "<br/>";
-        }
+
+        // 2020-07-06修改
+        e.forEach((item, i) => str += i ? item.name + ':' + item.data * (-1) + sy[i] + '<br/>' : item.name + ':' + item.data + sy[i] + '<br/>')
+        // for (let i = 0; i < sy.length; i++) {
+        //   str += sy[i].replace("{value}", Math.abs(e[i].value)) + "<br/>";
+        // }
+        // 2020-07-06修改
         return str;
       },
       axisPointer: {

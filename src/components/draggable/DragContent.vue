@@ -85,7 +85,7 @@ export default {
   }),
   watch: {
     els() {
-      console.log("drag content:", this.els);
+      // console.log("drag content:", this.els);
     }
   },
   mounted() {},

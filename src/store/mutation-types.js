@@ -4,7 +4,7 @@
  * @Author: joykit
  * @Date: 2020-05-11 16:02:32
  * @LastEditors: joykit
- * @LastEditTime: 2020-07-02 16:17:13
+ * @LastEditTime: 2020-07-03 10:28:58
  */
 /* eslint-disable*/
 
@@ -27,3 +27,5 @@ export const GetCountryByYear = "GetCountryByYear";
 export const GetPoorCountryByYear = "GetPoorCountryByYear";
 
 //////////////////////////////////////////////////////////////dragPage/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////preview/////////////////////////////////////////////////
+export const SET_UI_DATA = "SET_UI_DATA";
