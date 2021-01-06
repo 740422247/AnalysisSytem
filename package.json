@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@riophae/vue-treeselect": "^0.4.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "best-storage": "^1.0.2",
     "better-scroll": "^1.15.2",
     "core-js": "^3.6.4",
