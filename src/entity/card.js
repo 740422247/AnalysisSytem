@@ -3,8 +3,8 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-06-04 11:13:10
- * @LastEditors: joykit
- * @LastEditTime: 2020-06-04 15:08:27
+ * @LastEditors: wss
+ * @LastEditTime: 2020-12-14 11:29:32
  */
 export const _data = {
   symbol: [],
@@ -26,4 +26,67 @@ export const _data2 = {
   value: [3864],
   label: ["项目数"],
   path: ["#"]
+};
+
+export const _dataList = {
+  layout: "row",
+  containerStyle: {
+    textAlign: "left"
+  },
+  imgStyle: {}, //{width: "100px"}
+  labelStyle: { fontSize: "10px", color: "yellow" },
+  valStyle: { color: "red" },
+  unitStyle: { color: "green", margin: "0px" },
+  value: [
+    {
+      cardWidth: 4,
+      value: 3864,
+      label: "项目数",
+      src: require("@assets/logo.png"),
+      unit: "元",
+      path: ["#"]
+    },
+    {
+      cardWidth: 4,
+      value: 3864,
+      label: "项目数2",
+      src: require("@assets/logo.png"),
+      path: "#"
+    },
+    {
+      cardWidth: 4,
+      value: 3864,
+      label: "项目数3",
+      src: require("@assets/logo.png"),
+      path: "#"
+    },
+    {
+      cardWidth: 3,
+      value: 3864,
+      label: "项目数4",
+      src: require("@assets/logo.png"),
+      path: "#"
+    },
+    {
+      cardWidth: 3,
+      value: 3864,
+      label: "项目数4",
+      src: require("@assets/logo.png"),
+      path: "#"
+    },
+    {
+      cardWidth: 3,
+      value: 3864,
+      label: "项目数4",
+      src: require("@assets/logo.png"),
+      path: "#"
+    },
+    {
+      cardWidth: 3,
+      value: 3864,
+      label: "项目数4",
+      src: require("@assets/logo.png"),
+      path: "#"
+    }
+  ]
 };

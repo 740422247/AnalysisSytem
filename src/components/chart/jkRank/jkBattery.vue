@@ -8,12 +8,7 @@
 -->
 <!-- jkSingle -->
 <template>
-  <jkCard
-    :border="config.border"
-    :grid="config.grid"
-    :text="config.text"
-    :path="config.path"
-  >
+  <jkCard :border="config.border" :grid="config.grid" :text="config.text" :path="config.path" :selectData="config && config.selectData">
     <vue-seamless-scroll :data="_adapter('label')">
       <router-link
         :to="{
@@ -32,14 +27,8 @@
             :style="_cStyle(key)"
             :width="(_adapter('value', key) / _limit('all', key)) * 100 + '%'"
           />
-          <jkContent
-            class="flex-shrink flex align content-right"
-            :style="_rStyle(key)"
-          >
-            <jkNumber
-              class="num"
-              :number="_formatNumber(_adapter('value', key))"
-            />
+          <jkContent class="flex-shrink flex align content-right" :style="_rStyle(key)">
+            <jkNumber class="num" :number="_formatNumber(_adapter('value', key))" />
             <jkContent>{{ _limit("symbol", key) }}</jkContent>
           </jkContent>
         </jkContent>
@@ -64,6 +53,11 @@ import { qxList } from "@entity/jkRank/batteryRank.js";
 export default {
   name: "jkBattery",
   props: {
+    // 2020/07/21修改
+    isRefresh: {
+      type: Boolean
+    },
+    // 2020/07/21修改
     config: {
       type: Object,
       default: () => ({
@@ -93,7 +87,7 @@ export default {
   //方法集合
   methods: {
     _max(key) {
-      return this.config.data.value[0];
+      return this.config.data.value[0] / 2;
     },
     _adapter(colum, key) {
       if (key === undefined) {
@@ -140,7 +134,17 @@ export default {
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
-  watch: {},
+  watch: {
+    // 2020/07/21 修改
+    config: {
+      deep: true,
+      immediate: true,
+      handler(res) {
+        this.isRefresh && (this.config.data = qxList);
+      }
+    }
+    // 2020/07/21 修改
+  },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前

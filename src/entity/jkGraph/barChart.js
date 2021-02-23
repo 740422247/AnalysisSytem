@@ -3,20 +3,31 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-29 10:27:18
- * @LastEditors: joykit
- * @LastEditTime: 2020-06-08 10:11:39
+ * @LastEditors: wss
+ * @LastEditTime: 2020-09-24 10:17:55
  */
 const year = new Date().getFullYear() + "年";
 export const qxList = {
-  symbol: [`${year}{name}:{value}人`],
-  choice: {
-    seriesColor: ["rgba(6, 168, 235, 1)-rgba(12, 99, 215, 0.05)"],
-    showX: true,
-    showY: true
-  },
-  all: [],
+  symbol: ["万元", "人", "人次"],
+  choice: { showX: true, showY: true },
+  all: [78217.577915, 1336937, 1843764],
   value: [
-    [1.39603, 1.94, 1.92, 9.54925, 6.605, 4.66, 1.881084, 1, 1, 8, 6, 5.44]
+    [
+      2865.717006,
+      3208.320131,
+      3191.809502,
+      4836.144516,
+      9892.120273,
+      28292.747673,
+      25929.868814,
+      null,
+      null,
+      null,
+      null,
+      0.85
+    ],
+    [50945, 82196, 51290, 106430, 183029, 594653, 268377, 0, 0, 0, 0, 17],
+    [55169, 86910, 55716, 129385, 259342, 740896, 516329, 0, 0, 0, 0, 17]
   ],
   label: [
     "1月",

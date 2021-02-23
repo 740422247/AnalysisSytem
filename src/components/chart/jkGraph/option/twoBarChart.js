@@ -3,8 +3,8 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-06-02 16:00:34
- * @LastEditors: joykit
- * @LastEditTime: 2020-07-01 15:46:14
+ * @LastEditors: wss
+ * @LastEditTime: 2020-12-30 09:29:40
  */
 import "echarts/lib/chart/bar";
 export function op(option, echarts, t) {
@@ -12,7 +12,7 @@ export function op(option, echarts, t) {
   const label = JSON.parse(JSON.stringify(option.label));
   // 2020-07-06修改
   // const value = option.value;
-  const value = option.value.map((v, i) => !i ? v : v.map(item => -1 * item));
+  const value = option.value.map((v, i) => (!i ? v : v.map(item => -1 * item)));
   // 2020-07-06修改
   const flat = option.value.flat();
   const sort = flat.sort((a, b) => a - b);
@@ -28,12 +28,18 @@ export function op(option, echarts, t) {
       trigger: "axis",
       formatter: e => {
         const sy = option.symbol;
+        console.log('two bar chart:', e)
         let str = "";
-
         // 2020-07-06修改
-        e.forEach((item, i) => str += i ? item.name + ':' + item.data * (-1) + sy[i] + '<br/>' : item.name + ':' + item.data + sy[i] + '<br/>')
+
+        e.forEach(
+          (item, i) =>
+            (str += i
+              ? `<i style="display:inline-block;width:10px;height:10px;background-color:${item.color.colorStops[0].color};border-radius:50%;margin-right:5px"></i>男:${item.value * -1 + sy[i]}<br/>` //item.marker + "男:" + item.value * -1 + sy[i] + "<br/>"
+              : `<i style="display:inline-block;width:10px;height:10px;background-color:${item.color.colorStops[0].color};border-radius:50%;margin-right:5px"></i>女:${item.value + sy[i]}<br/>`) //item.marker + "女:" + item.value + sy[i] + "<br/>")
+        );
         // for (let i = 0; i < sy.length; i++) {
-        //   str += sy[i].replace("{value}", Math.abs(e[i].value)) + "<br/>";
+        //   str += sy[i].replace("{value}", i ? Math.abs(e[i].value) * (-1) : Math.abs(e[i].value)) + "<br/>";
         // }
         // 2020-07-06修改
         return str;
@@ -73,6 +79,13 @@ export function op(option, echarts, t) {
           rotate: 1,
           textStyle: {
             color: color.k9
+          },
+          formatter: item => {
+            if (item < 0) {
+              return item * -1;
+            } else {
+              return item;
+            }
           }
         }
       }
@@ -99,6 +112,7 @@ export function op(option, echarts, t) {
       {
         type: "bar",
         barWidth: "12",
+        stack: "人数",
         xAxisIndex: 0,
         itemStyle: {
           normal: {
@@ -121,6 +135,7 @@ export function op(option, echarts, t) {
       },
       {
         type: "bar",
+        stack: "人数",
         barWidth: "12",
         xAxisIndex: 0,
         itemStyle: {

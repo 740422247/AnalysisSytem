@@ -80,6 +80,7 @@ function SpritesmithTemplate(data) {
   });
   return tpl;
 }
+require("babel-polyfill");
 
 module.exports = {
   // 默认'/'，部署应用包时的基本 URL
@@ -109,7 +110,7 @@ module.exports = {
 
   devServer: {
     open: true,
-    port: 9006,
+    port: 9008,
     host: "0.0.0.0",
     disableHostCheck: true,
     overlay: {
@@ -196,8 +197,10 @@ module.exports = {
       .set("@", resolve("src"))
       .set("@draggable", resolve("src/components/draggable"))
       .set("@assets", resolve("src/assets"))
+      .set("assets", resolve("src/assets"))
       .set("@scss", resolve("src/assets/scss"))
       .set("@components", resolve("src/components"))
+      .set("com", resolve("src/components"))
       .set("@views", resolve("src/views"))
       .set("@router", resolve("src/router"))
       .set("@store", resolve("src/store"))
@@ -205,8 +208,10 @@ module.exports = {
       .set("@api", resolve("src/api"))
       .set("@apiPicture", resolve("src/assets/images/apiSet"))
       .set("@entity", resolve("src/entity"))
+      .set("@jsonJs", resolve("src/jsonJs"))
       .set("@config", resolve("src/config"))
-      .set("@utils", resolve("src/utils"));
+      .set("@utils", resolve("src/utils"))
+      .set("@until", resolve("src/until"));
     config.resolve.extensions[(".js", ".vue", ".json", ".css")];
     //利用 splitChunks 单独打包第三方模块
     if (IS_PROD) {
@@ -216,6 +221,10 @@ module.exports = {
   },
 
   configureWebpack: config => {
+    let e = ["@babel/polyfill", "./src/main.js"];
+    if (IS_PROD) {
+      config.entry = ["babel-polyfill", "./src/main.js"];
+    }
     const plugins = [];
     if (has_sprite) {
       plugins.push(
@@ -340,7 +349,9 @@ module.exports = {
     //   vuex: "Vuex"
     //   //	axios: "axios"
     // };
-
+    // if (process.env.NODE_ENV === 'production') {//打包删除console
+    //   config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+    // }
     config.plugins = [...config.plugins, ...plugins];
   },
 

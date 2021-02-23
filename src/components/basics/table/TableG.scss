@@ -1,0 +1,129 @@
+// @mixin transfer($name, $val) {
+//   // [data-theme="theme1"] & {
+//   #{$name}: [data-theme="theme1"];
+//   // }
+//   // [data-theme="theme2"] & {
+//   //   #{$css}: #{map-get($ys, $n)};
+//   // }
+// }
+
+.TableList {
+  width: 100%;
+  font-size: 16px;
+
+  .tl {
+    width: 100%;
+    height: 100%;
+  }
+
+  .table-list {
+    height: calc(100% - 8px);
+    // margin-top: 8px;
+    border: 1px solid #07328f;
+    .scroll-table-list {
+      height: 100%;
+      overflow: auto;
+      // position: relative;
+    }
+
+    .table {
+      width: 100%;
+      padding: 0 22px;
+      border-spacing: 0;
+      background-color: #110e4f;
+
+      th,
+      td {
+        min-width: 100px;
+        max-width: vw(250);
+        padding: 12px 10px 12px 10px;
+        border-bottom: 1px solid rgba(7, 50, 143, 1);
+        border-right: 1px solid rgba(7, 50, 143, 1);
+      }
+
+      th {
+
+        // cursor: pointer;
+        background: rgba(78, 141, 226, .15);
+        height: 19px;
+
+        vertical-align: middle;
+        // line-height: 19px;
+        font-size: 16px;
+        // display: inline-table;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        // color: rgba(90, 172, 255, 1);
+        position: sticky;
+        top: 0px;
+        z-index: 9;
+        overflow: hidden;
+        text-align: center;
+
+        // background-color: #110e4f;
+        span {
+          position: relative;
+          padding: 10px 5px 5px 20px;
+          display: inline-block;
+
+          i {
+            position: absolute;
+            left: 0;
+          }
+        }
+      }
+
+
+      td {
+        // padding: 25px 0;
+        text-align: center;
+
+        // padding-right: 20px;
+      }
+
+      td {
+        font-size: 16px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+
+      }
+
+      tr {
+        width: 100%;
+        // cursor: pointer;
+        transition: background .5s ease-in-out,
+          box-shadow .5s ease-in-out
+      }
+
+      tr.change:hover {
+        td {
+          // @include transfer(background-color, "null");
+          // background: blue;
+        }
+      }
+
+      // tr:hover {
+      //   // @include transfer(background-color, "null");
+      //   background-color: red;
+
+      //   // box-shadow: 0 0 20px rgba(6, 168, 235, .5)
+      //   // td {
+      //   //   background-color: transparent;
+      //   // }
+      // }
+
+
+      tr:nth-of-type(even) {
+        // color: initial;
+        background: rgba(78, 141, 226, .15);
+      }
+
+
+
+    }
+  }
+}
+
+.TableList /deep/ .scrollBox .bak {
+  display: none;
+}

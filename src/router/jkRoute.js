@@ -26,18 +26,18 @@ export const jkRoute = [
   //   component: () =>
   //     import(/* webpackChunkName: "ApiSet" */ "../views/dragable/ApiSet.vue")
   // },
-  {
-    path: "/dragHome",
-    name: "DragHome",
-    meta: {
-      keepAlive: false,
-      title: "页面设置"
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "DragHome" */ "../views/dragable/DragHome.vue"
-      )
-  },
+  // {
+  //   path: "/dragHome",
+  //   name: "DragHome",
+  //   meta: {
+  //     keepAlive: false,
+  //     title: "页面设置"
+  //   },
+  //   component: () =>
+  //     import(
+  //       /* webpackChunkName: "DragHome" */ "../views/dragable/DragHome.vue"
+  //     )
+  // },
 
   {
     path: "/preview",
@@ -48,5 +48,15 @@ export const jkRoute = [
     },
     component: () =>
       import(/* webpackChunkName: "Preview" */ "../views/preview/Preview")
+  },
+  {
+    path: "/pageDetail",
+    name: "pageDetail",
+    meta: {
+      keepAlive: false,
+      title: "页面预览"
+    },
+    component: () =>
+      import(/* webpackChunkName: "Preview" */ "../views/preview/pageDetail")
   }
 ];

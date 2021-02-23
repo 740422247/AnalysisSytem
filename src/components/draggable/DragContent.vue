@@ -6,33 +6,34 @@
     :group="{ name: 'people' }"
     handle=".handle"
     @start="start"
+    @change="change"
   >
     <div
       class="container-item"
       v-for="(el, index) in els"
       :key="el + index"
       :class="el.className"
-      :style="{
-        ...el.style,
-        height: el.style.ratio
-          ? (el.className
-              .find(item => item.indexOf('jk-col-') >= 0)
-              .replace('jk-col-', '') /
-              24) *
-              el.style.ratio *
-              parentWidth +
-            'px'
-          : ''
-      }"
+      :style='el.style'
     >
       <div class="drag-header">
         <i
           class="el-icon-rank handle"
+          style="font-size: 25px"
           title="移动容器组件"
           v-if="el.type === 'container'"
         ></i>
-        <i class="el-icon-delete" title="删除" @click="del(el, index)"></i>
-        <i class="el-icon-setting" title="设置" @click="setting(el, index)"></i>
+        <i
+          class="el-icon-delete"
+          title="删除"
+          style="font-size: 25px"
+          @click="del(el, index)"
+        ></i>
+        <i
+          class="el-icon-setting"
+          title="设置"
+          style="font-size: 25px"
+          @click.stop="setting(el, index)"
+        ></i>
       </div>
 
       <template v-if="el.type !== 'container'">
@@ -40,25 +41,34 @@
           :style="el.style"
           :is="el.type.split(':')[0]"
           :type="el.type.split(':')[1]"
-          :class="el.className"
-          :config="el"
+          :config="{ ...el }"
+          @searchFrame="searchFrame"
         ></component>
       </template>
 
-      <drag-content
-        @containerSet="setted"
-        @startMove="start"
-        @containerDelete="componentDelete"
+      <jk-box
+        class="jkBoxFlex"
         v-if="el.type === 'container'"
-        :els="el.els"
-        :pid="index"
-        class="component-item"
-      ></drag-content>
+        :border="el.border"
+        :grid="el.grid"
+      >
+        <drag-content
+          @containerSet="setted"
+          @startMove="start"
+          @onChange="change"
+          @containerDelete="componentDelete"
+          :els="el.els"
+          :pid="index"
+          class="component-item"
+        ></drag-content>
+      </jk-box>
     </div>
   </draggable>
   <!-- </div> -->
 </template>
 <script>
+import jkBox from "../../components/base/jkBox/jkBox.vue";
+
 import { components } from "@config/config.js";
 
 import Draggable from "vuedraggable";
@@ -70,26 +80,50 @@ export default {
   components: {
     Draggable,
     Icon,
-    ...components
+    jkBox,
+    ...components,
     // ComponentBase
+  },
+  computed: {
+    // getStyle: function(el) {
+    //   return {
+    //     ...el.style,
+    //     paddingRight:el.style.marginRight ? el.style.marginRight + 'px' : '',
+    //     paddingBottom:el.style.marginBottom + 'px',
+    //     height: el.style.ratio
+    //       ? (el.className
+    //           .find(item => item.indexOf('jk-col-') >= 0)
+    //           .replace('jk-col-', '') /
+    //           24) *
+    //           el.style.ratio *
+    //           parentWidth +
+    //         'px'
+    //       : ''
+    //   };
+    // }
   },
   props: {
     parentWidth: { type: Number },
     els: {
-      type: Array
+      type: Array,
     },
-    pid: { type: Number, default: 0 }
+    pid: { type: Number, default: 0 },
   },
-  data: () => ({
-    // config:{}
-  }),
-  watch: {
-    els() {
-      // console.log("drag content:", this.els);
-    }
+  data: () => ({}),
+  mounted() {
+    this.initContainer();
   },
-  mounted() {},
   methods: {
+    initContainer() {
+      const trueWidth = window.innerWidth - 530;
+      const trueScale = Math.floor((trueWidth / window.innerWidth) * 100) / 100;
+      const dom = document.querySelector(".drag-content");
+      dom.style.height = window.innerHeight + "px";
+      dom.style.flexBasis = window.innerWidth + "px";
+      dom.style.transform = `scale(${trueScale}) translate(-${
+        (window.innerWidth * (1 - trueScale)) / 2 + 90
+      }px, -${(window.innerHeight * (1 - trueScale)) / 2}px)`;
+    },
     setting(model, index) {
       this.$emit("containerSet", model, index, this.pid);
     },
@@ -104,20 +138,50 @@ export default {
     },
     start() {
       this.$emit("startMove");
-    }
-  }
+    },
+    change(evt) {
+      this.$emit("onChange");
+    },
+    // 自定义搜索条件输出
+    searchFrame(data) {
+      const result = {};
+      data.forEach((item) => {
+        result[item.id] = item.putModel;
+      });
+      this.$emit("searchFram", result);
+    },
+    // componentEnd(evt) {
+    //   console.log("component end:", evt);
+    // },
+    // end(evt) {
+    //   this.$emit("onEnd", evt);
+    // },
+  },
 };
 </script>
 <style lang="scss">
 .drag-content {
-  flex: 1;
+  flex: 0 0 1390px;
+  // overflow: visible !important;
+  // transform: scale(.8) translate(-200px,-200px);
+
+  // flex-basis: 1390px;
+  // flex:1;
   // margin: 0 15px;
   .component-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     margin: 10px 10px 0 0;
-    overflow: hidden;
-
+    // overflow: hidden;
+    .jkBoxFlex {
+      display: flex;
+      padding: 0;
+      overflow: visible;
+      .scroll-box {
+        overflow: visible;
+      }
+    }
     .container-item {
       // width: calc(25% - 2px);
       position: relative;
@@ -126,11 +190,12 @@ export default {
       display: flex;
       flex-direction: column;
       &.active {
-        box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5);
+        background-color: #272e76;
       }
       .drag-header {
         flex: 0 0 30px;
         text-align: right;
+
         // .el-icon-delete,
         // .el-icon-setting,
         // .el-icon-rank {
@@ -152,6 +217,7 @@ export default {
         border-radius: 3px;
         border: 1px dashed #dedede;
         margin: 0;
+        height: 100%;
       }
     }
   }

@@ -2,6 +2,12 @@
 
 ``` js
 // 模块儿保存  该数据可以用json进行存储，不过需要考虑模块通过类型过滤
+const saveModeles = {
+    moduleName:'',
+    moduleId:'fdsfsdfs',
+    moduleDetail:'Json 字符串'
+}
+
 const saveModules = {
     "type":"jkRank:singleRank",
     "choice":[

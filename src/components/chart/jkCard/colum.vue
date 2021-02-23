@@ -3,23 +3,20 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-06-04 10:52:43
- * @LastEditors: joykit
- * @LastEditTime: 2020-06-04 15:09:40
+ * @LastEditors: wss
+ * @LastEditTime: 2020-12-21 14:21:30
 -->
 <!-- jkCard -->
 <template>
   <jkBox class="card" :border="config.border" :grid="config.grid">
-    <router-link
-      class="card-wrap"
-      :to="{ path: config.data.path[0] }"
-      tag="div"
-    >
+    <div class="card-wrap" @click="goRouter" tag="div">
       <div class="img">
-        <img :src="config.data.src[0]" alt="" />
+        <img :src="config.data.src[0]" alt :style="config.imgStyle" />
       </div>
       <h4>{{ config.data.label[0] }}</h4>
+      <!-- <h3>{{ Math.round(config.data.value[0], 0) }}</h3> -->
       <h3>{{ config.data.value[0] }}</h3>
-    </router-link>
+    </div>
   </jkBox>
 </template>
 
@@ -31,15 +28,16 @@ import { _data } from "@entity/card.js";
 export default {
   name: "colum",
   props: {
+    isRefresh: Boolean,
     config: {
       type: Object,
       default: () => ({
         border: true,
         grid: true,
         path: "",
-        data: null
-      })
-    }
+        data: null,
+      }),
+    },
   },
   data() {
     //这里存放数据
@@ -47,14 +45,48 @@ export default {
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
-    !this.config.data && (this.config.data = _data);
+    // console.log(this.config);
+    (!this.config.data || this.isRefresh) && (this.config.data = _data);
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.$nextTick(() => {});
   },
   //方法集合
-  methods: {},
+  methods: {
+    goRouter() {
+      // console.log(this.config);
+      let enters = { enters: "rs" };
+      switch (this.config.index) {
+        case 0:
+          enters.enters = "xm";
+          break;
+        case 1:
+          enters.enters = "je";
+          break;
+        case 2:
+          enters.enters = "rs";
+          break;
+        case 3:
+          enters.enters = "rc";
+          break;
+      }
+      const pars = {
+        ...enters,
+        IsClass: false,
+        isSpecial: true,
+      };
+      // console.log(pars);
+      // IsClass=false&isSpecial=true&enters=rc
+      this.$router.push({
+        name: "pageDetail",
+        query: {
+          id: this.$store.state.previewList.routerId.bottom,
+          param: JSON.stringify(pars),
+        },
+      });
+    },
+  },
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
@@ -67,7 +99,7 @@ export default {
   destroyed() {}, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   beforeRouteEnter(to, from, next) {
-    next(vm => {});
+    next((vm) => {});
   },
   beforeRouteUpdate(to, from, next) {
     next();
@@ -76,7 +108,7 @@ export default {
     next();
   },
   //import引入的组件需要注入到对象中才能使用
-  components: { jkBox }
+  components: { jkBox },
 };
 </script>
 <style lang="scss" scoped>
@@ -94,7 +126,7 @@ export default {
     padding-top: 6px;
   }
   h3 {
-    font-size: 30px;
+    font-size: 24px;
     @include t(color, k1);
     padding-top: 6px;
   }

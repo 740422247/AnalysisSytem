@@ -59,5 +59,6 @@ export default {
 //@import 'jkContent.scss'; //引入公共css类
 .jkContent {
   text-align: left;
+  overflow: visible;
 }
 </style>

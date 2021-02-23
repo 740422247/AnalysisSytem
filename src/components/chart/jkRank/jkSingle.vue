@@ -3,8 +3,8 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-25 10:18:41
- * @LastEditors: joykit
- * @LastEditTime: 2020-07-01 15:14:40
+ * @LastEditors: wss
+ * @LastEditTime: 2021-01-04 10:21:25
 -->
 <!-- jkSingle -->
 <template>
@@ -13,12 +13,19 @@
     :grid="config.grid"
     :text="config.text"
     :path="config.path"
+    :selectData="config && config.selectData"
   >
     <vue-seamless-scroll :data="_adapter('label')">
-      <router-link
+      <!-- <router-link
         :to="{
           path: _adapter('path', key) ? _adapter('path', key) : '#'
         }"
+        class="item"
+        v-for="(item, key) in _adapter('label')"
+        :key="key"
+        tag="div"
+      > -->
+      <div
         class="item"
         v-for="(item, key) in _adapter('label')"
         :key="key"
@@ -30,12 +37,12 @@
           <jkProgress
             class="jk-progress"
             :type="key <= 2 ? 'huang' : 'lan'"
-            :style="_cStyle(key)"
-            :width="(_adapter('value', key) / _limit('all', key)) * 100 + '%'"
+            :style="_cStyle2(key)"
+            :width="(_adapter('value', key) / maxImum()) * 100 + '%'"
           />
           <jkContent
             class="flex-shrink flex align content-right"
-            :style="_rStyle(key)"
+            :style="_rStyle2(key)"
           >
             <jkNumber
               class="num"
@@ -44,7 +51,8 @@
             <jkContent>{{ _limit("symbol", key) }}</jkContent>
           </jkContent>
         </jkContent>
-      </router-link>
+      </div>
+      <!-- </router-link> -->
     </vue-seamless-scroll>
   </jkCard>
 </template>
@@ -66,6 +74,11 @@ import { qxList } from "@entity/jkRank/singleRank.js";
 export default {
   name: "jkSingle",
   props: {
+    // 2020/07/21修改
+    isRefresh: {
+      type: Boolean
+    },
+    // 2020/07/21修改
     config: {
       type: Object,
       default: () => ({
@@ -80,6 +93,7 @@ export default {
   data() {
     //这里存放数据
     return {
+      widthRq: 60,
       fontSize: 12
     };
   },
@@ -87,6 +101,7 @@ export default {
   created() {
     // 组件默认数据
     !this.config.data && (this.config.data = qxList);
+    console.log(this.config);
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
@@ -95,13 +110,16 @@ export default {
   //方法集合
   methods: {
     _max(key) {
-      return this.config.data.value[0];
+      return this.config.data.value[0] / 2;
     },
     _adapter(colum, key) {
       if (key === undefined) {
         return this.config.data[colum];
       }
       return this.config.data[colum][key];
+    },
+    maxImum() {
+      return Math.max.apply(null, this.config.data.value);
     },
     _limit(colum, key) {
       const len = this.config.data[colum].length - 1;
@@ -125,9 +143,28 @@ export default {
         width: this._getNumSize(key) + "px"
       };
     },
+    _rStyle2() {
+      const maxSu = this._formatNumber(
+        Math.max.apply(null, this.config.data.value)
+      );
+      // .toString()
+      const dwMax = Math.max(...this.config.data.symbol.map(itt => itt.length));
+      const _width =
+        (maxSu.length / 2) * this.fontSize + dwMax * this.fontSize + 5; //-5修正长度
+      this.widthRq = _width;
+      return {
+        fontSize: this.fontSize + "px",
+        width: _width + "px"
+      };
+    },
     _cStyle(key) {
       return {
         width: `calc(100% - ${this._rStyle(key).width})`
+      };
+    },
+    _cStyle2(v) {
+      return {
+        width: `calc(100% - ${this.widthRq}px)`
       };
     }
   },
@@ -135,7 +172,15 @@ export default {
   computed: {},
   //监控data中的数据变化
   watch: {
-    config() {}
+    // 2020/07/21 修改
+    config: {
+      deep: true,
+      immediate: true,
+      handler(res) {
+        this.isRefresh && (this.config.data = qxList);
+      }
+    }
+    // 2020/07/21 修改
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
@@ -167,8 +212,8 @@ export default {
 <style lang="scss" scoped>
 //@import 'jkSingle.scss'; //引入公共css类
 .item {
-  padding: 12px 0;
-  cursor: pointer;
+  padding: 0 0 12px 0;
+  // cursor: pointer;
   transition: all 0.25s ease-in-out;
   border-radius: 50%;
   .num {

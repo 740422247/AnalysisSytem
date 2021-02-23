@@ -51,7 +51,7 @@
         transform-origin: top center;
         animation: border-ani .75s ease-in-out forwards;
     }
-
+    
     .border {
         display: block;
         border: 1px solid #183f8b;
@@ -59,7 +59,7 @@
         animation: border-ani .3s ease-in-out forwards;
         transform: scale(0);
         opacity: .6;
-        z-index: 10;
+        z-index: 210;
     }
 
 
@@ -69,7 +69,7 @@
         border: 3px solid #0149a9;
         display: block;
         position: absolute;
-        z-index: 20;
+        z-index: 200;
         animation: border-ani-opacity .3s ease-in-out forwards 5;
     }
 

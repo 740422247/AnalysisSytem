@@ -1,8 +1,27 @@
+/*
+ * @Descripttion: 说明
+ * @version: 1.0
+ * @Author: wss
+ * @Date: 2020-06-15 10:52:50
+ * @LastEditors: wss
+ * @LastEditTime: 2020-08-12 10:56:33
+ */
 // import { fetchPermission } from '@/api/permission'
-import router, { DynamicRoutes } from '@/router/index' //DynamicRoutes
-import { recursionRouter, setDefaultRoute } from '@/utils/recursion-router'
-import dynamicRouter from '@/router/dynamic-router'
+
+import VueRouter from "vue-router";
+import { listToTree } from "@/until/listToTree.js";
+import $store from "@/store/index.js";
+import router, { DynamicRoutes, routes } from "@/router/index"; //DynamicRoutes
+import {
+  recursionRouter,
+  setDefaultRoute,
+  recursionRouter2,
+  PermissionToFilter
+} from "@/utils/recursion-router";
+// import { recursionRouter2, setDefaultRoute2 } from "@/utils/recursion-router";
+import dynamicRouter from "@/router/dynamic-router";
 import axios from "axios";
+import api from "@api/api.js";
 export default {
   namespaced: true,
   state: {
@@ -10,65 +29,100 @@ export default {
     isManagement: false,
     permissionList: null /** 所有路由 */,
     sidebarMenu: [] /** 导航菜单 */,
-    currentMenu: '' /** 当前active导航菜单 */
+    currentMenu: "" /** 当前active导航菜单 */,
+    already: [] //已有菜单路由Name
   },
   getters: {},
   mutations: {
     SET_Management(state, man) {
-      state.isManagement = man
+      state.isManagement = man;
     },
     SET_PERMISSION(state, routes) {
-      state.permissionList = routes
+      state.permissionList = routes;
     },
     CLEAR_PERMISSION(state) {
-      state.permissionList = null
+      state.permissionList = null;
     },
     SET_MENU(state, menu) {
-      state.sidebarMenu = menu
+      state.sidebarMenu = menu;
     },
     CLEAR_MENU(state) {
-      state.sidebarMenu = []
+      state.sidebarMenu = [];
     },
     SET_CURRENT_MENU(state, currentMenu) {
-      state.currentMenu = currentMenu
+      state.currentMenu = currentMenu;
+    },
+    SET_ALREADY(state, dd) {
+      state.already = dd;
+    },
+    dd(state, aa) {
+      const createRouter = () =>
+        new VueRouter({
+          mode: "history", //'history',hash,
+          base: __dirname,
+          linkActiveClass: "active",
+          routes: aa.initialRoutes
+        });
+      // const router = createRouter();
+      // 添加其他项目路由前，重置 matcher
+      router.matcher = createRouter().matcher;
+      router.addRoutes(aa.ddd);
+      // router.addRoutes(store.getters.addRouters);
     }
   },
   actions: {
-    async FETCH_PERMISSION({ commit, state }) {
-      // console.log("roter:", router)
-      // let permissionList = { code: 1, data: { avatar: "https://randy168.com/1533262153771.gif", name: "admin", roles: ["admin"], data: ["order-manage", "order-list", "product-manage", "product-list", "review-manage", "return-goods", "goods", "goods-list", "goods-classify", "permission", "user-manage", "role-manage", "menu-manage"] } }
-      const permissionListJson = await axios.get("./../../permission.json")
-      const permissionList = permissionListJson.data.data
+    //获取权限
+    GetResources({ commit, state }) {
+      return new Promise(function(resolve, reject) {
+        const p = { id: $store.state.user.userInfo.userId };
+        api.User("GetResources", p).then(
+          dd => {
+            const permissionList = listToTree(
+              "resourceId",
+              "resourceParentId",
+              dd.data
+            );
+            const ddd = deepClone(DynamicRoutes);
+            const dynamicRouterClone = deepClone(dynamicRouter);
+            // const ddd = JSON.parse(JSON.stringify(DynamicRoutes));
+            // const routes = recursionRouter2(permissionList, dynamicRouter);
+            const pee = PermissionToFilter(permissionList, dynamicRouterClone);
+            // const MainContainer = ddd.find(v => v.path === "");
+            // const children = MainContainer.children;
+            // children.push(...routes);
 
-      /*  根据权限筛选出我们设置好的路由并加入到path=''的children */
-      const routes = recursionRouter(permissionList, dynamicRouter)
-      const MainContainer = DynamicRoutes.find(v => v.path === '')
-      // const MainContainer = DynamicRoutes
-      const children = MainContainer.children
-      children.push(...routes)
-
-      /* 生成左侧导航菜单 */
-      commit('SET_MENU', children)
-
-      /*
-          为所有有children的菜单路由设置第一个children为默认路由
-          主要是供面包屑用，防止点击面包屑后进入某个路由下的 '' 路由,比如/manage/
-          而我们的路由是
-          [
-              /manage/menu1,
-              /manage/menu2
-          ]
-      */
-      setDefaultRoute([MainContainer])
-
-      /*  初始路由 */
-      const initialRoutes = router.options.routes
-
-      /*  动态添加路由 */
-      router.addRoutes(DynamicRoutes)
-      // console.log(DynamicRoutes)
-      /* 完整的路由表 */
-      commit('SET_PERMISSION', [...initialRoutes, ...DynamicRoutes])
+            commit("SET_MENU", pee[0]); //routes
+            commit("SET_ALREADY", pee[1]); //routes
+            /*  初始路由 */
+            const initialRoutes = router.options.routes;
+            /* 完整的路由表 */
+            commit("SET_PERMISSION", [...initialRoutes, ...ddd]);
+            // console.log("执行完权限控制");
+            resolve(dd);
+          },
+          err => {
+            reject(err);
+          }
+        );
+      });
     }
   }
+};
+function deepClone(obj) {
+  const objClone = Array.isArray(obj) ? [] : {};
+  if (obj && typeof obj === "object") {
+    for (const key in obj) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (obj.hasOwnProperty(key)) {
+        //判断ojb子元素是否为对象，如果是，递归复制
+        if (obj[key] && typeof obj[key] === "object") {
+          objClone[key] = deepClone(obj[key]);
+        } else {
+          //如果不是，简单复制
+          objClone[key] = obj[key];
+        }
+      }
+    }
+  }
+  return objClone;
 }

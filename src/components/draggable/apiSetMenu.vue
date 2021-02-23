@@ -6,22 +6,30 @@
       v-for="(item,index) in menu"
       :key="item.type + index"
       @click="choice(item)"
+      style="max-height:300px;overflow:hidden;"
     >
-    <div>
-      {{item.type}}
-    </div>
-      <!-- <img :src="require('@apiPicture/' + item.imgName)" alt /> -->
-      <!-- <img src="@apiPicture/scrollBar.jpg" alt /> -->
-      <div class="menu-title">{{item.text || item.type}}</div>
+      <!-- <img :src="item.componentImg" v-if="item.componentImg" class="component-img" alt />
+      <component
+        v-if="!item.componentImg"
+        :is="item.type.split(':')[0]"
+        :type="item.type.split(':')[1]"
+        :config="{text:item.text}"
+      ></component>-->
+      <div>{{item.text}}</div>
+      <div class="menu-title">{{item.text}}</div>
     </div>
   </div>
 </template>
 <script>
+// import { components } from "@config/config.js";
+
 export default {
   name: "ApiSetMenu",
-
+  components: {
+    // ...components,
+  },
   props: {
-    menu: { type: Array }
+    menu: { type: Array },
   },
   // mounted() {
   //   this.init();
@@ -29,12 +37,13 @@ export default {
   methods: {
     choice(model) {
       this.$emit("choice", model);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
 .api-set-menu {
+  // @include t(background, "k0");
   .api-set-title {
     text-align: left;
     padding-left: 15px;
@@ -42,6 +51,7 @@ export default {
   .menu-item {
     position: relative;
     padding: 15px;
+    cursor: pointer;
     img {
       max-width: 100%;
     }
@@ -52,10 +62,10 @@ export default {
       justify-content: center;
       align-items: center;
       position: absolute;
-      top: 15px;
-      left: 15px;
-      right: 15px;
-      bottom: 15px;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
       opacity: 0;
       border: 1px dashed #dedede;
     }

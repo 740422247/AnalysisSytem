@@ -8,7 +8,7 @@
  -->
 <!-- RouteBtn -->
 <template>
-  <router-link v-if="_path" :to="{ path: _path }" class="jkRouteBtn">
+  <router-link v-if="_path" :to="_path" class="jkRouteBtn">
     <span v-for="i in 3" :key="i"></span>
   </router-link>
 </template>
@@ -21,9 +21,9 @@ export default {
   name: "jkRouteBtn",
   props: {
     path: {
-      type: String,
-      default: "#"
-    }
+      type: Object || String,
+      default: "#",
+    },
   },
   data() {
     //这里存放数据
@@ -40,8 +40,13 @@ export default {
   //监听属性 类似于data概念
   computed: {
     _path() {
-      return this.path;
-    }
+      try {
+        var obj = JSON.parse(this.path);
+        return obj;
+      } catch (e) {
+        return this.path;
+      }
+    },
   },
   //监控data中的数据变化
   watch: {},
@@ -53,7 +58,7 @@ export default {
   destroyed() {}, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   beforeRouteEnter(to, from, next) {
-    next(vm => {});
+    next((vm) => {});
   },
   beforeRouteUpdate(to, from, next) {
     next();
@@ -62,7 +67,7 @@ export default {
     next();
   },
   //import引入的组件需要注入到对象中才能使用
-  components: {}
+  components: {},
 };
 </script>
 <style lang="scss" scoped>

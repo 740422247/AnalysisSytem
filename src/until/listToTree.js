@@ -1,4 +1,15 @@
+/*
+ * @Descripttion: 说明
+ * @version: 1.0
+ * @Author: wss
+ * @Date: 2020-05-26 15:27:11
+ * @LastEditors: wss
+ * @LastEditTime: 2020-07-30 18:35:32
+ */
 export function listToTree(myId, pId, list) {
+  // if (list == null) {
+  //   return [];
+  // }
   function exists(list, parentId) {
     for (var i = 0; i < list.length; i++) {
       if (list[i][myId] == parentId) return true;

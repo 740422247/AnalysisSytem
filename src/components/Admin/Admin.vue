@@ -1,8 +1,8 @@
 <template>
   <div class="con" :class="{ bgl: !rv }">
-    <div class="fk-wrap">
+    <!-- <div class="fk-wrap">
       <span class="fangkuai" v-for="i in 100" :key="i"></span>
-    </div>
+    </div> -->
     <div :class="{ navCollapsed: isSidebarNavCollapse }">
       <el-menu
         :collapse="isSidebarNavCollapse"
@@ -11,16 +11,24 @@
         active-text-color="#4dbcff"
         :default-active="currentMenu"
         class="el-ul sidebar"
+        unique-opened
       >
-        <DynamicMenu :menuList="sidebarMenu"></DynamicMenu>
+        <div class="shrink" @click="toggleNavCollapse2">
+          <i v-show="!isCollapse" class="el-icon-d-arrow-left"></i>
+          <i v-show="isCollapse" class="el-icon-d-arrow-right"></i>
+        </div>
+        <DynamicMenu
+          :menuList="sidebarMenu"
+          v-loading="loadingMenu"
+        ></DynamicMenu>
       </el-menu>
 
       <el-container class="main-container">
         <el-header class="app-header">
-          <div style="width: 60px; cursor: pointer;" @click="toggleNavCollapse">
-            <i v-show="!isCollapse" class="el-icon-d-arrow-left"></i>
-            <i v-show="isCollapse" class="el-icon-d-arrow-right"></i>
-          </div>
+          <!-- <div style="width: 60px; cursor: pointer;" @click="toggleNavCollapse">
+            <i v-show="isCollapse" class="el-icon-d-arrow-left"></i>
+            <i v-show="!isCollapse" class="el-icon-d-arrow-right"></i>
+          </div> -->
           <!-- 我是样例菜单 -->
           <el-menu
             default-active="1"
@@ -29,8 +37,8 @@
             @select="handleSelect"
             active-text-color="#409EFF"
           >
-            <el-menu-item index="1">用户管理</el-menu-item>
-            <el-submenu index="2">
+            <el-menu-item index="1">{{ pageName }}</el-menu-item>
+            <!--   <el-submenu index="2">
               <template slot="title">我的工作台</template>
               <el-menu-item index="2-1">选项1</el-menu-item>
               <el-menu-item index="2-2">选项2</el-menu-item>
@@ -41,19 +49,43 @@
                 <el-menu-item index="2-4-2">选项2</el-menu-item>
                 <el-menu-item index="2-4-3">选项3</el-menu-item>
               </el-submenu>
-            </el-submenu>
-            <el-menu-item index="3" disabled>消息中心</el-menu-item>
+            </el-submenu> -->
+            <!-- <el-menu-item index="3" disabled>消息中心</el-menu-item> -->
           </el-menu>
-
           <div class="app-header-userinfo">
-            <el-dropdown trigger="hover" :hide-on-click="false">
+            <div @click="abc">
+              <span class="radius">
+                <img
+                  class="user-avatar"
+                  :src="userInfo.avatar ? userInfo.avatar : avatar"
+                  alt=""
+                />
+              </span>
+
+              <input
+                type="file"
+                ref="uploadPhoto"
+                id="uploadPhoto"
+                style="display: none;"
+              />
+            </div>
+
+            <el-dropdown
+              class="user-info"
+              trigger="hover"
+              :hide-on-click="false"
+            >
               <span class="el-dropdown-link">
-                {{ username }}
+                {{ userInfo.userName }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>我的消息</el-dropdown-item>
-                <el-dropdown-item>设置</el-dropdown-item>
+                <el-dropdown-item @click.native="actionMethods('switchover')"
+                  >切换到普通用户</el-dropdown-item
+                >
+                <el-dropdown-item @click.native="actionMethods('editPwd')"
+                  >修改密码</el-dropdown-item
+                >
                 <el-dropdown-item divided @click.native="logout"
                   >退出登录</el-dropdown-item
                 >
@@ -75,20 +107,28 @@
         </el-main>
       </el-container>
     </div>
+    <FormDialog
+      ref="showDialog"
+      @ok="saveNewPwd"
+      :dialogData="dialogEntity"
+      :model="dialogModel"
+    ></FormDialog>
   </div>
 </template>
 <script>
+import api from "@api/api";
 import Vue from "vue";
 import { Ohyeah } from "vue-ohyeah-scroll";
 import DynamicMenu from "@components/Admin/dynamic-menu";
-import { mapState } from "vuex";
-import ElementUI from "element-ui";
+import { mapState, mapGetters } from "vuex";
+import ElementUI, { MessageBox, Message } from "element-ui";
 // import tablewss from "@components/tablewss/tablewss";
 import "element-ui/lib/theme-chalk/index.css";
+const FormDialog = () => import("@components/Admin/form-dialog.vue");
 Vue.use(ElementUI);
 export default {
   name: "Admin",
-  components: { Ohyeah, DynamicMenu },
+  components: { Ohyeah, DynamicMenu, FormDialog },
   beforeCreate() {},
   provide() {
     return {
@@ -97,9 +137,12 @@ export default {
   },
   data() {
     return {
+      loadingMenu: true,
+      avatar: require("@assets/image/headPhoto.png"),
+      dialogModel: {},
+      dialogEntity: {},
       rv: true,
       username: "",
-      isCollapse: true,
       routes: null,
       theme: {
         name: "theme1",
@@ -108,8 +151,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isSidebarNavCollapse"]),
-    ...mapState("permission", ["sidebarMenu", "currentMenu"])
+    isCollapse: function() {
+      return this.$store.state.isSidebarNavCollapse;
+    },
+    ...mapGetters("user", ["getIsAdmin", "getResourceTemplate"]),
+    ...mapState(["isSidebarNavCollapse", "pageName"]),
+    // ...mapState(["user/userInfo"]),
+    ...mapState("permission", ["sidebarMenu", "currentMenu"]),
+    ...mapState("user", ["userInfo"])
   },
   watch: {
     // $route(to, from) {
@@ -120,29 +169,151 @@ export default {
     //   }
     // }
   },
-  created() {},
-  mounted() {
-    const qx = [
-      //   {
-      //     isEnabled: true,
-      //     resourceCode: "界面编辑"
-      //   },
-      //   {
-      //     isEnabled: true,
-      //     resourceCode: "界面编辑-界面编辑1"
-      //   }
-      {
-        isEnabled: true,
-        resourceCode: "权限管理"
-      },
-      {
-        isEnabled: true,
-        resourceCode: "权限管理-菜单管理"
+  updated() {},
+  created() {
+    const _this = this;
+    window.readFile = function() {
+      console.log("获取到文件对象");
+      var file = this.files[0];
+      //判断是否是图片类型
+      if (!/image\/\w+/.test(file.type)) {
+        Message("只能选择图片");
+        return false;
       }
-    ];
-    // this.$store.commit("menuAuth", qx);
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(e) {
+        _this.saveHeadPhoto(this.result);
+      };
+    };
+  },
+  mounted() {
+    this.init();
+    setTimeout(() => {
+      this.loadingMenu = false;
+    }, 500);
   },
   methods: {
+    init() {
+      this.$refs.uploadPhoto.addEventListener("change", window.readFile, false);
+    },
+    toggleNavCollapse2() {
+      this.$store.commit("toggleNavCollapse");
+    },
+    test() {
+      console.log("test");
+    },
+    abc() {
+      this.$refs.uploadPhoto.click();
+    },
+    saveHeadPhoto(image) {
+      // this.$refs.uploadPhoto.click();
+      // const file = this.$refs.uploadPhoto.files;
+      api
+        .publicApi("/Da/User/EditAvatar", { avatar: image }, "post")
+        .then(res => {
+          if (res.code === 1) {
+            this.headModel = { ...this.headModel, avatar: image };
+            Message({ message: "头像设置成功", type: "success" });
+            this.$store.commit("user/SET_avatar", image);
+          } else {
+            Message({ message: res.errMsg, type: "error" });
+          }
+        });
+    },
+    actionMethods(action) {
+      switch (action) {
+        case "logout":
+          this.logout();
+          break;
+        case "editPwd":
+          this.editTitle();
+          break;
+        case "switchover":
+          this.switchover();
+          break;
+        default:
+          break;
+      }
+    },
+    editTitle(model) {
+      this.dialogEntity = this.setDialogData();
+      this.dialogModel = model || {};
+      this.$refs.showDialog.showDialog();
+    },
+    switchover() {
+      const resourceId = this.getResourceTemplate[0].resourceTemplate;
+      this.$router.push({
+        name: "pageDetail",
+        query: { id: resourceId }
+      });
+    },
+    setDialogData() {
+      return {
+        title: "修改密码",
+        width: "450px",
+        labelWidth: "0px",
+        top: "30vh",
+        entity: [
+          {
+            label: "",
+            placeholder: "原始密码",
+            key: "oldPassword",
+            rules: [
+              { required: true, message: "原始密码不能为空", trigger: "blur" }
+            ]
+          },
+          {
+            label: "",
+            placeholder: "新密码",
+            key: "newPassword",
+            rules: [
+              { required: true, message: "新密码不能为空", trigger: "blur" }
+            ]
+          },
+          {
+            label: "",
+            placeholder: "确认密码",
+            key: "confirmPassword",
+            rules: [
+              { required: true, message: "确认密码不能为空", trigger: "blur" }
+            ]
+          }
+        ]
+      };
+    },
+
+    saveNewPwd({ model }) {
+      if (model.newPassword !== model.confirmPassword) {
+        MessageBox.confirm("两次输入密码不一致，请重新确认密码?", "提示", {
+          confirmButtonText: "确定",
+          type: "warning"
+        })
+          .then(() => {
+            this.editTitle({ oldPassword: model.oldPassword });
+          })
+          .catch(() => {
+            this.editTitle({ oldPassword: model.oldPassword });
+          });
+      } else {
+        api
+          .publicApi(
+            "/Da/User/EditLoginPwd",
+            {
+              oldLoginPwd: model.oldPassword,
+              newLoginPwd: model.newPassword
+            },
+            "post"
+          )
+          .then(res => {
+            if (res.code === 1) {
+              Message({ message: "保存成功", type: "success" });
+            } else {
+              Message({ message: res.errMsg, type: "error" });
+            }
+          });
+      }
+    },
     toggleNavCollapse() {
       this.$store.commit("toggleNavCollapse");
     },
@@ -155,14 +326,13 @@ export default {
     goRouter(url, query) {
       this.$router.push(url);
     },
-    toggleSideBar() {
-      this.isCollapse = !this.isCollapse;
-    },
     logout: function() {
       this.$confirm("确认退出?", "提示", {})
         .then(() => {
-          window.localStorage.clear();
-          this.$router.push("/login");
+          this.$store.commit("Log_out", {});
+          this.$router.replace({
+            path: "/login"
+          });
         })
         .catch(() => {});
     },
@@ -173,6 +343,15 @@ export default {
 };
 </script>
 <style lang="scss">
+.shrink {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 100;
+  color: #fff;
+}
 .bgl {
   background-color: #110e4f;
 }
@@ -187,6 +366,7 @@ export default {
 .el-main {
   padding: 0;
   overflow: hidden;
+  // height: calc(100% - 60px);
 }
 .main {
   position: relative;
@@ -298,5 +478,23 @@ export default {
 }
 .el-ul {
   height: 100%;
+}
+.user-info {
+  vertical-align: middle;
+}
+.radius {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  max-width: 120px;
+  overflow: hidden;
+  margin: auto 5px;
+  cursor: pointer;
+  display: inline-block;
+}
+.user-avatar {
+  display: inline-block;
+  height: 100%;
+  max-width: 80px;
 }
 </style>

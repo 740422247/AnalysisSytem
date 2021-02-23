@@ -3,8 +3,8 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-28 14:29:45
- * @LastEditors: joykit
- * @LastEditTime: 2020-06-08 10:17:38
+ * @LastEditors: wss
+ * @LastEditTime: 2020-11-26 11:08:35
  */
 export const typeRank = [
   {
@@ -47,11 +47,15 @@ export const typeGraph = [
   {
     id: "barChart",
     name: "柱状图"
+  },
+  {
+    id: "accumulationBarChart",
+    name: "堆叠柱状图"
+  },
+  {
+    id: "ratioChart",
+    name: "比例图"
   }
-  // {
-  //   id: "pieChart",
-  //   name: "饼形"
-  // }
 ];
 
 export const typeCard = [
@@ -62,5 +66,33 @@ export const typeCard = [
   {
     id: "colum",
     name: "纵向卡片"
+  }
+];
+export const typeMaps = [
+  {
+    id: "wssMaps:cq",
+    name: "重庆地图"
+  },
+  {
+    id: "wssMaps:sxyc",
+    name: "山西运城地图"
+  }
+];
+export const typeForms = [
+  {
+    id: "wssForms",
+    name: "表单"
+  },
+  {
+    id: "wssTables",
+    name: "多表头表格"
+  },
+  {
+    id: "wssFiche",
+    name: "卡片2"
+  },
+  {
+    id: "timeLine",
+    name: "时间线"
   }
 ];

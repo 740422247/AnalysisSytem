@@ -1,0 +1,261 @@
+.poor-country {
+    height: calc(100vh - 7.5vh);
+    // padding-top: 3vh;
+    // padding-left: 1vw;
+    overflow: hidden;
+    background-color: #110e4f;
+
+    /deep/ h2 {
+        font-weight: 400;
+    }
+
+
+    .content {
+        padding: 2.5vh 1.5vw;
+
+        h4 {
+            font-size: 18px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            padding-bottom: 15px;
+        }
+    }
+
+    .one-wrapper-1 {
+        display: flex;
+
+        .country-description {
+            width: 21.2vw;
+            height: 46vh;
+
+
+
+            h5 {
+                font-size: 16px;
+                font-family: Microsoft YaHei;
+                color: rgba(255, 255, 255, 1);
+                padding-bottom: .5vh;
+            }
+
+            p {
+                font-size: 16px;
+                font-family: Microsoft YaHei;
+                color: #81A7DC;
+                line-height: 36px;
+            }
+        }
+
+        .earth-wrapper {
+            flex: 1;
+        }
+    }
+
+    .two-wrapper-2 {
+        display: flex;
+        height: 42vh;
+        padding-top: 5vh;
+    }
+
+    .error-data-wrapper {
+        width: 50%;
+        height: 100%;
+        position: relative;
+
+
+
+        .ci {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+
+
+        .circle-1 {
+            width: 12.3vw;
+            height: 12.3vw;
+            background: no-repeat center;
+            background-size: contain;
+            top: 58%;
+            transform: translate(-50%, -58%);
+            opacity: 0;
+            animation: opacity1 .75s ease-in-out forwards, rotate360-1 120s .75s linear infinite;
+            z-index: 2;
+        }
+
+        .circle-2 {
+            width: 3.5vw;
+            height: 3.5vw;
+            background: no-repeat center;
+            background-size: contain;
+            top: 55%;
+            transform: translate(-50%, -55%);
+            opacity: 0;
+            animation: opacity2 .75s ease-in-out forwards, rotate360-2 60s .75s linear infinite reverse;
+        }
+
+        .erro-line {
+            width: calc(12.3vw / 2);
+            height: 1px;
+            background: rgba(2, 97, 225, 1);
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: -1;
+
+        }
+
+        .erro-line:nth-of-type(even) {
+            width: 7.9vw;
+            transform: translateX(-14vw);
+            transform-origin: right;
+            opacity: 0;
+            animation: moveLeft3 .5s ease-in-out .75s forwards;
+        }
+
+        .erro-line:nth-of-type(2) {
+            width: 7.7vw;
+            transform: translateX(-12vw) translateY(-3.5vw);
+            opacity: 0;
+            animation: moveLeft1 .5s ease-in-out .75s forwards;
+        }
+
+        .erro-line:nth-of-type(4) {
+            width: calc(6.6vw);
+            transform: translateX(-12vw) translateY(3.8vw);
+            opacity: 0;
+            animation: moveLeft2 .5s ease-in-out .75s forwards;
+        }
+
+        .erro-line:nth-of-type(odd) {
+            width: 6.1vw;
+            transform: translateX(6vw);
+            transform-origin: left;
+            opacity: 0;
+           animation: moveRight3 .5s ease-in-out .75s forwards;
+
+        }
+
+        .erro-line:nth-of-type(1) {
+            width: 5.8vw;
+            transform: translateX(4vw) translateY(-3.8vw);
+            opacity: 0;
+            animation: moveRight1 .5s ease-in-out .75s forwards;
+        }
+
+        .erro-line:nth-of-type(3) {
+           width: 5.8vw;
+            transform: translateX(5.4vw) translateY(3.8vw);
+           opacity: 0;
+           animation: moveRight2 .5s ease-in-out .75s forwards;
+        }
+
+    }
+
+    .country-project-decription {
+        flex: 1;
+        padding-left: 22px;
+        padding-right: 1vw;
+    }
+
+    .erro-img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 4;
+    }
+
+    .erro-img-1 {
+        transform: translate(-14.9vw, -5.5vw) scale(0);
+        animation: scale1 .75s ease-in-out forwards;
+        transform-origin: 10%;
+    }
+
+    .erro-img-2 {
+        transform: translate(-17vw, -1.8vw) scale(0);
+        animation: scale2 .75s ease-in-out forwards;
+        transform-origin: 10%;
+    }
+
+    .erro-img-3 {
+        transform: translate(9.5vw, -5.5vw) scale(0);
+        animation: scale3 .75s ease-in-out forwards;
+        transform-origin: 90%;
+    }
+
+    .erro-img-4 {
+        transform: translate(12.2vw, -1.5vw) scale(0);
+        animation: scale4 .75s ease-in-out forwards;
+        transform-origin: 10%;
+    }
+
+    .erro-img-5 {
+        transform: translate(-15.2vw, 2vw) scale(0);
+        animation: scale5 .75s ease-in-out forwards;
+        transform-origin: 10%;
+    }
+
+    .erro-img-6 {
+        transform: translate(9.5vw, 2vw) scale(0);
+       animation: scale6 .75s ease-in-out forwards;
+        transform-origin: 90%;
+    }
+
+    .erro-text {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+
+        .erro-title {
+            font-size: 16px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: rgba(40, 108, 202, 1);
+        }
+
+        .erro-amount {
+            font-size: 28px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: rgba(129, 167, 220, 1);
+
+        }
+    }
+
+    .erro-text0 {
+        transform: translate(13.5vw, -5.5vw);
+    }
+
+    .erro-text1 {
+        transform: translate(-20vw, -5.5vw);
+    }
+
+    .erro-text2 {
+        transform: translate(-21.5vw, -1.5vw);
+    }
+
+    .erro-text3 {
+        transform: translate(16vw, -1.5vw);
+    }
+
+    .erro-text4 {
+        transform: translate(-21.5vw, 2.7vw);
+    }
+
+    .erro-text5 {
+        transform: translate(13.5vw, 2.4vw);
+    }
+
+    .earth-wrapper {
+        overflow: hidden;
+        padding-right: 1vw;
+    }
+
+
+    @media screen and(max-width:1550px) {}
+}

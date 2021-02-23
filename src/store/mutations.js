@@ -3,13 +3,14 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-11 16:02:32
- * @LastEditors: joykit
- * @LastEditTime: 2020-05-11 16:08:36
+ * @LastEditors: wss
+ * @LastEditTime: 2020-08-21 17:06:36
  */
 /* eslint-disable*/
 import * as types from "./mutation-types";
 // import getMenuData from "@/components/Admin/js/jurisdiction.js";
 import { getMenuData } from "../components/Admin/js/jurisdiction.js";
+import { stat } from "fs";
 // import { prototype } from "vue/types/umd";
 
 function getTime() {
@@ -18,50 +19,30 @@ function getTime() {
 }
 
 export default {
-  menuAuth(state, payload) {
-    console.log(getMenuData());
-    let per = getMenuData(); //所有菜单权限
-    // let getPermissions = per.map(item => item.permissions);
-    let payloadArr = payload.map(item => item.resourceCode);
-
-    // console.log("mue:", per);
-    const start = getTime();
-
-    let newPermission = per
-      .filter(item =>
-        item.permissions.some(ele => payloadArr.some(items => ele === items))
-      )
-      .map(item => ({
-        ...item,
-        children: item.children && item.children.filter(
-          child =>
-            child.permissions &&
-            child.permissions.some(childPer =>
-              payloadArr.some(payItem => payItem === childPer)
-            )
-        )
-      }
-      ));
-
-    const end = getTime();
-
-    // payloadArr.map(item => {
-    //   per.map(itt => {
-    //     console.log(itt.permissions)
-    //     console.log(item)
-    //     let aa = itt.permissions.filter(orr=>orr==item)
-    //     console.log(aa)
-    //   })
-    // })
-    // per.map(item => {
-    //   console.log(item)
-    //   if (payloadArr.find(item.permissions[0])) {
-
-    //   }
-    // })
-    // state.rtmpUrl=payload
+  Log_out(state, dd) {
+    // console.log(222)
+    // console.log(state)
+    state.user.cacheRouter = null;
+    state.user.token = {};
+    state.user.userInfo = {};
+    state.permission.sidebarMenu = [];
+    state.permission.permissionList = null;
+    state.permission.currentMenu = "";
+    // location.reload()
+    // console.log(8888)
+  },
+  deleteVuex(state, dd) {
+    for (var key in state) {
+      state[key] = {};
+    }
   },
   toggleNavCollapse(state) {
-    state.isSidebarNavCollapse = !state.isSidebarNavCollapse
+    state.isSidebarNavCollapse = !state.isSidebarNavCollapse;
+  },
+  SET_pageName(state, name) {
+    state.pageName = name;
+  },
+  SET_Compartment(state, dd) {
+    state.compartment = dd;
   }
 };

@@ -1,0 +1,16 @@
+ul {
+
+
+    text-align: left;
+
+    li {
+        transition: all .25s ease-in-out;
+        padding: 15px;
+        cursor: pointer;
+    }
+
+    li:hover,
+    li.active {
+        background: rgba(77, 112, 189, 0.4);
+    }
+}

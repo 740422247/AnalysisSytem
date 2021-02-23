@@ -3,17 +3,19 @@
  * @version:
  * @Author: joykit
  * @Date: 2019-10-30 17:34:51
- * @LastEditors: joykit
- * @LastEditTime: 2020-05-25 16:11:27
+ * @LastEditors: wss
+ * @LastEditTime: 2020-11-18 16:32:30
  -->
 <template>
-  <div class="content-body jkBox">
+  <div class="content-body jkBox " :class="{ 'linear-gradient': line }">
     <template v-if="border">
       <span
         v-for="j in 4"
         :key="'border' + j"
         :class="'border border-' + j"
       ></span>
+    </template>
+    <template v-if="border">
       <span v-for="i in 4" :key="'line' + i" :class="'line line-' + i"></span>
     </template>
     <span v-if="grid" class="bak"></span>
@@ -28,6 +30,14 @@
 export default {
   name: "jkBox",
   props: {
+    line: {
+      type: Boolean,
+      default: false
+    },
+    turning: {
+      type: Boolean,
+      default: true
+    },
     border: {
       type: Boolean,
       default: true

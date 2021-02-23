@@ -3,13 +3,13 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-29 10:14:21
- * @LastEditors: joykit
- * @LastEditTime: 2020-07-01 15:12:53
+ * @LastEditors: wss
+ * @LastEditTime: 2020-09-21 15:55:08
 -->
 <!-- index -->
 <template>
   <div class="jk-graph">
-    <jkChart :type="type" :config="oConfig" />
+    <jkChart :type="type" :config="oConfig" :isRefresh="isRefresh" />
   </div>
 </template>
 
@@ -22,6 +22,11 @@ import { typeGraph } from "@config/_type.js";
 export default {
   name: "jkGraph",
   props: {
+    // 2020/07/21修改
+    isRefresh: {
+      type: Boolean
+    },
+    // 2020/07/21修改
     type: {
       type: String,
       default: typeGraph[0].id
@@ -61,6 +66,7 @@ export default {
       immediate: true,
       handler(res) {
         this.oConfig = res;
+
       }
     }
   },

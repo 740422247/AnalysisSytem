@@ -1,0 +1,146 @@
+.Input.input-wrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+
+    .input:hover input {
+        border-bottom-color: white;
+    }
+
+    .label {
+        margin-right: 15px;
+        padding-left: 15px;
+        color: #9dbae3;
+        font-size: 16px;
+        text-align: right;
+        height: 36px;
+        width: 120px;
+        line-height: 36px;
+        transform: translateY(-1px);
+        user-select: none;
+        touch-action: none;
+    }
+
+    .input {
+        position: relative;
+        // width: calc(100% - 120px);
+        width: 100%;
+        overflow: hidden;
+        background: rgba(78, 141, 226, .15);
+        // span {
+        //     display: block;
+        //     width: 242px;
+        //     height: 60px;
+        //     background-color: rgba(30, 81, 167, .125);
+        //     position: absolute;
+        //     left: 0;
+        //     top: 0;
+        //     transform: scale(0);
+        //     z-index: 1;
+        // }
+
+        .ico-xiala {
+            position: absolute;
+            right: 20px;
+            top: calc(50%);
+            transform: translateY(-50%);
+            z-index: 5;
+            padding: 20px;
+            cursor: pointer;
+
+            img {
+                width: 8px;
+                height: 8px;
+            }
+        }
+    }
+
+    ::-webkit-input-placeholder {
+        color: #9dbae3;
+        font-size: 16px;
+    }
+
+    ::-moz-placeholder {
+        color: #9dbae3;
+        font-size: 16px;
+    }
+
+    :-ms-input-placeholder {
+        color: #9dbae3;
+        font-size: 16px;
+    }
+
+    input {
+        border-radius: 3px;
+        background: transparent;
+        outline: none;
+        cursor: pointer;
+        width: 100%;
+        color: #fff;
+        text-align: left;
+        font-size: 16px;
+        padding-right: 10px;
+        padding-left: 10px;
+        height: 36px;
+        margin-right: 40px;
+        line-height: 36px;
+        transition: all .45s ease-in-out;
+        position: relative;
+        z-index: 3;
+
+    }
+
+    .scale {
+        animation: scale .35s ease-in-out forwards;
+    }
+
+    .scale1 {
+        animation: scale1 .35s ease-in-out forwards;
+    }
+
+    .scale2 {
+        animation: scale2 .35s ease-in-out forwards;
+    }
+
+    .ico-xiala.close-enter-to {
+        animation: scale2 .35s ease-in-out forwards;
+    }
+
+    .ico-xiala.close-leave-to {
+        animation: scale1 .35s ease-in-out forwards;
+    }
+
+    @keyframes scale {
+        0% {
+            transform: scale(0);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+    }
+
+    @keyframes scale2 {
+        0% {
+            transform: translateY(-50%) scale(0);
+        }
+
+        100% {
+            transform: translateY(-50%) scale(1);
+        }
+
+    }
+
+    @keyframes scale1 {
+        0% {
+            transform: translateY(-50%) scale(1);
+        }
+
+        100% {
+            transform: translateY(-50%) scale(0);
+        }
+
+    }
+}

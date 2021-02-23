@@ -3,17 +3,33 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-21 15:41:46
- * @LastEditors: joykit
- * @LastEditTime: 2020-05-25 16:17:24
+ * @LastEditors: wss
+ * @LastEditTime: 2020-12-18 09:34:31
 -->
 <!-- jkBox2 -->
 <template>
   <jkBox class="jkCard" :border="border" :grid="grid">
-    <jkFlex class="title" :flex="text ? 'row-space-between' : 'row-flex-end'">
-      <jkTitle type="large" :text="text" />
+    <jkFlex
+      class="title"
+      :flex="text ? 'row-space-between' : 'row-flex-end'"
+      :style="text ? 'padding:15px 10px' : 'padding:0'"
+    >
+      <template v-if="text">
+        <jkTitle type="large" :text="text" />
+      </template>
       <jkRouteBtn :path="path" />
+      <jk-select
+        v-if="!path && selectData"
+        :model="selectData.model"
+        :options="selectData.options"
+        type="simpleSelect"
+        @onSelectChage="onSelectChage"
+      ></jk-select>
     </jkFlex>
-    <jkContent class="content">
+    <jkContent
+      class="content"
+      :style="{ overflow: isVisible ? 'visible' : 'hidden' }"
+    >
       <slot></slot>
     </jkContent>
   </jkBox>
@@ -27,38 +43,62 @@ import jkContent from "../jkContent";
 import jkFlex from "../jkFlex";
 import jkTitle from "../jkTitle/jkTitle.vue";
 import jkRouteBtn from "../jkRouteBtn/jkRouteBtn.vue";
+import jkSelect from "../jkSelect/jkSelect";
 export default {
   name: "jkCard",
   props: {
+    isVisible: {
+      type: Boolean,
+      default: false,
+    },
     border: {
       type: Boolean,
-      default: true
+      default: true,
     },
     grid: {
       type: Boolean,
-      default: true
+      default: true,
     },
     text: {
       type: String,
-      default: ""
+      default: "",
     },
     path: {
-      type: String,
-      default: ""
-    }
+      type: Object || String,
+      default: null,
+    },
+    selectData: {
+      type: Object,
+      default: null,
+    },
   },
+  //import引入的组件需要注入到对象中才能使用
+  components: { jkBox, jkFlex, jkTitle, jkRouteBtn, jkContent, jkSelect },
   data() {
     //这里存放数据
     return {};
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
+  created() {
+    this.init();
+    // console.log('jkCard:', this.path)
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.$nextTick(() => {});
   },
   //方法集合
-  methods: {},
+  methods: {
+    init() {
+      // this.initSelectData();
+    },
+    // initSelectData() {
+    // this.selectData = this.selectData || { options: [], model: '' };
+    // },
+    onSelectChage(model) {
+      this.$emit("onSelectChage", model);
+    },
+  },
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
@@ -71,7 +111,7 @@ export default {
   destroyed() {}, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   beforeRouteEnter(to, from, next) {
-    next(vm => {});
+    next((vm) => {});
   },
   beforeRouteUpdate(to, from, next) {
     next();
@@ -79,17 +119,20 @@ export default {
   beforeRouteLeave(to, from, next) {
     next();
   },
-  //import引入的组件需要注入到对象中才能使用
-  components: { jkBox, jkFlex, jkTitle, jkRouteBtn, jkContent }
 };
 </script>
 <style lang="scss" scoped>
 @import "jkCard.scss"; //引入公共css类
 .title {
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
+  // padding-top: 10px;
+  // padding-left: 10px;
+  padding: 15px 10px;
 }
 .content {
-  height: calc(100% - 24px);
+  height: calc(100% - 54px);
+  // height:100%;
   overflow: hidden;
+  padding: 0 10px;
 }
 </style>

@@ -1,0 +1,25 @@
+.AutoScroll {
+    height: 29.9vh;
+    overflow: hidden;
+
+}
+
+.dot {
+    position: absolute;
+    left: -16px;
+    top: 45%;
+    transform: translateY(-45%);
+
+    a {
+        width: 4px;
+        height: 8px;
+        display: block;
+        background: rgba(78, 141, 226, 1);
+        margin-top: 6px;
+        cursor: pointer;
+    }
+
+    a.active {
+        background: #DF9B17;
+    }
+}

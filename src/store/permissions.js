@@ -7,7 +7,7 @@ export default {
       permissions: ['界面编辑'],
       // prettier-ignore
       children: [
-        { id: 'jm-jm1', label: '界面1', route: '/todo?id=1', permissions: ['界面编辑-界面编辑1'] },
+        { id: 'jm-jm1', label: '界面1', route: '/todo?id=1', permissions: ['界面编辑-页面管理'] },
         { id: 'jmj2', label: '界面2', route: '/todo?id=2' },
         { id: 'jmj3', label: '界面3', route: '/todo?id=3' }
       ]

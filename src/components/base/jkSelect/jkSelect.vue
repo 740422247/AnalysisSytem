@@ -3,8 +3,8 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-20 09:31:32
- * @LastEditors: joykit
- * @LastEditTime: 2020-05-26 16:28:58
+ * @LastEditors: wss
+ * @LastEditTime: 2021-01-14 09:40:08
 -->
 <!-- jkSelect -->
 <template>
@@ -84,24 +84,24 @@ export default {
   props: {
     type: {
       type: String,
-      default: "treeSelect"
+      default: "treeSelect",
     },
     options: {
       type: [Array, Object],
-      default: () => null
+      default: () => null,
     },
     placeholder: {
       type: String,
-      default: "请选择..."
+      default: "请选择...",
     },
     label: {
       type: String,
-      default: ""
+      default: "",
     },
     model: {
       type: [String, Object, Array],
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     //这里存放数据
@@ -110,27 +110,35 @@ export default {
       vModel1: this.model, // 控制输入框变化
       xiala: false,
       ico: require("@static/image/xiala.png"),
-      ico2: require("@static/image/sanjiao.png")
+      ico2: require("@static/image/sanjiao.png"),
     };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    document.addEventListener("click", e => {
-      if (!(this.$refs.Select && this.$refs.Select.contains(e.target))) {
-        this.xiala = false;
-      }
-      if (
-        !(this.$refs.simpleSelect && this.$refs.simpleSelect.contains(e.target))
-      ) {
-        this.isShow = false;
-      }
-    });
+    // console.log("jk select mounted:", this.model, this.options);
+    this.init();
   },
   //方法集合
   methods: {
+    init() {
+      document.addEventListener("click", (e) => {
+        if (!(this.$refs.Select && this.$refs.Select.contains(e.target))) {
+          this.xiala = false;
+        }
+        if (
+          !(
+            this.$refs.simpleSelect &&
+            this.$refs.simpleSelect.contains(e.target)
+          )
+        ) {
+          this.isShow = false;
+        }
+      });
+    },
     select(node, instanceId) {
+      this.$emit("onSelectChage", node);
       switch (this.type) {
         case "treeSelect":
           break;
@@ -146,14 +154,14 @@ export default {
           break;
       }
       this.$emit("happening", this.type, node);
-    }
+    },
   },
   //监听属性 类似于data概念
   computed: {
     _list() {
       let res = null;
-      if (this.data) {
-        res = this.data;
+      if (this.options) {
+        res = this.options;
       } else {
         switch (this.type) {
           case "treeSelect":
@@ -170,10 +178,18 @@ export default {
         }
       }
       return res;
-    }
+    },
   },
   //监控data中的数据变化
-  watch: {},
+  watch: {
+    options() {
+      this.init();
+      this.vModel1 = this.model
+    },
+    // model() {
+    //   this.init();
+    // },
+  },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
@@ -182,7 +198,7 @@ export default {
   destroyed() {}, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   beforeRouteEnter(to, from, next) {
-    next(vm => {});
+    next((vm) => {});
   },
   beforeRouteUpdate(to, from, next) {
     next();
@@ -192,8 +208,8 @@ export default {
   },
   //import引入的组件需要注入到对象中才能使用
   components: {
-    Treeselect
-  }
+    Treeselect,
+  },
 };
 </script>
 <style lang="scss" scoped>

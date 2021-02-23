@@ -1,16 +1,16 @@
 <!--
- * @Descripttion: 登录
+ * @Descripttion: 登录/弃用,使用配置模块
  * @version:
  * @Author: joykit
  * @Date: 2019-11-27 14:19:53
- * @LastEditors: joykit
- * @LastEditTime: 2020-03-13 14:31:02
+ * @LastEditors: wss
+ * @LastEditTime: 2021-01-11 15:22:09
  -->
 <template>
   <div class="content-body Login">
     <section class="sec">
       <div class="title">
-        <ScrollBox :isScroll="false">{{_config.system_Name}}</ScrollBox>
+        <ScrollBox :isScroll="false">{{ _config.system_Name }}</ScrollBox>
         <img class="guang1" :src="guang11" alt />
       </div>
       <div class="body">
@@ -19,16 +19,40 @@
             <ScrollBox :isScroll="false" class="hover">
               <div class="input">
                 <img :src="yh" alt />
-                <input type="text" v-model="user.LoginName" placeholder="请输入用户编号" autofocus />
+                <input
+                  type="text"
+                  v-model="user.LoginName"
+                  placeholder="请输入用户编号"
+                  autofocus
+                />
               </div>
             </ScrollBox>
             <ScrollBox :isScroll="false" class="hover">
               <div class="input">
                 <img :src="mm" alt />
-                <input type="password" v-model="user.LoginPwd" placeholder="请输入用户密码" />
+                <input
+                  type="password"
+                  v-model="user.LoginPwd"
+                  placeholder="请输入用户密码"
+                />
               </div>
             </ScrollBox>
-
+            <ScrollBox :isScroll="false" class="hover">
+              <div class="input">
+                <!-- <img :src="mm" alt /> -->
+                <input
+                  type="text"
+                  v-model="user.verifyCode"
+                  placeholder="请输入验证码"
+                />
+                <img
+                  class="yzm"
+                  @click="GetVerifyCode()"
+                  :src="verifyCode"
+                  alt="刷新验证码"
+                />
+              </div>
+            </ScrollBox>
             <!-- <div class="input">
               <input
                 :style="{
@@ -40,8 +64,21 @@
               />
               <label for="jzmm">记住密码</label>
             </div>-->
-            <button @click="putLogin" type="button" class="button login">{{ lt }}</button>
+            <button
+              @click="putLogin"
+              :disabled="!isHttp"
+              type="button"
+              class="button login"
+            >
+              {{ lt }}
+            </button>
           </article>
+          <!-- <button @click="GetProfile()" type="button" class="button login">
+            获取用户信息
+          </button> -->
+          <button @click="logout()" type="button" class="button login">
+            清空用户信息
+          </button>
         </ScrollBox>
       </div>
 
@@ -50,13 +87,17 @@
         Chongqing Elane
       </p>
     </section>
-    <div class="Login-bk" :style="{
+    <div
+      class="Login-bk"
+      :style="{
         'background-image': 'url(' + loginBk + ')'
-      }"></div>
+      }"
+    ></div>
   </div>
 </template>
 <script>
 import api from "@api/api.js";
+import { mapState, mapGetters, mapMutations } from "vuex";
 const ScrollBox = () => import("../../components/ScrollBox/ScrollBox.vue");
 // import storage from "best-storage";
 export default {
@@ -64,9 +105,12 @@ export default {
   data() {
     return {
       lt: "登 录",
+      isHttp: true,
+      verifyCode: "",
       user: {
-        LoginName: "admin",
-        LoginPwd: "admin"
+        LoginName: "",
+        LoginPwd: "",
+        verifyCode: ""
       },
       isChecked: true,
       loginBk: require("@static/image/loginBk.jpg"),
@@ -78,40 +122,105 @@ export default {
     };
   },
   mounted() {
+    console.log(this.getIsAdmin);
+    this.GetVerifyCode();
+    // this.GetProfile();
     this.keydown();
   },
   methods: {
-    async putLogin() {
-      console.log(api);
-      this.lt = "正在登录...";
-      //不需要token
-      const aw = await api.Login(this.user, "noToken");
-      console.log(aw);
-      if (aw.code && aw.code.toString().length > 0) {
-        this.lt = aw.text;
-        setTimeout(() => {
-          this.lt = "登 录";
-        }, 3000);
-        return;
+    ...mapMutations({
+      SET_TOKEN: "user/SET_TOKEN"
+    }),
+    rules(obj) {
+      let msg = "你有必填项未输入";
+      let index = 0;
+      for (const key in obj) {
+        console.log(key);
+        if (!obj[key]) {
+          if (index === 0) msg = "账号为空";
+          if (index === 1) msg = "密码为空";
+          if (index === 2) msg = "验证码为空";
+          console.log(msg);
+          this.$message({
+            type: "warning",
+            message: msg
+          });
+          return false;
+        }
+        index++;
       }
-      const token = JSON.stringify(aw.Data);
-      window.localStorage.setItem("token", token);
-      const ays = await api.GetYear({});
-      console.log(ays);
-      !window.localStorage.getItem("PARAM") &&
-        window.localStorage.setItem(
-          "PARAM",
-          JSON.stringify({
-            PARAM_YEAR: ays.Data[ays.Data.length - 1].ID,
-            PARAM_YEAR_Name: ays.Data[ays.Data.length - 1].NAME
-          })
-        );
-      this.$router.replace({
-        path: "/"
+      return true;
+    },
+    logout() {
+      // console.log("login页退出");
+      this.$store.commit("Log_out", {});
+    },
+    GetVerifyCode() {
+      api.Login("GetVerifyCode", null, "noToken").then(dd => {
+        this.user.verifyKey = dd.data.verifyKey;
+        this.verifyCode = dd.data.verifyCode;
       });
-      setTimeout(() => {
-        this.lt = "登 录";
-      }, 500);
+    },
+    GetProfile() {
+      api.User("GetProfile", null).then(dd => {
+        this.isHttp = true;
+        this.$store.commit("user/SET_userInfo", dd.data);
+        // this.$router.replace({
+        //       name: "index"
+        //     });
+        this.$store.dispatch("permission/GetResources").then(
+          pp => {
+            if (dd.data.isAdmin) {
+              //   console.log("管理员")
+              //   // this.$store.commit("user/SET_cacheRouter", "moduleListIndex");
+              this.$router.push({
+                name: "moduleListIndex"
+              });
+            } else {
+              // console.log("普通用户");
+              // this.$store.commit("user/SET_cacheRouter", null);
+              const resourceId = this.getResourceTemplate[0].resourceTemplate;
+              this.$router.push({
+                name: "pageDetail",
+                query: { id: resourceId }
+              });
+            }
+          },
+          () => {}
+        );
+      });
+    },
+    async putLogin() {
+      this.lt = "正在登录...";
+      const _this = this;
+      if (!this.rules(this.user)) return;
+      this.isHttp = false;
+      api.Login("Login", this.user, "noToken").then(
+        dd => {
+          this.SET_TOKEN(dd.data);
+          this.$message({
+            type: "success",
+            message: dd.msg ? dd.msg : dd.errMsg
+          });
+          this.GetProfile();
+        },
+        () => {
+          setTimeout(() => {
+            this.isHttp = true;
+            this.lt = "登 录";
+          }, 500);
+          _this.GetVerifyCode();
+        }
+      );
+      // const ays = await api.GetYear({});
+      // !window.localStorage.getItem("PARAM") &&
+      //   window.localStorage.setItem(
+      //     "PARAM",
+      //     JSON.stringify({
+      //       PARAM_YEAR: ays.Data[ays.Data.length - 1].ID,
+      //       PARAM_YEAR_Name: ays.Data[ays.Data.length - 1].NAME
+      //     })
+      //   );
     },
     keydown() {
       var lett = this;
@@ -123,7 +232,10 @@ export default {
       };
     }
   },
-  computed: {},
+  computed: {
+    // ...mapGetters(["user/getIsAdmin"]),
+    ...mapGetters("user", ["getIsAdmin", "getResourceTemplate"])
+  },
   watch: {},
 
   components: {

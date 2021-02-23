@@ -1,0 +1,318 @@
+.floating-window {
+  max-height: 60vh;
+  position: relative;
+  width: 100%;
+  overflow: auto;
+
+  .topTitle {
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    z-index: 88;
+    background-color: #fff;
+  }
+
+
+  .titleFilters {
+    line-height: 25px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .drag {
+    text-align: left;
+    position: absolute;
+    padding-top: 10px;
+    padding-left: 10px;
+    cursor: move;
+
+    i {
+      font-size: 20px;
+    }
+  }
+
+  width: 400px;
+  padding-bottom: 20px;
+  position: absolute;
+  z-index: 100;
+  // left: 10%;
+  // top:10%;
+  background-color: #fff;
+}
+.appSearch{
+  width: 100%;
+}
+.btnSave {
+  text-align: center;
+}
+
+.pitchOn {
+  background-color: #272e76;
+}
+
+
+.cursor {
+  cursor: pointer;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.root {
+  margin: 0;
+}
+
+.SearchAllPage {
+  background-color: #110e4f;
+  text-align: left;
+  width: 100%;
+  height: 100vh;
+  padding: 16px 36px;
+  box-sizing: border-box;
+  position: relative;
+  padding-bottom: 60px;
+
+  /deep/ .ohyeah-scroll-box .ohyeah-scroll-vertical-track-h {
+    z-index: 999;
+  }
+
+
+
+  .dwys {
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.searButton {
+  overflow: hidden;
+  position: relative;
+  margin-top: vh(15);
+
+  .secAll {
+    // position: absolute;
+    // right: 30px;
+    // top: 2px;
+    color: #fff;
+    margin-right: 10px;
+    cursor: pointer;
+
+    button {
+      margin-left: 10px;
+    }
+  }
+
+  .warning-color {
+    color: red;
+  }
+}
+
+.Sear {
+  height: vh(42);
+  vertical-align: middle;
+
+  span {
+    height: 100%;
+    cursor: pointer;
+    background: linear-gradient(to top,
+        rgba(12, 99, 215, 1) 0%,
+        rgba(15, 156, 214, 1) 100%);
+    display: inline-block;
+    width: 72px;
+  }
+
+  input {
+    vertical-align: middle;
+    appearance: none;
+
+    &:focus {
+      // border: 1px solid #fff;
+      outline: medium;
+    }
+
+    &:hover {
+      // border: 1px solid #fff;
+      outline: medium;
+    }
+  }
+
+  .test {
+    border: 1px solid rgba(30, 81, 167, 1);
+    background-color: transparent;
+    width: vw(350);
+    height: 100%;
+    padding: vh(10) vw(10);
+    color: rgba(129, 167, 220, 1);
+  }
+
+  .button {
+    height: 100%;
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid transparent;
+    width: 100%;
+    background-image: url("~assets/image/SearchAll2.png");
+    background-repeat: no-repeat;
+    background-size: 30%;
+    background-position: 49% 47%;
+    text-align: center;
+  }
+}
+
+.headerConfig {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  // width: 100px;
+  padding: 5px;
+  // border: 1px solid #f5f5f5;
+  // background-color: #f5f5f5;
+}
+
+.searchResult {
+  color: rgba(157, 186, 227, 1);
+  margin-top: vh(20);
+
+  span,
+  .white {
+    color: rgba(254, 254, 254, 1);
+  }
+
+  span {
+    margin: 0 3px;
+  }
+
+  ul {
+    margin-top: vh(10);
+    list-style: none;
+    padding: 5px;
+    padding-left: 0;
+
+    li {
+      position: relative;
+      height: 32px;
+      line-height: 30px;
+      list-style: none;
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
+}
+
+.xmList {
+  display: flex;
+  flex-flow: wrap;
+  // height: vh(700);
+  margin-top: vh(35);
+
+  >div {
+    margin-bottom: vh(30);
+    box-sizing: border-box;
+
+    padding-right: 40px;
+    // height: 50px;
+    flex: 0 0 33.33%;
+  }
+
+  >div:nth-child(3n) {
+    padding-right: 0;
+  }
+
+  .bgys {
+    position: relative;
+    border: 1px solid rgba(1, 73, 169, 1);
+    height: 100%;
+
+    .sec {
+      position: absolute;
+      right: 10px;
+      top: 2px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .warning-color {
+      color: red;
+    }
+
+    .padd {
+      cursor: pointer;
+    }
+
+    .titleA,
+    .titleB {
+      overflow: hidden;
+      line-height: 22px;
+      padding: vh(22) vw(30);
+
+      >* {
+        vertical-align: middle;
+      }
+
+      .sfz {
+        font-size: 16px;
+      }
+
+      img {
+        margin-right: 10px;
+        max-height: 24px;
+        float: left;
+      }
+    }
+
+    .titleA {
+      .vName {
+        width: calc(100% - 34px);
+      }
+
+      font-size: 18px;
+      list-style: 22px;
+      color: #ffffff;
+      background-color: rgba(1, 73, 169, 0.25);
+    }
+
+    .titleB {
+      font-size: 16px;
+      list-style: 22px;
+      text-align: left;
+      color: rgba(129, 167, 220, 1);
+    }
+  }
+}
+
+.marginleft {
+  margin-left: 5px;
+}
+
+.pitchOnLi {
+  background-color: #ecf5ff;
+  display: inline-block;
+  height: 32px;
+  padding: 0 10px;
+
+  font-size: 12px;
+  color: #409eff;
+  border: 1px solid #d9ecff;
+  border-radius: 4px;
+  box-sizing: border-box;
+  white-space: nowrap;
+
+  span {
+    color: #409eff;
+  }
+
+  .close {
+    // position: absolute;
+    display: inline-block;
+    height: 100%;
+    // width: 30px;
+    padding: 0 5px;
+    margin-left: 5px;
+    cursor: context-menu;
+  }
+}

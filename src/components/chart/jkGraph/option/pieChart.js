@@ -1,271 +1,143 @@
-// var percent = 45; //百分数
-// var txt = "男：91215/人次";
-// var colorTXT = "rgba(6, 162, 233, 1)";//rgba(224, 154, 31, 1)
-// var giftImageUrl ="img/one/zje.png"
-
-// var giftImageUrl ="~assets/xmgs.png"
-// import giftImageUrl from "assets/xmje.png";
-// import male from "assets/image/AgeAnalysis/male.png";
-// import woman from "assets/image/AgeAnalysis/woman.png";
+/*
+ * @Descripttion: 散点图配置项
+ * @version: 1.0
+ * @Author: wss
+ * @Date: 2020-07-09 16:44:11
+ * @LastEditors: wss
+ * @LastEditTime: 2020-12-04 10:38:53
+ */
 import "echarts/lib/chart/pie";
-export function op(option) {
-  const all = option.all[0];
-  const value = option.value[0];
-  const percent = (value / all).toFixed(2);
-  const symbol = option.symbol[0];
-  const text = symbol.replace("{value}", value);
-  let imgSRC;
-  let colorTXT;
-  let jb1;
-  let jb2;
-  if (option.sex == 1) {
-    imgSRC = "";
-    colorTXT = "rgba(6, 162, 233, 1)";
-    jb1 = "rgba(1, 94, 217, 1)";
-    jb2 = "rgba(6, 168, 235, 1)";
-  } else {
-    imgSRC = "";
-    colorTXT = "rgba(224, 154, 31, 1)";
-    jb1 = "rgba(233, 148, 118, 1)";
-    jb2 = "rgba(223, 155, 23, 1)";
+import { getColors } from "./colors";
+import "echarts/lib/component/legend";
+
+export function op(option, echarts, t, l = undefined) {
+  const colors = getColors();
+  const ra = [];
+  let revise;
+  const con = option.config;
+  // console.log(con);
+  //默认缩放比例ratio
+  const ratio = con ? (con.ratio ? con.ratio : 80) / 100 : 0.8;
+  function radius(v) {
+    const len = v.length;
+    const w = (l / len) * ratio;
+    revise = parseInt(w / 2);
+    for (let i = 1; i <= len; i++) {
+      if (!option.config) {
+        ra.push({
+          radius: [w * (i - 1) + revise, w * i]
+        });
+      } else {
+        const n =
+          100 -
+          parseFloat(con.radiusWidth) * i +
+          parseFloat(con.radiusInterval);
+        const w = 100 - con.radiusWidth * (i - 1);
+        ra.push({
+          radius: [n * ratio + "%", w * ratio + "%"]
+        });
+      }
+    }
+    // return v;
   }
 
+  radius(option.value);
+
+  const series = [];
+  // console.log("ra:", ra);
+  // console.log("revise:", revise);
+  if (Array.isArray(option.value) && Array.isArray(option.value[0])) {
+    for (let i = 0; i < option.value.length; i++) {
+      const data = {
+        legendData: option.label,
+        // seriesData: aa(v2)
+        seriesData: (option => {
+          const arr = [];
+          option.value[i].map((v, i) => {
+            // return { name: v2.label[i]= v }
+            arr.push({ name: option.label[i], value: v });
+          });
+          return arr;
+        })(option)
+      };
+      if (i === 0) {
+        ra[ra.length - 1].radius = [0, ra[ra.length - 1].radius[1]];
+      }
+      series.push({
+        name: "姓名",
+        type: "pie",
+        // radius: option.radiusCyclic ? option.radiusCyclic : "55%",
+        radius: ra[i].radius,
+        // hoverOffset: ra.length > 1 ? revise * 0.65 : 10,
+        // hoverOffset: revise * 0.65,
+        center: ["50%", "50%"],
+        data: data.seriesData,
+        z: i,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        },
+        label: { show: false, color: t.k9 }
+      });
+    }
+  } else {
+    series.push(getSeries(option, t));
+  }
   return {
+    color: colors,
+    tooltip: {
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
     xAxis: {
-      show: false //是否展示x轴
+      show: false
     },
     yAxis: {
       show: false
     },
-    graphic: {
-      elements: [
-        {
-          type: "image",
-          style: {
-            image: imgSRC,
-            width: "100"
-            // height: "90%"
-          },
-          left: "39%",
-          cursor: "inherit",
-          bottom: "42%"
-        },
-        {
-          type: "text",
-          info: "21212",
-          left: "center",
-          bottom: "10%",
-          cursor: "inherit",
-          zlevel: 10,
-          style: {
-            text: text,
-            font: '16px "STHeiti", sans-serif',
-            stroke: "#fff",
-            textAlign: "center",
-            lineWidth: 20,
-            fill: "rgba(129, 167, 220, 1)"
-          }
-        }
-      ]
+
+    grid: {
+      bottom: 100
     },
-    series: [
-      {
-        //外圈。边框
-        name: "",
-        type: "pie",
-        radius: ["50%", "60%"],
-        avoidLabelOverlap: false,
-        startAngle: 225,
-        color: [
-          {
-            type: "linear",
-            x: 0,
-            y: 0,
-            x2: 1,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0,
-                color: jb1 // 0% 处的颜色
-              },
-              {
-                offset: 1,
-                color: jb2 // 100% 处的颜色
-              }
-            ],
-            globalCoord: false // 缺省为 false
-          },
-          "none"
-        ],
-        hoverAnimation: false, //是否开启 hover 在扇区上的放大动画效果。
-        legendHoverLink: false, //是否启用图例 hover 时的联动高亮。
-        label: {
-          normal: {
-            show: false,
-            position: "center"
-          },
-          emphasis: {
-            show: true,
-            textStyle: {
-              fontSize: "30",
-              fontWeight: "bold"
-            }
-          }
-        },
-        labelLine: {
-          normal: {
-            show: false
-          }
-        },
-        data: [
-          {
-            value: 75,
-            name: "1"
-          },
-          {
-            value: 25,
-            name: "2"
-          }
-        ]
-      },
-      {
-        name: " ",
-        type: "pie",
-        radius: ["47%", "46.5%"],
-        avoidLabelOverlap: false, //是否启用防止标签重叠策略
-        startAngle: 225,
-
-        hoverAnimation: false,
-        legendHoverLink: false,
-        label: {
-          normal: {
-            show: false,
-            position: "center"
-          },
-          emphasis: {
-            show: true,
-            textStyle: {
-              fontSize: "30",
-              fontWeight: "bold"
-            }
-          }
-        },
-        labelLine: {
-          normal: {
-            show: false
-          }
-        },
-        data: [
-          {
-            value: 75,
-            name: "1"
-          },
-          {
-            value: 25,
-            name: "2"
-          }
-        ]
-      },
-      {
-        name: " ",
-        type: "pie",
-        radius: ["64.5%", "65%"],
-        avoidLabelOverlap: false, //是否启用防止标签重叠策略
-        startAngle: 225,
-
-        hoverAnimation: false,
-        legendHoverLink: false,
-        label: {
-          normal: {
-            show: false,
-            position: "center"
-          },
-          emphasis: {
-            show: true,
-            textStyle: {
-              fontSize: "30",
-              fontWeight: "bold"
-            }
-          }
-        },
-        labelLine: {
-          normal: {
-            show: false
-          }
-        },
-        data: [
-          {
-            value: 75,
-            name: "1"
-          },
-          {
-            value: 25,
-            name: "2"
-          }
-        ]
-      },
-      {
-        //黑圈
-        name: "",
-        type: "pie",
-        radius: ["50%", "60%"],
-        avoidLabelOverlap: false,
-        startAngle: 315,
-        color: ["rgba(27,47,133,1)", "#ff7a00", "transparent"],
-        hoverAnimation: false,
-        legendHoverLink: false,
-        clockwise: false, //饼图的扇区是否是顺时针排布。
-        // itemStyle: {
-        //   normal: {
-        //     borderColor: "transparent",
-        //     borderWidth: "20"
-        //   },
-        //   emphasis: {
-        //     borderColor: "transparent",
-        //     borderWidth: "20"
-        //   }
-        // },
-        z: 10,
-        label: {
-          //文本标签
-          normal: {
-            show: false,
-            position: "center"
-          }
-        },
-        labelLine: {
-          //标签的视觉引导线样式
-          normal: {
-            show: false
-          }
-        },
-        data: [
-          {
-            value: ((100 - percent * 100) * 270) / 360,
-            label: {
-              normal: {
-                formatter: percent * 100 + "%",
-                position: "center",
-                show: true,
-                textStyle: {
-                  fontSize: "30",
-                  fontWeight: "normal",
-                  color: colorTXT
-                }
-              }
-            },
-            name: ""
-          },
-          {
-            value: 0,
-            name: ""
-          },
-          {
-            value: 100 - ((100 - percent * 100) * 270) / 360,
-            name: ""
-          }
-        ]
-      }
-    ]
+    legend: {
+      type: "plain",
+      orient: "vertical",
+      show: false,
+      right: 10,
+      top: 20,
+      bottom: 20,
+      textStyle: { color: "red" },
+      icon: "circle"
+    },
+    series: series
   };
+}
+
+function getSeries(option, t) {
+  const result = {
+    type: "pie",
+    // radius: option.radiusCyclic ? option.radiusCyclic : "55%",
+    // radius: ra[i].radius,
+    center: ["50%", "50%"],
+    data: option.value.map((item, index) => ({
+      value: item,
+      name: option.label[index]
+    })),
+    emphasis: {
+      itemStyle: {
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowColor: "rgba(0, 0, 0, 0.5)"
+      }
+    },
+    label: {
+      show: false,
+      color: t.k9
+    }
+  };
+
+  return result;
 }

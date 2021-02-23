@@ -5,11 +5,11 @@
             "name": "权限管理",
             "isEnabled": true,
             "children": [{
-                    "name": "权限管理-用户管理",
+                    "name": "用户管理",
                     "isEnabled": true
                 },
                 {
-                    "name": "权限管理-菜单管理",
+                    "name": "角色管理",
                     "isEnabled": true,
                     "children": [{
                             "name": "生产列表",
@@ -24,22 +24,29 @@
             ]
         },
         {
-            "name": "界面编辑",
+            "name": "界面管理",
             "isEnabled": true,
-            "children": [
+            "children": [{
+                    "name": "模块管理",
+                    "isEnabled": true
+                },
                 {
-                "name": "界面编辑-页面编辑",
+                "name": "页面管理",
                 "isEnabled": true
                 },
                 {
-                "name": "界面编辑-接口设置",
+                "name": "界面管理-模块管理-模块编辑",
                 "isEnabled": true
                 },
                 {
-                "name": "界面编辑-页面预览",
-                "isEnabled": true
+                    "name": "界面管理-页面管理",
+                    "isEnabled": true
+                },
+                {
+                    "name": "界面管理-页面管理-页面编辑",
+                    "isEnabled": true
                 }
-        ]
+            ]
         },
         {
             "name": "测试权限控制4",
@@ -48,7 +55,15 @@
         {
             "name": "测试权限控制2",
             "isEnabled": true
-          
+
+        },
+        {
+            "name": "home",
+            "isEnabled": true
+        },
+        {
+            "name": "组件预览",
+            "isEnabled": true
         }
     ]
 }

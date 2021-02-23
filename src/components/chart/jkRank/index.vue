@@ -3,15 +3,15 @@
  * @version: 1.0.0
  * @Author: joykit
  * @Date: 2020-05-25 10:50:04
- * @LastEditors: joykit
- * @LastEditTime: 2020-07-01 15:14:33
+ * @LastEditors: wss
+ * @LastEditTime: 2020-07-14 15:12:58
 -->
 <!-- index -->
 <template>
   <div class="rank-view">
-    <jkSingle v-if="type === 'singleRank'" :config="config" />
-    <jkMultiple v-if="type === 'multipleRank'" :config="config" />
-    <jkBattery v-if="type === 'batteryRank'" :config="config" />
+    <jkSingle v-if="type === 'singleRank'" :config="config" :isRefresh='isRefresh'/>
+    <jkMultiple v-if="type === 'multipleRank'" :config="config" :isRefresh='isRefresh'/>
+    <jkBattery v-if="type === 'batteryRank'" :config="config" :isRefresh='isRefresh'/>
   </div>
 </template>
 
@@ -25,6 +25,12 @@ import jkBattery from "./jkBattery";
 export default {
   name: "index",
   props: {
+    // 2020/07/21修改
+    isRefresh: {
+      type: Boolean
+    },
+    // 2020/07/21修改
+
     type: {
       type: String,
       default: "singleRank"
@@ -50,7 +56,6 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.$nextTick(() => {
-      //  console.log("---mounted--");
     });
   },
   //方法集合
@@ -62,11 +67,9 @@ export default {
     config: {
       deep: true,
       immediate: true,
-      handler(res) {}
+      handler(res) {
+      }
     }
-    // type(){
-    //   console.log('---type---')
-    // }
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前

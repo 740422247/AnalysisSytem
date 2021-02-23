@@ -1,18 +1,43 @@
+/*
+ * @Descripttion: 说明
+ * @version: 1.0
+ * @Author: wss
+ * @Date: 2020-05-26 15:27:10
+ * @LastEditors: wss
+ * @LastEditTime: 2020-12-01 15:00:12
+ */
 
-const tablewss = () => import(/* webpackChunkName: "Home" */ "../components/tablewss/tablewss.vue")
-const helper = () => import(/* webpackChunkName: "Home" */ "../components/tablewss/table.vue")
-// const Container = () => import(/* webpackChunkName: "Home" */ "../views/admin/Container.vue")
-// const Login = () => import(/* webpackChunkName: "Home" */ "../views/Login/Login.vue")
-// const Login = () => import('../views/Login/Login.vue')
+// const tablewss = () => import(/* webpackChunkName: "Home" */ "../components/tablewss/tablewss.vue")
 export const wssRoute = [
   {
-    path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "Login" */ "../views/Login/Login.vue"),
-    // components: { default: Login },
+    path: "/login",
+    name: "login",
+    // component: () => import("../views/Login/Login.vue"),
+    component: () => import("@components/Login/Login"),
     meta: {
       keepAlive: true,
       title: "登录"
+    }
+  },
+  {
+    path: "/SearchAll",
+    component: () =>
+      import("@components/customization/searchAll/searchAll.vue"
+      ),
+    name: "SearchAll",
+    meta: {
+      name: "全局搜索",
+      icon: "el-icon-setting"
+    }
+  },
+  {
+    path: "/TextWss",
+    name: "TextWss",
+    // component: () => import("../views/Login/Login.vue"),
+    component: () => import("@views/TextWss"),
+    meta: {
+      keepAlive: true,
+      title: "测试js"
     }
   },
   {
@@ -21,51 +46,50 @@ export const wssRoute = [
     meta: {
       keepAlive: true,
       title: "首页2",
-      name: '首页2'
+      name: "首页2"
     },
     component: () => import(/* webpackChunkName: "index" */ "../views/index/")
-  }
+  },
+  {
+    path: "/gyTest",
+    component: () =>
+      import("../views/debugList/gyTest.vue"
+      ),
+    name: "gyTest",
+    meta: {
+      name: "组件预览",
+      icon: "el-icon-setting"
+    }
+  },
+  {
+    path: "/SystemMonitoring",
+    component: () =>
+      import("@views/customization/SystemMonitoring/SystemMonitoring.vue"
+      ),
+    name: "SystemMonitoring",
+    meta: {
+      name: "系统监控配置",
+      icon: "el-icon-setting"
+    }
+  },
   // {
-  //   path: "/tablewss",
-  //   name: "tablewss",
+  //   path: "/PoorCountry",
+  //   component: () =>
+  //     import("@components/custom/PoorCountry/PoorCountry"),
+  //   name: "PoorCountry",
   //   meta: {
-  //     keepAlive: true,
-  //     title: "管理界面"
-  //   },
-  //   components: {
-  //     default: tablewss
+  //     name: "乡镇",
+  //     icon: "el-icon-setting"
   //   }
-  // },
+  // }
   // {
-  //   path: "/helper",
-  //   name: "helper",
+  //   path: "/401",
+  //   name: "401",
   //   meta: {
   //     keepAlive: true,
-  //     title: "管理界面"
+  //     title: "无权限",
+  //     name: '无权限'
   //   },
-  //   components: {
-  //     default: helper
-  //   }
-  // },
-
-  // {
-  //   path: "/role",
-  //   name: "role",
-  //   meta: {
-  //     keepAlive: true,
-  //     title: "菜单管理"
-  //   },
-  //   component: () => import(/* webpackChunkName: "Home" */ "../views/admin/permission/role.vue")
-  // },
-  // {
-  //   path: "/Container",
-  //   name: "Container",
-  //   meta: {
-  //     keepAlive: true,
-  //     title: "管理界面"
-  //   },
-  //   components: {
-  //     default: Container
-  //   }
+  //   component: () => import(/* webpackChunkName: "401" */ "../views/error/401")
   // }
 ];

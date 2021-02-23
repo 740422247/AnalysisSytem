@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 说明
+ * @version: 1.0
+ * @Author: wss
+ * @Date: 2020-05-26 15:27:10
+ * @LastEditors: wss
+ * @LastEditTime: 2020-08-10 17:07:54
+-->
 <!--  -->
 <template>
   <div class="operation">
@@ -9,6 +17,7 @@
           :type="items.type"
           :icon="items.icon"
           :disabled="items.disabled"
+          :plain="items.plain"
           @click="Actions(items.name, items)"
         >{{ items.label }}</Button>
       </template>

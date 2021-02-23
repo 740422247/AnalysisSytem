@@ -1,0 +1,56 @@
+.ListTable {
+    table {
+        width: 100%;
+        text-align: center;
+        border-spacing: 0;
+        border-color: transparent;
+
+    }
+
+    thead {
+        height: 38px;
+        background: rgba(78, 141, 226, .15);
+        position: sticky;
+
+        th {
+            font-size: 16px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            padding: 8px 0;
+            border: 1px solid #0A1454;
+            text-align: center;
+
+        }
+    }
+
+    tbody {
+        tr {
+            transition: box-shadow .35s ease-in-out;
+            cursor: pointer;
+        }
+
+        td {
+            background: rgba(78, 141, 226, .005);
+            border: 1px solid #0A1454;
+            font-size: 14px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #9DBAE3;
+            padding: 11px 0;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+
+        tr:hover {
+            box-shadow: 0 0 8px rgba(78, 141, 226, .8);
+        }
+
+        tr:nth-of-type(even) {
+            background: rgba(78, 141, 226, .15);
+        }
+    }
+
+}

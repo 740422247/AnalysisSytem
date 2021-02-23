@@ -54,7 +54,7 @@
       <el-container>
         <el-header class="app-header" v-show="rv">
           <div
-            style="width: 60px; cursor: pointer;"
+            style="cursor: pointer;"
             @click.prevent="toggleSideBar"
           >
             <i v-show="!isCollapse" class="el-icon-d-arrow-left"></i>
@@ -85,7 +85,7 @@
           </el-menu>
 
           <div class="app-header-userinfo">
-            <el-dropdown trigger="hover" :hide-on-click="false">
+            <el-dropdown class="userInfo" trigger="hover" :hide-on-click="false">
               <span class="el-dropdown-link">
                 {{ username }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
